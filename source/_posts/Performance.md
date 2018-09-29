@@ -1,12 +1,3 @@
----
-title: web performance
----
-# Web 性能优化指南
-
-web开发性能问题分析及优化
-
-
-
 ### bowser render block optmize 
 
 ------
@@ -53,7 +44,7 @@ css 的加载**不会**阻塞dom的解析(DOM tree), 但**会**阻塞dom 树的�
 
    defer 会 **立即下载**,但到 浏览器解析至html标签时才**顺序执行**.而放在body后的script代码会在遇到这个标签时才下载,下载完成后执行.
 
-
+   
 
    ```html
    <head>
@@ -69,6 +60,8 @@ css 的加载**不会**阻塞dom的解析(DOM tree), 但**会**阻塞dom 树的�
    </html>
    ```
 
+   
+
 2. **异步加载 async**
 
    告知浏览器可以边下载边渲染而不用等到js下载再执行后才渲染, 使用了 async 属性的脚本不能保证执行的先后顺序, 异步脚本一定会在页面**load事件前执行**(所有资源都下载完), 但可能会在**DOMContentLoaded 事件前或后**执行
@@ -79,6 +72,8 @@ css 的加载**不会**阻塞dom的解析(DOM tree), 但**会**阻塞dom 树的�
        <script src="js/async2.js" async></script>
    </head>
    ```
+
+   
 
 3. **动态加载 createElement('script')**
 
@@ -114,6 +109,7 @@ css 的加载**不会**阻塞dom的解析(DOM tree), 但**会**阻塞dom 树的�
    })
    ```
 
+   
 
 
 

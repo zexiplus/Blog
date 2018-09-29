@@ -7,7 +7,7 @@ title: Hexo
 subtitle:
 description:
 keywords:
-author: Float
+author: John Doe
 language:
 timezone:
 
@@ -78,6 +78,4 @@ theme: hiker
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: git
-  repo: git@github.com:zexiplus/Blog.git
-  branch: master
+  type:
