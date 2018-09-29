@@ -1,3 +1,7 @@
+---
+title: Graphic
+---
+
 # Graphic
 
 web前端常用图形处理

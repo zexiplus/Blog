@@ -1,3 +1,7 @@
+---
+title: Python 学习总结
+---
+
 #### usage
 
 ```shell

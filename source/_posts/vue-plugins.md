@@ -1,3 +1,7 @@
+---
+title: Vue插件使用技巧
+---
+
 # Vue Plugins
 
 vue 插件收录, 用法

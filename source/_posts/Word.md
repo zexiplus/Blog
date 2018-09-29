@@ -1,3 +1,7 @@
+---
+title: web前端程序员必备单词,短语,简称收录
+---
+
 ## 	term
 
 | abbr     | full                              | explain                                                      |

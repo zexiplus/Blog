@@ -1,3 +1,7 @@
+---
+title: CSS
+---
+
 # css
 
 Learn css and make pages pretty

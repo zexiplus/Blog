@@ -1,3 +1,7 @@
+---
+title: Debug
+---
+
 # Debug
 
 > 总结了常用web前端调试方法和nodejs调试方法

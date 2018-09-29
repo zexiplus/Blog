@@ -1,3 +1,7 @@
+---
+title: nodejs 实用库收录
+---
+
 # node package library
 
 nodejs 实用仓库收录, 下载/使用方法总结 https://github.com/zexiplus/awesome-nodejs

@@ -1,3 +1,7 @@
+---
+title: Linux
+---
+
 # linux
 
 > 关于linux 系统 的基本概念和操作总结
