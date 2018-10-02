@@ -1,6 +1,8 @@
 ---
-title: Markdown
+title: Markdown 语法总结
 ---
+
+
 
 # markdown
 
@@ -13,12 +15,6 @@ title: Markdown
 * 废弃线 -- 双波浪线包裹 -- ~~这里是废弃的内容~~~~
 * toc 生成markdown 的目录 -- [toc] + 回车
 * 文件引用 ```index.js```
-
-
-
-
-
-
 
 
 
@@ -40,5 +36,5 @@ title: Markdown
 * **Advanced Use** 高级用法 二级标题
 * **Configuration** 配置 二级标题
   * **Options** 选项 三级标题
-  * Usage example 使用例子 三级标题
+  * **Usage example** 使用例子 三级标题
 * **license** 许可证 二级标题 

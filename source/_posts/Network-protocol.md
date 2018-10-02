@@ -1,5 +1,5 @@
 ---
-title: Network-protocol
+title: 网络状态协议解析
 ---
 
 # 网络协议原理
@@ -50,11 +50,11 @@ title: Network-protocol
 ![closeLink](./imgs/closeLink.jpg)
 
 	客户端：“兄弟，我这边没数据要传了，咱关闭连接吧。”
-
+	
 	服务端：“收到，我看看我这边有木有数据了。”
-
+	
 	服务端：“兄弟，我这边也没数据要传你了，咱可以关闭连接了。”
-
+	
 	客户端：“好嘞。”
 
 * **浏览器解析html**
@@ -72,11 +72,11 @@ title: Network-protocol
 
 
   **replaint(重绘)**：屏幕的一部分重画，不影响整体布局，比如某个CSS的背景色变了，但元素的几何尺寸和位置不			   变。
-    **reflow(重构)**： 意味着元件的几何尺寸变了，我们需要重新验证并计算渲染树。是渲染树的一部分或全部发生了变化。这就是Reflow，或是Layout。
+​    **reflow(重构)**： 意味着元件的几何尺寸变了，我们需要重新验证并计算渲染树。是渲染树的一部分或全部发生了变化。这就是Reflow，或是Layout。
 
 
 	所以我们应该尽量减少reflow和replaint，我想这也是为什么现在很少有用table布局的原因之一。
-
+	
 	最后浏览器绘制各个节点，将页面展示给用户。
 
 
@@ -224,4 +224,3 @@ title: Network-protocol
   | 511         | network authentication required |
 
 
- 

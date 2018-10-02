@@ -1,5 +1,5 @@
 ---
-title: Git
+title: Git 操作大全
 ---
 
 # Git
@@ -8,7 +8,7 @@ title: Git
 
 
 
-## catalogue
+## Table of contents
 
 [TOC]
 

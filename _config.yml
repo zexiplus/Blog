@@ -4,12 +4,12 @@
 
 # Site
 title: Float's blog
-subtitle:
+subtitle: float's blog
 description: float's blog | 浮躁哥的技术博客
 keywords: webFront javascript css html vue react nodejs 
 author: float
-language: 
-timezone:
+language: English
+timezone: zh-cn
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'

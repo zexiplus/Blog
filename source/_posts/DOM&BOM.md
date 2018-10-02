@@ -1,5 +1,5 @@
 ---
-title: DOM & BOM
+title: DOM & BOM 总结
 ---
 
 # DOM & BOM

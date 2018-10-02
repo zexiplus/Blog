@@ -2,9 +2,15 @@
 title: Web 性能分析
 ---
 
-### bowser render block optmize 
+# Web performance
 
-------
+
+
+### Question 
+
+> 常见问题
+
+
 
 #### 什么是阻塞？
 
@@ -44,12 +50,6 @@ css 的加载**不会**阻塞dom的解析(DOM tree), 但**会**阻塞dom 树的�
 
    把script标签放到 body 的最后一行,  或者在script标签加入 defer属性
 
-   **这两种的不同点**:  
-
-   defer 会 **立即下载**,但到 浏览器解析至html标签时才**顺序执行**.而放在body后的script代码会在遇到这个标签时才下载,下载完成后执行.
-
-   
-
    ```html
    <head>
        <script	src="js/defer.js" defer></script>
@@ -64,8 +64,6 @@ css 的加载**不会**阻塞dom的解析(DOM tree), 但**会**阻塞dom 树的�
    </html>
    ```
 
-   
-
 2. **异步加载 async**
 
    告知浏览器可以边下载边渲染而不用等到js下载再执行后才渲染, 使用了 async 属性的脚本不能保证执行的先后顺序, 异步脚本一定会在页面**load事件前执行**(所有资源都下载完), 但可能会在**DOMContentLoaded 事件前或后**执行
@@ -77,7 +75,9 @@ css 的加载**不会**阻塞dom的解析(DOM tree), 但**会**阻塞dom 树的�
    </head>
    ```
 
-   
+   **这两种的不同点**:  
+
+   defer 会 **立即下载**,但到 浏览器解析至html标签时才**顺序执行**.而放在body后的script代码会在遇到这个标签时才下载,下载完成后执行.
 
 3. **动态加载 createElement('script')**
 
@@ -113,7 +113,6 @@ css 的加载**不会**阻塞dom的解析(DOM tree), 但**会**阻塞dom 树的�
    })
    ```
 
-   
 
 
 
@@ -121,40 +120,77 @@ css 的加载**不会**阻塞dom的解析(DOM tree), 但**会**阻塞dom 树的�
 
 ### page optmize proposal
 
----
+网页性能优化的34条建议
 
-1. **Minimize HTTP Requests**
-2. **Use a Content Delivery Network**
-3. **Add an Expires or a Cache-Control Header**
-4. **Gzip Components**
-5. **Put Stylesheets at the Top**
-6. **Put Scripts at the Bottom**
-7. **Avoid CSS Expressions**
-8. **Make JavaScript and CSS External**
-9. **Reduce DNS Lookups**
-10. **Minify JavaScript and CSS**
-11. **Avoid Redirects**
-12. **Remove Duplicate Scripts**
-13. **Configure ETags**
-14. **Make Ajax Cacheable**
-15. **Flush the Buffer Early**
-16. **Use GET for AJAX Requests**
-17. **Post-load Components**
-18. **Preload Components**
-19. **Reduce the Number of DOM Elements**
-20. **Split Components Across Domains**
-21. **Minimize the Number of iframes**
-22. **No 404s**
-23. **Reduce Cookie Size**
-24. **Use Cookie-free Domains for Components**
-25. **Minimize DOM Access**
-26. **Develop Smart Event Handlers**
-27. **Choose <link> over @import**
-28. **Optimize Images**
-29. **Optimize CSS Sprites**
-30. **Don't Scale Images in HTML**
-31. **Make favicon.ico Small and Cacheable**
-32. **Keep Components under 25K**
-33. **Pack Components into a Multipart Document**
-34. **Avoid Empty Image src**
+
+
+1. **Minimize HTTP Requests ** 最小化http请求数
+
+2. **Use a Content Delivery Network** 使用内容分发网络
+
+3. **Add an Expires or a Cache-Control Header** 给相应头增加过期字段
+
+4. **Gzip Components** 压缩组件
+
+5. **Put Stylesheets at the Top** 在head内使用样式表
+
+6. **Put Scripts at the Bottom** 在body的最后一行引入脚本(或增加defer属性)
+
+7. **Avoid CSS Expressions** 
+
+   避免css表达式(只有ie支持css表达式例如top:expression(eval(document.documentElement.scrollTop + document.documentElement.clientHeight - 60)));)
+
+8. **Make JavaScript and CSS External** 确保脚本和样式表是外联文件
+
+9. **Reduce DNS Lookups** 减少dns查询次数
+
+10. **Minify JavaScript and CSS** 最小化js和css
+
+11. **Avoid Redirects** 避免重定向
+
+12. **Remove Duplicate Scripts** 删除重复的脚本
+
+13. **Configure ETags** 相应头配置ETags字段, 从而判断版本信息
+
+14. **Make Ajax Cacheable** 使ajax请求响应可缓存
+
+15. **Flush the Buffer Early** 如果请求事件过长, 先发送部分数据
+
+16. **Use GET for AJAX Requests** 尽可能在ajax请求使用get方法
+
+17. **Post-load Components**  使用延迟加载(对于非必须的优化脚本例如动画,拖动等可以使用延迟加载技术确保主要功能是快速响应的)
+
+18. **Preload Components** 使用预加载(下一页的图片等资源)
+
+19. **Reduce the Number of DOM Elements** 减少dom元素数, 减少嵌套标签,减少空标签
+
+20. **Split Components Across Domains** 拆分组件至不同域来使用同时下载
+
+21. **Minimize the Number of iframes** 使用最少数的iframes
+
+22. **No 404s** http相应是昂贵的, 消除不必要的404响应
+
+23. **Reduce Cookie Size ** 减少cookie大小
+
+24. **Use Cookie-free Domains for Components** 对于静态资源的请求不使用cookie携带
+
+25. **Minimize DOM Access ** 减少dom树的直接操作(缓存已放翁过的元素, 减少页面重构次数)
+
+26. **Develop Smart Event Handlers** 使用高性能的事件处理函数(事件代理, DOMContentLoaded)
+
+27. **Choose <link> over @import** (IE浏览器使用@import引入的css会在页面最下方引入css一样效果)
+
+28. **Optimize Images** 优化图片格式,大小
+
+29. **Optimize CSS Sprites** 优化精灵图
+
+30. **Don't Scale Images in HTML** 图片的尺寸与显示尺寸对应
+
+31. **Make favicon.ico Small and Cacheable** 使网页标题图表小且可缓存
+
+32. **Keep Components under 25K** 使文件小于25k(iphone不会缓存25k以上文件大小)
+
+33. **Pack Components into a Multipart Document** 将文件打包到多个文档
+
+34. **Avoid Empty Image src** 避免图片带有空src属性(减少不必要的请求)
 

@@ -8,7 +8,7 @@ title: Javascript
 
 
 
-## Catalogue
+## Table of Contents
 
 [TOC]
 

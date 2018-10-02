@@ -1,5 +1,5 @@
 ---
-title: Debug
+title: web前端开发调试技巧大全
 ---
 
 # Debug
@@ -8,7 +8,7 @@ title: Debug
 
 
 
-### Catalogue
+### Table of contents
 
 [TOC]
 

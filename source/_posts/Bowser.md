@@ -1,5 +1,5 @@
 ---
-title: Browser
+title: chrome 浏览器接口参考
 ---
 
 # chrome.runtime
@@ -8,7 +8,7 @@ title: Browser
 
 
 
-### catalogue
+### Table of contents
 
 [TOC]
 

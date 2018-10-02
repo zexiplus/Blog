@@ -1,5 +1,5 @@
 ---
-title: Graphic
+title: web图形方案总结
 ---
 
 # Graphic
