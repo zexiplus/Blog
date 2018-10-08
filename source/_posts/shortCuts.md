@@ -28,6 +28,9 @@ title: 系统/软件快捷键收录
 | 更改文件默认启动软件 | **鼠标右键 / getinfo / open with** |
 | 系统截全屏           | **command + shift + 3**            |
 | 截部分屏幕           | **command + shift + 4**            |
+| 连接远程文件夹       | **command+ k**                     |
+| 预览图片             | **选中图片 + space**               |
+|                      |                                    |
 
 
 

@@ -117,7 +117,7 @@ Learn css and make pages pretty
   }
   ```
 
-* 属性选择器**
+* **属性选择器**
 
   ```css
   /*选择类名已foundicon 开头的元素*/
@@ -583,13 +583,8 @@ overflow: hidden;
   }
   ```
 
-* **行距**
 
-  倍数行距 当前字体乘以1.3
 
-  ```css
-  line-height: 1.3;
-  ```
 
 
 
