@@ -25,25 +25,55 @@ title: Html
   ```
 
 
+
 ### html标签
 
-* **figure**
+
+
+#### meta 关键字
+
+* **viewport**
+
+  > 浏览器视窗大小
+
+  * width = device-width  宽度等于设备宽度
+  * Initial-scale=1  初始化大小为1(不缩放)
+  * Maxium-scale=1 最大尺寸为1
+  * Minium-scale=1 最小尺寸为1
 
   ```html
-  <figure>
-      <figcaption>These words are the caption of the picture. This is called a
-          ligature.</figcaption>
-      <img src='ligature.svg'/>
-  </figure>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maxium-scale=1">
   ```
 
-look like this ![figure](./imgs/figure.png)
+* **description**
 
-------
+  > 网站描述(利于seo)
 
+  ```html
+  <meta name="description" content="this is a superme website...">
+  ```
 
+* **screen-orientation**
 
+  > 屏幕方向
 
+  * portrait 强制竖向显示
+
+  ```html
+  <meta name="screen-orientation" content="portrait">
+  ```
+
+* **format-detection** 
+
+  > 文本格式化方案
+
+  * telephone=no 手机号不显示为拨号连接
+
+  ```html
+  <meta name="format-detection" content="telephone=no">
+  ```
+
+#### a超链接
 
 * **a 标签跳转**
 
@@ -75,28 +105,23 @@ look like this ![figure](./imgs/figure.png)
    ```
 
 
-### 移动端开发标签
 
-* **meta**
+#### **figure**
 
-  - viewport `minimal-ui`  最小化ui及使浏览器导航栏默认不显示
-  - screen-orientation `portrait` 强制竖屏显示
-  - format-detection `telephone=no` 手机号码不被显示为拨号连接
+```html
+<figure>
+    <figcaption>These words are the caption of the picture. This is called a
+        ligature.</figcaption>
+    <img src='ligature.svg'/>
+</figure>
+```
 
-  ```html
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <meta 
-         name="viewport" content="user-scalable=no, width=device-width, 
-         initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, minimal-ui"/>
-      <meta name="screen-orientation" content="portrait"/>
-      <meta name="format-detection" content="telephone=no" />
-    </head>
-    <body>
-    </body>
-  </html>
-  ```
+look like this ![figure](/Users/float/Desktop/GitHub/blog/source/_posts/imgs/figure.png)
+
+
+
+
+
 
 
 ### Html 模版

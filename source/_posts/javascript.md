@@ -88,9 +88,9 @@ title: Javascript
 
 
 
-#Class
+##Class
 
-javascript class
+**javascript class**
 
 
 
@@ -339,6 +339,20 @@ javascript class
   new Date().toLocaleTimeString()
   // 11:30:22 AM
   ```
+
+
+
+### Math
+
+* **Math.pow**
+
+  > 基数的n次方
+
+  ```js
+  Math.pow(4, 2) // 16
+  ```
+
+
 
 
 ## ES6
