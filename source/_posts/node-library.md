@@ -65,7 +65,7 @@ nodejs 实用仓库收录, 下载/使用方法总结 https://github.com/zexiplus
   npm publish
   ```
 
-* **全剧链接**
+* **全局链接**
 
   > 可以让包在机器上全局使用 bin 命令
 
@@ -469,6 +469,9 @@ npm install commander --save
         .action((num) => {
         	conosle.log(num)
     	})
+    
+    /** 一定要加这一句传递参数 **/
+    programe.parse(process.argv)
     ```
 
     ```shell
@@ -550,6 +553,19 @@ npm install commander --save
     	
     ```
 
+  * **生成命令**
+
+    `package.json`
+
+    ```json
+    "bin": {
+        "runname": "./bin/script.js"
+    }
+    ```
+
+    ```shell
+    sudo npm link
+    ```
 
 
 

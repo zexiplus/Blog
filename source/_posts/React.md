@@ -14,7 +14,18 @@ title: React 学习总结
 
 ## react
 
-> react 使用 api 
+
+
+### 重点
+
+* **关注点分离**: 为每个关注点创建一个组件
+* **子节点**: 所有开始标签和结束标签的子节点保存在**this.props.children**属性
+* **变量,属性**:使用花括号 {var} 展现变量和属性
+* **事件** `<Divider onClick={this.handleClick}></Divider>`
+* **ref.myinput.getDOMNode()** 拿到真实dom节点
+* class属性要写为**className**
+* **生命周期: 实例化, 存在期, 销毁&清理期**
+* 
 
 
 
@@ -488,7 +499,7 @@ title: React 学习总结
 
 ## react router
 
-
+路由
 
 ### 初始化
 

@@ -211,8 +211,6 @@ console.log(vm._data.a)
 
 
 
-
-
 #### 实现深度拷贝
 
 ```js
@@ -234,4 +232,124 @@ function clone(obj) {
     }
 }
 ```
+
+
+
+### 面试实战
+
+#### 2018.10.13 
+
+* **浏览器小于12px像素字体显示**
+
+  ```css
+  span {
+      font-size: 12px;
+      transform: scale(0.8)
+  }
+  ```
+
+* **html doctype的意义 (标准模式和兼容模式)**
+
+  标准模式的排版和js以浏览器支持的最高标准运行,  兼容模式浏览器以向后兼容的方式模拟老旧浏览器的行为防止站点无法工作
+
+* **实现ie6, 7 , 8不同字体颜色**
+
+  ```css
+  span {
+      .color: #ccc\9; /*ie 6,7,8 */
+      +color: #000; /* ie 6,7 only  */
+      _color: #777; /* ie6 only */
+  }
+  ```
+
+* **Webpack热刷新原理** 
+
+  使用webpack-hot-middleware插件, 使用SSE(server sent events)服务器事件
+
+  ```js
+  // client
+  var listener = new EventSource('/message')
+  listener.onmessage = function (e) {
+      console.log(e.data)
+  }
+  
+  // server
+  http.createServer(function (req, res) {
+      if (req.url == '/message') {
+          res.writeHead(200, {
+              'Content-Type': 'text/event-stream',
+              'Cache-Control': 'no-cache',
+              'Connection': 'keep-alive'
+          })
+          var i = 0
+          setInterval(function() {
+              i ++
+              res.write('update')
+          }, 1000)
+      }
+  }).listen(3000)
+  ```
+
+* **css 实现等边三角形**
+
+  ```css
+  .box {
+      border-bottom: 1px solid #fff;
+      width: 100px;
+      height: 100px;
+      position: relative;
+  }
+  
+  .box:after, box:before {
+      position: absolute;
+  }
+  .box:before {
+      transform: rotate(30deg);
+      transform-origin: left bottom;
+  }
+  .box:after {
+      transform: rotate(60deg);
+      transform-origin: right bottom;
+  }
+  ```
+
+* **react组件的生命周期**
+
+  * mounting 已插入真实dom
+  * updating 正在被重新渲染
+  * Unmounting 已移除真实dom
+
+* **js的继承机制**
+
+  * **原型继承**
+
+  * **类式继承(构造继承)**
+
+    ```js
+    function Sup() {
+        this.name = 'Sup'
+    }
+    
+    function Sub() {
+        Sub.call(this)
+    }
+    ```
+
+  * **混合继承(同时包含原型继承和类式继承)**
+
+  * **实例继承**
+
+    ```js
+    function Sup() {
+        this.name = 'Sup'
+    }
+    
+    function Sub() {
+        var obj = new Sup()
+        obj.name = 'Sub'
+        return obj
+    }
+    ```
+
+* 
 

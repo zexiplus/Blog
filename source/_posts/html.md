@@ -104,6 +104,11 @@ title: Html
    </iframe>
    ```
 
+* **取消焦点控制**
+
+  ```html
+  <a tabindex="-1" >按tab 焦点不会聚焦到此a标签</a>
+  ```
 
 
 #### **figure**

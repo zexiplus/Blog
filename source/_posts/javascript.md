@@ -127,6 +127,13 @@ title: Javascript
   // arr => ['bat', 'cat', 'dat']
   ```
 
+- **replace替换**
+
+  ```js
+  'a-b-c-d'.replace('-', ':') // 'a:b-c-d'
+  'a-b-c-d'.replace(/-/g, ':') // 'a:b:c:d'
+  ```
+
 - **遍历字符串**
 
   ```js
@@ -162,6 +169,19 @@ title: Javascript
   'hello world'.startsWith('hel') // true
   'hello world'.endsWith('orld') // true
   ```
+
+
+
+### RegExp
+
+* **test**
+
+  > 判断字符串时候匹配
+
+  ```js
+  /a/.test('abc') // true
+  ```
+
 
 
 

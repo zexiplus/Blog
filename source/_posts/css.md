@@ -139,7 +139,22 @@ Learn css and make pages pretty
   }
   ```
 
-  - [ ] 
+* **伪类选择器**
+
+  ```css
+  input:focus {
+      border: 2px solid #fff;
+  }
+  ```
+
+* **父元素选择器**(草案)
+
+  ```css
+  !li > p {
+      border: 1px solid #fff;
+  }
+  ```
+
 
 ### BFC (block formating context)
 
@@ -448,6 +463,70 @@ overflow: hidden;
 
 
 ### Tips
+
+* **自定义input[type=“checkbox”]样式**
+
+  ```html
+  <section>
+  	<div class="checkbox-box">
+          <input type="checkbox" id="one" value="1" />
+  		<label for="one"></label>
+      </div>
+  </section>
+  ```
+
+  ```css
+  input[type="checkbox"] {
+      visibility: hidden;
+  }
+  
+  .checkbox-box {
+      width: 40px;
+  	height: 10px;
+  	background: #555;
+  	margin: 20px 80px;
+  	position: relative;
+  	border-radius: 3px;
+  }
+  
+  .checkboxOne label {
+  	display: block;
+  	width: 16px;
+  	height: 16px;
+  	border-radius: 50%;
+  	transition: all .5s ease;
+  	cursor: pointer;
+  	position: absolute;
+  	top: -3px;
+  	left: -3px;
+  	background: #ccc;
+  }
+  
+  .checkboxOne input[type=checkbox]:checked + label {
+  	left: 27px;
+  }
+  ```
+
+* **单行图片和文字垂直居中对齐**
+
+  vertical-align: middle;
+
+  ```html
+  <h1>
+      <img src="..." id="logo" style="vertical-align: middle;" />
+      <span id="logo-desc">web-title</span>
+  </h1>
+  ```
+
+* **css背景渐变色**
+
+  ```css
+  #grad {
+      background: linear-gradient(red, blue) // 默认从上到下
+      background: linear-gradient(to right, red, blue) // 从左到右
+      background: linear-gradient(to bottom right, red, blue) // 从左上到右下
+  }
+  ```
 
 * **单行超出显示省略号**
 
