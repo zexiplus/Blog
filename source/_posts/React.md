@@ -21,11 +21,174 @@ title: React 学习总结
 * **关注点分离**: 为每个关注点创建一个组件
 * **子节点**: 所有开始标签和结束标签的子节点保存在**this.props.children**属性
 * **变量,属性**:使用花括号 {var} 展现变量和属性
-* **事件** `<Divider onClick={this.handleClick}></Divider>`
+* **事件** `<Divider onClick={this.handleClick} />`
 * **ref.myinput.getDOMNode()** 拿到真实dom节点
 * class属性要写为**className**
+
+#### 生命周期&钩子
+
 * **生命周期: 实例化, 存在期, 销毁&清理期**
-* 
+
+  * 实例化
+    * getDefaultProps
+    * getInitialState (**此时可以访问this.props**)
+    * componentWillMount
+    * render
+    * componentDidMount
+
+  * 存在期
+    * componentWillReceiveProps
+    * shouldComponentUpdate (首次渲染不会调用) 
+    * componentWillUpdate
+    * componentDidUpdate
+
+  * 销毁清理期
+    * componentWillUnmount
+
+#### 数据&属性
+
+* 在react中,数据(props)是**单向流动**的， 从父节点传递到子节点， 禁止一个组件修改自己的props
+* **props**,用于管理从外部传入的数据。 `<MyComponent list={list} />`  钩子**getDefaultProps (() => {showOpt: true})  **
+* **state** , 用于管理组件自身的数据。 钩子 **getInitialState(() => {showOpt: true})**   
+* 修改(合并)state：   **this.setState({value: 1})**  , 替换 **state this.replaceState({value: 1})**
+* 只要setState调用， render就会被调用,  不要直接赋值给 state
+* 把props当作**只读**， **state尽量存放简单数据** 例如表单控件的隐藏和显示
+* **属性检查**  ` { propTypes: {id: React.PropType.string.isRequired}}`
+
+#### 事件
+
+* **手动开启触控事件** React.initialzeTouchEvents(true)
+
+* **绑定事件** `<Component onClick="this.handleClick" />`
+
+* 事件的值 **event.target.value**
+
+* 父子组件通讯  父组件通过单向props传递给子组件， 子组件通过传递的事件进行通信
+
+  ```jsx
+  class Sup extends React.Component {
+      constructor(props) {
+          super(props)
+          this.handleChange = this.handleChange.bind(this)
+      }
+      handleChange(e) {}
+      render() {
+          return (<Sub onChange={this.handleChange} />)
+      }
+  }
+  class Sub extends React.Component {
+      constructor(props) {
+          supper(props)
+      }
+      render() {
+          return (<select onChange={this.props.onChange}></select>)
+      }
+  }
+  ```
+
+#### 组件
+
+* 受控组件 ， 组件内部状态由用户管理， 最简单的实现就是一个 自定义表单输入框
+* 非受控组件 ， 组件内部状态不可控 ,用在不做任何校验的场景
+
+* ref.id.**getDOMNode**() 获取真正的dom节点， 此方法在componentDidMount可访问
+
+* **整合非react类库** , 在**componentDidMount**函数中访问dom节点， 写逻辑
+
+  ```jsx
+  class AnimateBox extends React.Component {
+      constructor(props) {
+          super(props)
+      }
+      render() {
+          return (
+          	<div ref="box" id="animateBox" >0</div>
+          )
+      }
+      componentDidMount() {
+          animate({el: this.ref.box.getDOMNode(), type: 'rotate'})
+      }
+  }
+  ```
+
+#### 性能优化
+
+* 使用**shouldComponentUpdate** 来判断组件是否需要重新渲染， 返回 true 代表需要重新渲染
+
+  ```jsx
+  {
+      shouldComponentUpdate(nextProps, nextState) {
+          return nextProps.id !== this.props.id // 只有id更新才更新组件
+      }
+  }
+  ```
+
+* 使用**React.addons.PureRenderMixin**插件
+
+  ```jsx
+  {
+      mixin: [React.addons.PureRenderMixin]
+  }
+  ```
+
+* 监控性能变化插件 **React.addons.Perf**
+
+  ```shell
+  // 控制台运行
+  React.addons.Perf.start()
+  // 操作应用， 记录耗时的操作
+  React.addons.Perf.stop()
+  // 打印时间表单
+  React.addons.Perf.printWaster()
+  ```
+
+* 为列表添加**key属性**， 避免重复渲染。
+
+
+
+
+
+
+
+
+
+### react 组件结构
+
+```jsx
+class MarkdownEditor extends React.Component {
+    constructor(props) {
+        super(props)
+        this.handleChange = this.handleChange.bind(this)
+        this.state = { value: 'Type your markdown'}
+    }
+    
+    handleChange(e) {
+        this.setState({ value: e.target.value })
+    }
+    
+    generateMarkdown() {
+        const md = new Remarkable();
+        return { __html: md.render(this.state.value) }
+    }
+    
+    render() {
+        return (
+        	<div>
+            	<textarea 
+                    onChange={this.handleChange} 
+                    defaultValue={this.state.value} />
+                <h1>output markdown</h1>
+                <div 
+                    className="output"
+                    dangerouslySetInnerHTML={this.generateMarkdown()}
+                 />
+            </div>
+        )
+    }
+}
+```
+
+
 
 
 
