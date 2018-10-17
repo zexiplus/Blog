@@ -313,9 +313,19 @@ function clone(obj) {
 
 * **react组件的生命周期**
 
-  * mounting 已插入真实dom
-  * updating 正在被重新渲染
-  * Unmounting 已移除真实dom
+  * **实例化**
+    - getDefaultProps
+    - getInitialState (**此时可以访问this.props**)
+    - componentWillMount
+    - render
+    - componentDidMount
+  * **存在期**
+    - componentWillReceiveProps
+    - shouldComponentUpdate (首次渲染不会调用) 
+    - componentWillUpdate
+    - componentDidUpdate
+  * **销毁&清理期**
+    - componentWillUnmount
 
 * **js的继承机制**
 
@@ -359,11 +369,17 @@ function clone(obj) {
     }
     ```
 
+*  谈谈对mvvm的理解
+
+  * model（模型层）， view（视图层）， viewmodel（展示模型）。
+
+  * 展示模型将**模型层中的数据与复杂的业务逻辑封装成属性与简单的数据同时暴露给视图，让视图和展示模型中的属性进行同步**
+
+  * 无论是 MVVM 还是 Presentation Model，其中最重要的不是如何同步视图和展示模型/视图模型之间的状态，是使用观察者模式、双向绑定还是其它的机制都不是整个模式中最重要的部分，最为关键的是**展示模型/视图模型创建了一个视图的抽象，将视图中的状态和行为抽离出一个新的抽象**，这才是 MVVM 和 PM 中需要注意的。
 
 
 
-
-### 大疆科技
+### 2018.10.17
 
 **激极尽致，求真品诚**
 
@@ -392,7 +408,7 @@ function clone(obj) {
 
 * **CSS选择符有哪些？哪些属性可以继承？**
 
-  可继承 字体, 颜色, 字大小, 缩进
+  可继承 **字体, 颜色, 字大小, 缩进**
 
 
 
@@ -404,19 +420,33 @@ function clone(obj) {
 
 
   * 面向对象是一种思想. 面向对象是指, 把复杂过程封装在对象中,细节交给对象实现, 只暴露出简单的接口,让对象去实现具体的细节.  这种思想将数据作为第一位, 方法其次, 这是对数据的优化, 简化了过程.  通过继承机制, 实现对象之间的属性,方法共用.
+
   * **封装性**: 隐藏具体细节, 隔离变化, 仅提供外部访问的接口
+
   * **继承性:** 子类继承父类的一些方法, 可以提高代码复用性
+
   * **多态性: **同一方法可以在子类和父类有不同实现
 
 * **千位符**
 
   ```js
   function format(num){
-    return num && num
-      .toString()
-      .replace(/(\d)(?=(\d{3})+\.)/g, function($1, $2){
-        return $2 + ',';
-      });
+      if(!num) return
+      var numString = num.toString()
+      var trailIndex = numString.indexOf('.')
+      var headString
+      if (trailIndex >= 0) {
+          var trail = numString.slice(trailIndex)
+          headString = numString.slice(0, trailIndex)
+          return numString.replace(/(\d{3}\B)/g, function($1) {
+              return $1 + ','
+          }).concat(trail)
+      } else {
+  		headString = numString
+          return numString.replace(/(\d{3}\B)/g, function($1) {
+              return $1 + ','
+          })
+      }
   }
   
   console.log(format(1231423423.22)) //1,231,423,423.22
@@ -447,7 +477,7 @@ function clone(obj) {
       return quicksort(left).concat([pivot], quicksort(right));
   };
   var array = [8, 7, 0, 7, 5, 2, 5, 3, 1];
-  quicksort(array); //[0,1,2,3,5,5,7,7,8] 
+  quicksort(array); // [0,1,2,3,5,5,7,7,8] 
   ```
 
 * **链表与数组的区别**
