@@ -146,6 +146,27 @@ title: React 学习总结
 
 
 
+### 服务端渲染
+
+* **var comp = React.renderToString(<MyComponent />)** 只有一个参数, 且为同步函数
+
+  会渲染出带有data前缀属性的dom节点字符串, 用于客户端和服务端追踪
+
+* **React.renderToStaticMarkup()**
+
+  区别在于生成的没有data属性, 用于不打算在客户端渲染component的情况
+
+* 生命周期 , 服务端渲染**会**调用包括**render**函数之前的钩子, compoentDidMount和componentWillUnmount**不会调用**
+* 服务端渲染异步状态, 在异步函数返回时调用renderToString
+
+
+
+#### 插件
+
+* **jest** 测试工具
+* **Immutable.js** 不可变数据结构
+* **Flux**  状态管理 三个重要概念: **dispatcher, store, view**
+
 
 
 

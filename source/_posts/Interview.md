@@ -199,8 +199,6 @@ console.log(vm._data.a)
 
 
 
-
-
 #### 手动封装一个promise库，能实现基本的promise api。
 
 
@@ -323,7 +321,7 @@ function clone(obj) {
 
   * **原型继承**
 
-  * **类式继承(构造继承)**
+  * **类式继承(借用构造函数)**
 
     ```js
     function Sup() {
@@ -337,7 +335,7 @@ function clone(obj) {
 
   * **混合继承(同时包含原型继承和类式继承)**
 
-  * **实例继承**
+  * **实例继承(寄生式继承)**
 
     ```js
     function Sup() {
@@ -351,5 +349,158 @@ function clone(obj) {
     }
     ```
 
-* 
+  * **寄生组合式继承**
+
+    ```js
+    function Sup() {
+        var prototype = Object(superType.prototype)
+        prototype.constructor = subType
+        subType.prototype = prototype
+    }
+    ```
+
+
+
+
+
+### 大疆科技
+
+**激极尽致，求真品诚**
+
+
+
+* **防止JS对象被修改**
+
+  * 不可扩展对象Object.preventExtensions(obj) [不能添加新成员]
+
+  * 密封对象 Object.seal(obj) [不能删除, 但属性可修改]
+
+  * 冻结对象 Object.freeze(obj) [不能删不能增不能改]
+
+  * 设置属性 Object.defineProperty, Object.defineProperties
+
+    ```js
+    Object.defineProperty(obj, 'name', {
+        configurable: boolean, // 是否可删除
+        enumerable: boolean, // 是否可枚举
+        writable: boolean, // 是否可修改
+        value: val // 属性值
+    })
+    ```
+
+
+
+* **CSS选择符有哪些？哪些属性可以继承？**
+
+  可继承 字体, 颜色, 字大小, 缩进
+
+
+
+* **前端存储方式有哪些？**
+
+  **Cookie, localStorage, sessionStorage, indexDB**
+
+* **什么是面向对象？面向对象有哪些基本特征？**
+
+
+  * 面向对象是一种思想. 面向对象是指, 把复杂过程封装在对象中,细节交给对象实现, 只暴露出简单的接口,让对象去实现具体的细节.  这种思想将数据作为第一位, 方法其次, 这是对数据的优化, 简化了过程.  通过继承机制, 实现对象之间的属性,方法共用.
+  * **封装性**: 隐藏具体细节, 隔离变化, 仅提供外部访问的接口
+  * **继承性:** 子类继承父类的一些方法, 可以提高代码复用性
+  * **多态性: **同一方法可以在子类和父类有不同实现
+
+* **千位符**
+
+  ```js
+  function format(num){
+    return num && num
+      .toString()
+      .replace(/(\d)(?=(\d{3})+\.)/g, function($1, $2){
+        return $2 + ',';
+      });
+  }
+  
+  console.log(format(1231423423.22)) //1,231,423,423.22
+  ```
+
+
+* **快排算法**
+
+  ```js
+  var quicksort = function (arr) {
+      // 递归函数, 终止情况为数组的长度为1
+      if (arr.length <= 1) {
+          return arr;
+      }
+      var pivotIndex = Math.floor(arr.length / 2); // 选取一半位置为基准点
+      var pivot = arr.splice(pivotIndex, 1)[0]; // 挑选出基准值
+      var left = [];
+      var right = [];
+      // 建立左右两个数组, 左边存放小于基准的数值, 右边存放大于基准的数值
+      for (var i = 0; i < arr.length; i++) {
+          if (arr[i] < pivot) {
+              left.push(arr[i]);
+          } else {
+              right.push(arr[i]);
+          }
+      }
+      // 调用自身并进行连接 返回排序后的数组
+      return quicksort(left).concat([pivot], quicksort(right));
+  };
+  var array = [8, 7, 0, 7, 5, 2, 5, 3, 1];
+  quicksort(array); //[0,1,2,3,5,5,7,7,8] 
+  ```
+
+* **链表与数组的区别**
+
+  * 数组是在内存中连续存放的
+
+  * 插入存储效率低
+
+  * 查找效率高
+
+  * 不利于扩展, 数组定义的空间不够要重新定义数组
+
+  * 链表在内存中存放不是连续的
+
+  * 每一个数据都保存着下一个数据的地址
+
+  * 插入增加数据效率高
+
+  * 查找数据效率低
+
+  * 不指定大小, 扩容方便
+
+* **性能优化**
+
+  * 合并文件 , 使用 css精灵图以 减少http请求
+
+  * 使用合适的缓存策略 响应头增加 expire, max-age字段 增加E-tag
+
+  * 选择适当的图片格式, 压缩图片质量
+
+  * 使用cdn
+
+  * 选择合理的 web component更新方式和周期
+
+  * 压缩组件, js,css
+
+  * 减少重定向
+
+  * 不要使用css表达式
+
+  * 减少dns查询次数
+
+  * 合理使用预加载和懒加载
+
+* **进程间通信(ipc)方式有哪些**
+
+  * 匿名管道(**pipe**) 半双工, 数据单向流动, 只能在亲缘(父子)进程间使用
+  * 具名管道(**named pipe**) 允许非亲缘管道间使用
+  * 高级管道(**popen**)  将另一个进程在当前程序中启动
+  * 消息队列(**message queue**) 消息队列是存放消息的链表, 克服了管道只能传递无格式字节流, 和缓冲区大小受限的情况
+  * 信号(**sinal**)
+  * 共享内存通信(**shared memory**) 由一个进程创建, 多个进程共享的内存, 是最快的进程间通讯方式
+  * 套接字(**socket**)  可用于不同主机之间通讯 步骤 命名, 绑定, 监听, 连接, 发送信息, 解绑
+
+
 
