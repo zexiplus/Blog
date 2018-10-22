@@ -313,9 +313,19 @@ function clone(obj) {
 
 * **react组件的生命周期**
 
-  * mounting 已插入真实dom
-  * updating 正在被重新渲染
-  * Unmounting 已移除真实dom
+  * **实例化**
+    - getDefaultProps
+    - getInitialState (**此时可以访问this.props**)
+    - componentWillMount
+    - render
+    - componentDidMount
+  * **存在期**
+    - componentWillReceiveProps
+    - shouldComponentUpdate (首次渲染不会调用) 
+    - componentWillUpdate
+    - componentDidUpdate
+  * **销毁&清理期**
+    - componentWillUnmount
 
 * **js的继承机制**
 
@@ -361,7 +371,10 @@ function clone(obj) {
 
 
 
-### DJI
+
+### 2018.10.17
+
+
 
 * **防止JS对象被修改**
 
@@ -386,7 +399,7 @@ function clone(obj) {
 
 * **CSS选择符有哪些？哪些属性可以继承？**
 
-  可继承 字体, 颜色, 字大小, 缩进
+  可继承 **字体, 颜色, 字大小, 缩进**
 
 
 
@@ -398,19 +411,33 @@ function clone(obj) {
 
 
   * 面向对象是一种思想. 面向对象是指, 把复杂过程封装在对象中,细节交给对象实现, 只暴露出简单的接口,让对象去实现具体的细节.  这种思想将数据作为第一位, 方法其次, 这是对数据的优化, 简化了过程.  通过继承机制, 实现对象之间的属性,方法共用.
+
   * **封装性**: 隐藏具体细节, 隔离变化, 仅提供外部访问的接口
+
   * **继承性:** 子类继承父类的一些方法, 可以提高代码复用性
+
   * **多态性: **同一方法可以在子类和父类有不同实现
 
 * **千位符**
 
   ```js
   function format(num){
-    return num && num
-      .toString()
-      .replace(/(\d)(?=(\d{3})+\.)/g, function($1, $2){
-        return $2 + ',';
-      });
+      if(!num) return
+      var numString = num.toString()
+      var trailIndex = numString.indexOf('.')
+      var headString
+      if (trailIndex >= 0) {
+          var trail = numString.slice(trailIndex)
+          headString = numString.slice(0, trailIndex)
+          return numString.replace(/(\d{3}\B)/g, function($1) {
+              return $1 + ','
+          }).concat(trail)
+      } else {
+  		headString = numString
+          return numString.replace(/(\d{3}\B)/g, function($1) {
+              return $1 + ','
+          })
+      }
   }
   
   console.log(format(1231423423.22)) //1,231,423,423.22
@@ -441,7 +468,7 @@ function clone(obj) {
       return quicksort(left).concat([pivot], quicksort(right));
   };
   var array = [8, 7, 0, 7, 5, 2, 5, 3, 1];
-  quicksort(array); //[0,1,2,3,5,5,7,7,8] 
+  quicksort(array); // [0,1,2,3,5,5,7,7,8] 
   ```
 
 * **链表与数组的区别**
@@ -500,10 +527,23 @@ function clone(obj) {
 
 ### 10.18
 
-* 简单与复杂请求
+* **简单与复杂请求**
+
+  * **简单请求**: 两者必须都满足
+
+    * 仅包含GET, HEAD or POST(如果是post, content-type必须是 application/x-www-form-urlencoded, multipart/form-data, or text/plain 其中一种)
+    * 没设置自定义头信息的请求 
+
+  * **复杂请求**
+
+    不满足简单请求的请求类型
+
 * http2
+
 * diff算法
+
 * xss, csrf防范
+
 * cookie设置
 
 
@@ -514,7 +554,11 @@ function clone(obj) {
 
 * **讲讲对mvvm模式的理解**
 
-  Mvvm模式广泛应用在WPF项目开发中，使用此模式可以把UI和业务逻辑分离开，使UI设计人员和业务逻辑人员能够分工明确
+  **model（模型层）， view（视图层）， viewmodel（展示模型)**
+
+  展示模型将模型层中的**数据与复杂的业务逻辑封装成属性与简单的数据**暴露给视图，让视图和展示模型中的属性进行同步, 同时用户改变视图, 视图通过视图模型, 修改数据同步至模型上.
+
+
 
 * **讲讲至今遇到的最大困难**
 
@@ -522,9 +566,19 @@ function clone(obj) {
 
 * **说一下Event loop**
 
-  Event Loop是一个程序结构，用于等待和发送消息和事件.
+  **Event Loop是一个程序结构，用于等待和发送消息和事件.**
 
   简单说，就是在程序中设置两个线程：一个负责程序本身的运行，称为"主线程"；另一个负责主线程与其他进程（主要是各种I/O操作）的通信，被称为"Event Loop线程"（可以译为"消息线程"）
+
+  Node采用的是单线程的处理机制(所有的I/O请求都采用非阻塞的工作方式)，至少从Node.js开发者的角度是这样的。而在底层，Node.js借助libuv来作为抽象封装层，从而屏蔽不同操作系统的差异，Node可以借助livuv来实现线程。
+
+  Libuv库负责将不同的任务分配给不同的线程，形成一个事件循环，以异步的方式将任务的执行结果返回给V8引擎。
+
+  每一个I/O都需要一个回调函数——一旦执行完便堆到事件循环上用于执行
+
+  ![libuv](.\/imgs/libuv.png)
+
+  ![eventloop](./imgs/eventLoop.png)
 
 * **vue-router 的 跳转实现原理**
 
@@ -533,7 +587,7 @@ function clone(obj) {
   那为什么这两种方式能够实现试图更新不跳转，其原因在于：
 
   * **Hash模式**： 
-    ​      hash（#）是URL 的锚点，代表的是网页中的一个位置，单单改变#后的部分，浏览器只会滚动到相应位置，不会重新加载网页，使用”后退”按钮，就可以回到上一个位置；
+    ​ hash（#）是URL 的锚点，代表的是网页中的一个位置，单单改变#后的部分，浏览器只会滚动到相应位置，不会重新加载网页，使用”后退”按钮，就可以回到上一个位置；
 
     1 $router.push() //显式调用方法
 
@@ -560,19 +614,9 @@ function clone(obj) {
 
     * **history.pushState**
 
-        url不能跨域
+           `history.pushState([data], [title], [url]);`
 
-       `history.pushState([data], [title], [url]);`
-
-        点击浏览器的后退按钮，你会发现它和你预想的效果一样。因为pushState方法将我们传给它的URL添加	
-
-        到浏览器的history中，从而改变了浏览器的history		   
-
-        ​在HTML5History的构造函数中监听popState（**window.onpopstate**）
-
-  ​	
-
-  ​	
+        点击浏览器的后退按钮，你会发现它和你预想的效果一样。因为pushState方法将我们传给它的URL添加到浏览器的history中，从而改变了浏览器的history,在HTML5History的构造函数中监听popState（**window.onpopstate**）
 
 
 

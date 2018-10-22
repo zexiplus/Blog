@@ -42,7 +42,7 @@ title: React 学习总结
     * componentWillUpdate
     * componentDidUpdate
 
-  * 销毁清理期
+  * 销毁&清理期
     * componentWillUnmount
 
 #### 数据&属性
@@ -169,7 +169,40 @@ title: React 学习总结
 
 
 
+### Redux
 
+* **Store** 存储数据的地方， 一个应用**只有一个store**
+
+  ```js
+  import { createStore } from 'redux'
+  const store = createStore(fn)
+  ```
+
+* **State** , store包含所有数据， 如果想得到**某个时点的数据**，就要生成快照 state
+
+  ```js
+  const state = store.getState()
+  ```
+
+* **Action**, state的变化会导致view的变化 , 但是用户接触不到state， 所以state变化是view导致的， Action就是view发出的通知， 标识state要发生变化. **store.dispatch**是view发出action的唯一办法
+
+  ```js
+  store.dispatch({type: 'addToDo', payload: 'some message'})
+  ```
+
+  **store.subscribe()** 设置监听函数， 一旦state发生变化， 就自动执行这个函数
+
+* **Reducer** store收到action后， 必须给出一个新state， 这样view才会发生变化。这种state计算过程就叫reducer， Reducer 是一个函数，它接受 Action 和当前 State 作为参数，返回一个新的 State
+
+  ```js
+  const reducer = function (state, action) {
+      return newState
+  }
+  ```
+
+*   **架构图**
+
+  ![redux flow](./imgs/redux.jpg)
 
 
 
