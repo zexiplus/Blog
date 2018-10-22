@@ -361,13 +361,7 @@ function clone(obj) {
 
 
 
-
-
-### 大疆科技
-
-**激极尽致，求真品诚**
-
-
+### DJI
 
 * **防止JS对象被修改**
 
@@ -504,3 +498,84 @@ function clone(obj) {
 
 
 
+### 10.18
+
+* 简单与复杂请求
+* http2
+* diff算法
+* xss, csrf防范
+* cookie设置
+
+
+
+### 10.19
+
+
+
+* **讲讲对mvvm模式的理解**
+
+  Mvvm模式广泛应用在WPF项目开发中，使用此模式可以把UI和业务逻辑分离开，使UI设计人员和业务逻辑人员能够分工明确
+
+* **讲讲至今遇到的最大困难**
+
+  what，how，why,  done，right，better
+
+* **说一下Event loop**
+
+  Event Loop是一个程序结构，用于等待和发送消息和事件.
+
+  简单说，就是在程序中设置两个线程：一个负责程序本身的运行，称为"主线程"；另一个负责主线程与其他进程（主要是各种I/O操作）的通信，被称为"Event Loop线程"（可以译为"消息线程"）
+
+* **vue-router 的 跳转实现原理**
+
+  我们都知道，单页面应用(SPA)的核心之一是: **更新视图而不重新请求页面**;vue-rouetr在实现单页面前端路由时，提供了两种方式：**Hash模式和History模式；根据mode参数来决定采用哪一种方式**。
+
+  那为什么这两种方式能够实现试图更新不跳转，其原因在于：
+
+  * **Hash模式**： 
+    ​      hash（#）是URL 的锚点，代表的是网页中的一个位置，单单改变#后的部分，浏览器只会滚动到相应位置，不会重新加载网页，使用”后退”按钮，就可以回到上一个位置；
+
+    1 $router.push() //显式调用方法
+
+    2 HashHistory.push() //（window.location.hash= XXX）
+
+    3 History.transitionTo() //开始更新
+
+    4 History.updateRoute()  //更新路由
+
+    5 {app._route= route} 
+
+    6 vm.render() //更新视图
+
+    7监听hash变化(**window.onhashchange**)
+
+  * **History模式：** 
+    ​    HTML5 History API提供了一种功能，能让开发人员在不刷新整个页面的情况下修改站点的URL，就是利用 **history.pushState** API 来完成 URL 跳转而无须重新加载页面；
+
+    * **history.replaceState**
+
+        仅仅替换浏览器的地址栏, 并不发出请求, 退后按钮无作用
+
+        `history.replaceState(null, null, 'hello');`
+
+    * **history.pushState**
+
+        url不能跨域
+
+       `history.pushState([data], [title], [url]);`
+
+        点击浏览器的后退按钮，你会发现它和你预想的效果一样。因为pushState方法将我们传给它的URL添加	
+
+        到浏览器的history中，从而改变了浏览器的history		   
+
+        ​在HTML5History的构造函数中监听popState（**window.onpopstate**）
+
+  ​	
+
+  ​	
+
+
+
+### 10.20
+
+* **web前沿技术**
