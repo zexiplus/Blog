@@ -10,7 +10,7 @@ title: 常用面试问题记录与分析
 
 ### 目录
 
-#### 
+
 
 
 
@@ -689,14 +689,69 @@ function clone(obj) {
 
 ### vue面试题
 
+* **使用什么处理ajax？ 什么是fetch？**
+
+  **axios 或 fetch**
+
+  ```js
+  fetch(url).then(res => res.data).then(...)
+  let data = await fetch(url)
+  ```
+
+* **什么是骨架屏？**
+
+  骨架屏可以理解为是当数据还未加载进来前，页面的一个空白版本，一个简单的关键渲染路径
+
+  生成骨架屏的方法：
+
+  * 手写html， css， 维护成本高， 页面改动骨架屏也需要改动
+  * 使用base64图片作为骨架屏
+  * 借助插件自动生成并插入骨架屏 vue-skeleton-webpack-plugin， page-skeleton-webpack-plugin
+
+* **什么是ssr， prerendering？**
+
+  * **ssr serverside render 服务端渲染**
+
+    **Nuxt.js** 框架可以实现服务端渲染
+
+    优势： 利于seo， 更快的内容到达时间（无需等待js下载完成）
+
+    缺点： 需要借助nodejs server， 服务器资源开销大，  受开发条件限定， 某些异步数据无法ssr。
+
+  * **prerendering 预渲染**
+
+    webpack插件 **prerender-spa-plugin** 可以达到预渲染
+
+    ```javascript
+    const path = require('path')
+    const PrerenderSPAPlugin = require('prerender-spa-plugin')
+    
+    module.exports = {
+      plugins: [
+        new PrerenderSPAPlugin({
+          staticDir: path.join(__dirname, 'dist'),
+          // Required - Routes to render.
+          routes: [ '/', '/about', '/some/deep/nested/route' ],
+        })
+      ]
+    }
+    ```
+
+
+
+    在构建时(build time)简单地生成针对特定路由的静态 HTML 文件。优点是设置预渲染更简单，并可以将你的前端作为一个完全静态的站点
+
+
 * **什么是PWA?** 
 
   Progress Web App, 提升web app的一种新方法, 能给用户原生应用的体验.
 
   pwa的特点: 
 
-  * 可靠- 即使在不稳定的网络环境下, 也能瞬间家在并展现
+  * 可靠- 即使在不稳定的网络环境下, 也能瞬间加载并展现
+
   * 体验- 快速响应, 有平滑的动画响应用户操作
+
   * 粘性- 有沉浸式的用户体验
 
 * **什么是serviceWorker?**

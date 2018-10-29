@@ -252,13 +252,20 @@ class MarkdownEditor extends React.Component {
 
   > https://github.com/facebook/create-react-app
 
+  * 下载
+
+    ```shell
+    npm i -g create-react-app
+    ```
+
   * 使用
 
     ```bash
-    # using npm
-    npm init react-app my-app
+    # by using create-react-app
+    # 会创建全新的文件夹作为顶级目录
+    create-react-app my-app
     
-    # using yarn
+    # by using yarn
     yarn create react-app my-app
     ```
 
