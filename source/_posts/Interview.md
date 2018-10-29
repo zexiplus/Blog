@@ -11,221 +11,333 @@ title: 常用面试问题记录与分析
 ### 目录
 
 
+[TOC]
+### 简历
 
+* 基本信息, 姓名-年龄-收集-邮箱-籍贯-博客-github
+* 学历
+* 工作经历, 时间-公司-岗位-职责-技术栈-业绩
+* 开源项目, github和说明
+* 兴趣, 和技术相近的兴趣
 
 
 
+### 自我介绍
 
-### 优质网站
+* 把握面试的沟通方向
+* 豁达自信适度发挥
 
-- https://blog.csdn.net/kongjiea/article/details/46341575
-- https://segmentfault.com/a/1190000000465431
-- http://www.cnblogs.com/syfwhu/p/4434132.html
 
 
 
-### 术语
 
-#### xss 和 csrf区别
+### 面试技巧
 
-- **csrf (Cross-site request forgery)** 
 
-  跨站请求伪造， 攻击者盗用了你的身份，以你的名义发送恶意请求 。
 
-  条件
+#### 面试要素
 
-  1.登录受信任网站A，并在本地生成Cookie。
+* 知识 
+* 能力 
+  * 项目把控能力, 业务分析能力, 抽象设计能力
+* 经验
 
-  2.在不登出A的情况下，访问危险网站B。
 
-  ![csfr](./imgs/csrf.jpg)
 
-- **xss （Cross-site scripting）**
+#### 面试流程
 
-  * 分类
+* 一面 基础知识, html, js, css
+* 二面 基础知识延伸, 实现原理, 简历问的比较多
+* 三面 一般不问技术, 职业生涯特色业务, 你推动了什么, 你改变了什么
+* 终面 潜力, 沟通, 性格
 
-    1.持久型（永久上传某段代码，之后的所有用户都会被攻击）
 
-    2.非持久型（让某个用户点击恶意代码片段连接，只对这个用户攻击）恶意代码注入，将恶意代码片段通过任何途径上传到服务器端，当下次用户进行访问时就会执行恶意代码
 
-  * 防御
+#### 面试准备
 
-    1.过滤用户输入，谨慎存取
-    2.对用户输入进行转码
+* 职位分析
+* 业务分析, 实战模拟
+* 技术栈准备
+* 自我介绍
 
 
 
-#### http 和 https 的区别
 
-* http默认端口80，https默认端口443
 
-* https采用ssl加密，http无加密
+### 一面
 
-* https的web服务器启用ssl需要获得一个服务器证书，并将该证书与要使用ssl的服务器绑定
+#### 基础知识
 
+* **页面布局**
 
+  * **实现一个左右宽度300,高度已知, 中间自适应的布局, 各有什么优点, 缺点, 兼容性**
 
-#### 懒加载（load on demand)
+  * **变形题: 实现一个上下高度固定, 中间高度自适应的页面**
 
-懒加载或者按需加载，是一种很好的优化网页或应用的方式。这种方式实际上是先把你的代码在一些逻辑断点处分离开，然后在一些代码块中完成某些操作后，立即引用或即将引用另外一些新的代码块
+    * 浮动, 缺点: 脱离文档流 ,带来混乱. 优点: 兼容性好
 
-```js
-// 1.webpack 使用promise和async函数实现 懒加载
+    * 绝对定位, 缺点: 脱离文档流 ,带来之后元素混乱. 优点: 兼容性好
 
-// 2.vue 使用 import 函数
-Vue.component('AsyncCmp', () => import('./AsyncCmp'))
+    * flex布局 , 优点: 其中某个单元格高度增加, 其他单元格高度也增加. 缺点: 新特性兼容性不好
 
-// 3.react 与 vue 类似
-const LoadableComponent = Loadable({
-  loader: () => import('./Dashboard'),
-  loading: Loading,
-})
+      ```css
+      .container { display: flex; } 
+      .center {flex: 1}
+      ```
 
-export default class LoadableDashboard extends React.Component {
-  render() {
-    return <LoadableComponent />;
-  }
-}
+    * table 布局, 优点: 兼容性极好, 其中某个单元格高度增加, 其他单元格高度也增加
 
-// 图片懒加载 <img> 标签不要设置src属性，放在自定义属性中，根据window.scrollTop判断图片是否出现在用户视野中，如果出现 将自定义属性中的 url 放入src属性中
-```
+      ```css
+      .container {display: table;} 
+      .left, .right, .center {display: table-cell}
+      ```
 
+    * 网格布局, 优点: 先进的
 
-
-------
-
-#### 浏览器在输入url敲回车后发生了什么
-
-* **步骤**
-
-  1.DNS域名解析；
-  2.建立TCP连接；
-  3.发送HTTP请求；
-  4.服务器处理请求；
-  5.返回响应结果；
-  6.关闭TCP连接；
-  7.浏览器解析HTML；
-  8.浏览器布局渲染；
-
-
-* **步骤详解**
-  * **建立tcp连接**
-
-![tcp三次握手](./imgs/tcp.jpg)
-
-​	
-
-* **发送http请求**​	
-
-![http-request](./imgs/http_request.jpg)
-
-* **关闭tcp连接**
-
-
-![closeLink](./imgs/closeLink.jpg)
-
-
-
-* **浏览器解析html**
-
-  浏览器需要加载解析的不仅仅是HTML，还包括CSS、JS。以及还要加载图片、视频等其他媒体资源。
-
-  浏览器通过解析HTML，生成DOM树，解析CSS，生成CSS规则树，然后通过DOM树和CSS规则树生成渲染树。渲染树与DOM树不同，渲染树中并没有head、display为none等不必显示的节点。
-
-  要注意的是，浏览器的解析过程并非是串连进行的，比如在解析CSS的同时，可以继续加载解析HTML，但在解析执行JS脚本时，会停止解析后续HTML，这就会出现阻塞问题。
-
-* **浏览器布局渲染**
-
-根据渲染树布局，计算CSS样式，即每个节点在页面中的大小和位置等几何信息。HTML默认是流式布局的，CSS和js会打破这种布局，改变DOM的外观样式以及大小和位置。这时就要提到两个重要概念：replaint和reflow。
-
-> replaint：屏幕的一部分重画，不影响整体布局，比如某个CSS的背景色变了，但元素的几何尺寸和位置不变。
-> reflow： 意味着元件的几何尺寸变了，我们需要重新验证并计算渲染树。是渲染树的一部分或全部发生了变化。这就是Reflow，或是Layout。
-
-所以我们应该尽量减少reflow和replaint，我想这也是为什么现在很少有用table布局的原因之一。
-
-最后浏览器绘制各个节点，将页面展示给用户。
-
-
-
-### 高级问题
-
-
-
-#### 分析双向数据绑定的原理，并用简单的代码实现
-
-```js
-
-function Vue(options) {
-  this.$init(options);
-}
-Vue.prototype.$init = function(options = {}) {
-  let data = this._data = options.data || {}
-  let self = this
-  let dep = new Dep()
-  // 属性代理 vm.a === vm.data.a
-  Object.keys(data).forEach((key, index) => {
-    Object.defineProperty(self, key, {
-      configurable: true,
-      enumerable: true,
-      get(){
-        return data[key]
-        dep.depend()
-      },
-      set(val) {
-        data[key] = val
-        dep.notice() 
+      ```css
+      .container {
+          display: grid;
+          width: 100%;
+          grid-template-rows: 100px;
+          grid-template-columns: 300px auto 300px;
       }
-    })
-  })
-}
+      ```
 
-function Dep() {
-  // 
-}
-Dep.prototype.notice = function() {
-  // 触发页面更新
-}
-Dep.prototype.depend = function() {
-  // 关联当前所有数据和watcher的关系
-}
+    * css计算属性
 
-let vm = new Vue({data: {a: 1, b: 2}})
+      ```css
+      .left, .right {width: 300px;}
+      .center {width: calc(100vw - 600px)}
+      ```
+
+* **css盒模型**
+
+  * 标准盒模型, ie盒模型. 包括margin, border, padding, content
+
+  * 两者差别, css如何设置
+
+  * js如何获取和设置不同盒模型的宽高
+
+    ```js
+    // 只能获取内联样式的宽高
+    el.style.width/height
+    // ie获取元素宽高
+    el.currentStyle.width/height
+    // 通用获取元素的宽和高
+    window.getComputedStyle(el).width/height
+    
+    el.getBoundingClientReact().width/height/left/right
+    ```
+
+  * **BFC 块级格式化上下文**
+
+    * **bfc渲染规则**: 
+      * 垂直方向不发生重叠 
+      *  bfc区域不会与浮动元素重叠 
+      * bfc在页面上是一个容器, 之外的元素不会影响内部元素, 内部也不影响外部元素.
+    * **bfc创建:** 
+      * float值不为none,
+      * position值不为static或relative 
+      * display: table, table-cell 
+      * overflow值不为visible
+    * **bfc使用场景**
+      * 消除边距重叠
+      * 解决浮动子元素无法撑开父元素高度
+
+* **dom事件**
+
+  * **dom事件的级别**
+
+    * dom0 
+
+      ```js
+      el.onclick = function () {}
+      ```
+
+    * dom2 
+
+      ```js
+      el.addEventListener('click', function () {}, false) // 不使用事件捕获
+      ```
+
+    * dom3 , 增加了多种事件类型, 鼠标, 键盘等
+
+      ```js
+      el.addEventListener('keyup', function () {}, false)
+      ```
+
+  * **dom事件模型**
+
+    * 捕获, 冒泡
+
+  * **dom事件流**
+
+    * 捕获阶段, 处于目标阶段, 冒泡阶段
+
+  * **dom事件捕获的具体流程**
+
+    * window , document, html(document.documentElement), body, target
+
+  * **event对象常见应用**
+
+    * 阻止默认行为 event.preventDefault() 
+    * 阻止冒泡 event.stopPropagation()
+    * 组织同一元素多个事件绑定其他事件的发生 event.stopImmediatePropagation()
+    * event.currentTarget  事件绑定的dom对象
+    * event.target 事件触发时的具体元素
+
+  * **自定义事件**
+
+    ```js
+    var ev = new Event('custom') // var ev = new CustomEvent('custom', {name: 'a'})
+    el.addEventListener('custom', function () {})
+    el.dispatchEvent(ev)
+    ```
 
 
-console.log(vm.a === vm._data.a) // 实例访问数据
-vm.a = 3
-console.log(vm._data.a)
-```
+* **http协议**
+
+  * **http协议的主要特点**
+
+    简单快速, 灵活, 无连接, 无状态
+
+  * **http报文的组成成分**
+
+    * 请求报文: 
+      * 请求行: http方法, 请求地址,http协议和版本 
+      * 请求头 一些key, value值
+      * 空行
+      * 请求体
+    * 响应报文: 
+      * 状态行
+      * 相应头
+      * 空行
+      * 响应体
+
+  * **http方法**
+
+    * get 获取资源
+    * post 传输资源
+    * put 更新资源
+    * delete 删除资源
+    * head 获得报文首部
+
+  * **post和get区别**
+
+    * get产生的url地址可被收藏, 而post不可以
+    * get请求会被浏览器主动缓存, post不会
+    * get只能url编码, 而post支持多种编码
+    * get请求的url长度有限(过长截断), 而post没有
+    * get比post更不安全, 参数通过url传递, post放在requestbody中
+
+  * **http状态码**
+
+    * 1xx: 表示请求已接收, 继续处理
+
+    * 2xx: 成功-请求已成功被接收
+      * 200 请求成功
+      * 206 部分请求成功(视频, 音频类的流文件)
+
+    * 3xx: 重定向, 要完成请求需进一步操作
+      * 301请求的页面已经永久转移到新的url
+      * 302 临时转移
+      * 304 资源为改动, 请求缓存
+    * 4xx: 客户端错误
+      * 400 请求的语法错误
+      * 401 请求未授权
+      * 403: 禁止访问
+      * 404 资源不存在
+
+    * 5xx: 服务器错误
+      * 500 服务器内部错误
+      * 503 服务器宕机或过载
+
+  * **什么是持久连接**
+
+    * 1.1版本支持持久连接,非 keep-alive 模式时, 没请求一次都要断开重新连接, 当使用connection: keep-alive时, 可持续连接
+
+  * **什么是管线化**
+
+    * 必须基于 http1.1 的持久连接, 只有get和head才可以进行管线化
+    * 请求一 -> 请求2 -> 请求3 -> 响应1 -> 响应 2....
+
+* **面向对象**
+
+  * **创建对象的几种方法**
+
+    * **对象字面亮**
+
+      ```js
+      var obj = {a: 1}
+      var obj2 = new Object({a: 1})
+      ```
+
+    * **构造函数**
+
+      ```js
+      function Car() {}
+      var obj = new Car()
+      ```
+
+    * **Object.create**
+
+      ```js
+      var proto = {a: 1}
+      var instance = Object.create(proto)
+      ```
+
+    * **Object.assign**
+
+  * **原型, 构造函数, 实例, 原型链**
+
+  * **instanceof原理**
+
+  * **new 运算符**
+
+* **原型链**
+
+* 通信
+
+* 安全
+
+* 算法
 
 
 
-#### 手动封装一个promise库，能实现基本的promise api。
+
+
+##### html
+
+* 语意化标签: section章节, article容器, nav导航, aside附加栏, header页头, main主题内容, footer页脚
+
+* 替换元素, 非替换元素 input, select, img, 这类根据标签属性的元素
+
+* 非替换元素 div, span 这类根据内容显示的元素
+
+* meta标签 
+
+  * 指定渲染引擎
+
+    ```html
+    <meta name="renderer" content="webkit">
+    ```
+
+* link标签 dns 预解析
+
+  ```html
+  <link rel="dns-prefetch" href="//static.123.com">
+  ```
+
+
+##### vue
+
+* 实际开发过程中遇到过哪些问题?
 
 
 
+##### 动画
 
-
-#### 实现深度拷贝
-
-```js
-function clone(obj) {
-    if (obj instanceof Array) {
-        let ret = []
-        obj.forEach((item, index) => {
-            ret[index] = clone(item)
-        })
-        return ret
-    } else if (obj intanceof Object) {
-        let ret = {}
-        Object.keys(ret).forEach((item, index) => {
-            ret[item] = clone(obj[item])
-        })
-        return ret
-    } else {
-        return obj
-    }
-}
-```
+实现动画的方式: 1.js控制dom动画, 2.svg动画(path), 3. canvas + css3 动画
 
 
 
@@ -257,6 +369,10 @@ function clone(obj) {
   ```
 
 * **Webpack热刷新原理** 
+
+  webpack是一个前端模块化方案，更侧重模块打包，我们可以把开发中的所有资源（图片、js文件、css文件等）都看成模块，通过loader（加载器）和plugins（插件）对资源进行处理，打包成符合生产环境部署的前端资源
+
+
 
   使用webpack-hot-middleware插件, 使用SSE(server sent events)服务器事件
 
@@ -689,6 +805,8 @@ function clone(obj) {
 
 ### vue面试题
 
+
+
 * **使用什么处理ajax？ 什么是fetch？**
 
   **axios 或 fetch**
@@ -742,6 +860,7 @@ function clone(obj) {
     在构建时(build time)简单地生成针对特定路由的静态 HTML 文件。优点是设置预渲染更简单，并可以将你的前端作为一个完全静态的站点
 
 
+* **在使用vue过程中遇到过哪些坑, 是怎么解决的?**
 * **什么是PWA?** 
 
   Progress Web App, 提升web app的一种新方法, 能给用户原生应用的体验.
@@ -818,6 +937,225 @@ function clone(obj) {
 * **什么是 workbox?**
 
   google提出的web app 静态资源本地存储方案, 该解决方案, 包含一些js库和构建工具.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 优质网站
+
+- https://blog.csdn.net/kongjiea/article/details/46341575
+- https://segmentfault.com/a/1190000000465431
+- http://www.cnblogs.com/syfwhu/p/4434132.html
+
+
+
+### 术语
+
+#### xss 和 csrf区别
+
+- **csrf (Cross-site request forgery)** 
+
+  跨站请求伪造， 攻击者盗用了你的身份，以你的名义发送恶意请求 。
+
+  条件
+
+  1.登录受信任网站A，并在本地生成Cookie。
+
+  2.在不登出A的情况下，访问危险网站B。
+
+  ![csfr](/Users/float/Desktop/GitHub/blog/source/_posts/imgs/csrf.jpg)
+
+- **xss （Cross-site scripting）**
+
+  - 分类
+
+    1.持久型（永久上传某段代码，之后的所有用户都会被攻击）
+
+    2.非持久型（让某个用户点击恶意代码片段连接，只对这个用户攻击）恶意代码注入，将恶意代码片段通过任何途径上传到服务器端，当下次用户进行访问时就会执行恶意代码
+
+  - 防御
+
+    1.过滤用户输入，谨慎存取
+    2.对用户输入进行转码
+
+
+
+#### http 和 https 的区别
+
+- http默认端口80，https默认端口443
+- https采用ssl加密，http无加密
+- https的web服务器启用ssl需要获得一个服务器证书，并将该证书与要使用ssl的服务器绑定
+
+
+
+#### 懒加载（load on demand)
+
+懒加载或者按需加载，是一种很好的优化网页或应用的方式。这种方式实际上是先把你的代码在一些逻辑断点处分离开，然后在一些代码块中完成某些操作后，立即引用或即将引用另外一些新的代码块
+
+```js
+// 1.webpack 使用promise和async函数实现 懒加载
+
+// 2.vue 使用 import 函数
+Vue.component('AsyncCmp', () => import('./AsyncCmp'))
+
+// 3.react 与 vue 类似
+const LoadableComponent = Loadable({
+  loader: () => import('./Dashboard'),
+  loading: Loading,
+})
+
+export default class LoadableDashboard extends React.Component {
+  render() {
+    return <LoadableComponent />;
+  }
+}
+
+// 图片懒加载 <img> 标签不要设置src属性，放在自定义属性中，根据window.scrollTop判断图片是否出现在用户视野中，如果出现 将自定义属性中的 url 放入src属性中
+```
+
+
+
+------
+
+#### 浏览器在输入url敲回车后发生了什么
+
+- **步骤**
+
+  1.DNS域名解析；
+  2.建立TCP连接；
+  3.发送HTTP请求；
+  4.服务器处理请求；
+  5.返回响应结果；
+  6.关闭TCP连接；
+  7.浏览器解析HTML；
+  8.浏览器布局渲染；
+
+- **步骤详解**
+
+  - **建立tcp连接**
+
+![tcp三次握手](./imgs/tcp.jpg)
+
+​	
+
+- **发送http请求**​	
+
+![http-request](./imgs/http_request.jpg)
+
+- **关闭tcp连接**
+
+![closeLink](./imgs/closeLink.jpg)
+
+
+
+- **浏览器解析html**
+
+  浏览器需要加载解析的不仅仅是HTML，还包括CSS、JS。以及还要加载图片、视频等其他媒体资源。
+
+  浏览器通过解析HTML，生成DOM树，解析CSS，生成CSS规则树，然后通过DOM树和CSS规则树生成渲染树。渲染树与DOM树不同，渲染树中并没有head、display为none等不必显示的节点。
+
+  要注意的是，浏览器的解析过程并非是串连进行的，比如在解析CSS的同时，可以继续加载解析HTML，但在解析执行JS脚本时，会停止解析后续HTML，这就会出现阻塞问题。
+
+- **浏览器布局渲染**
+
+根据渲染树布局，计算CSS样式，即每个节点在页面中的大小和位置等几何信息。HTML默认是流式布局的，CSS和js会打破这种布局，改变DOM的外观样式以及大小和位置。这时就要提到两个重要概念：replaint和reflow。
+
+> replaint：屏幕的一部分重画，不影响整体布局，比如某个CSS的背景色变了，但元素的几何尺寸和位置不变。
+> reflow： 意味着元件的几何尺寸变了，我们需要重新验证并计算渲染树。是渲染树的一部分或全部发生了变化。这就是Reflow，或是Layout。
+
+所以我们应该尽量减少reflow和replaint，我想这也是为什么现在很少有用table布局的原因之一。
+
+最后浏览器绘制各个节点，将页面展示给用户。
+
+
+
+### 高级问题
+
+
+
+#### 分析双向数据绑定的原理，并用简单的代码实现
+
+```js
+function Vue(options) {
+  this.$init(options);
+}
+Vue.prototype.$init = function(options = {}) {
+  let data = this._data = options.data || {}
+  let self = this
+  let dep = new Dep()
+  // 属性代理 vm.a === vm.data.a
+  Object.keys(data).forEach((key, index) => {
+    Object.defineProperty(self, key, {
+      configurable: true,
+      enumerable: true,
+      get(){
+        return data[key]
+        dep.depend()
+      },
+      set(val) {
+        data[key] = val
+        dep.notice() 
+      }
+    })
+  })
+}
+
+function Dep() {
+  // 
+}
+Dep.prototype.notice = function() {
+  // 触发页面更新
+}
+Dep.prototype.depend = function() {
+  // 关联当前所有数据和watcher的关系
+}
+
+let vm = new Vue({data: {a: 1, b: 2}})
+
+
+console.log(vm.a === vm._data.a) // 实例访问数据
+vm.a = 3
+console.log(vm._data.a)
+```
+
+
+
+#### 手动封装一个promise库，能实现基本的promise api。
+
+
+
+
+
+#### 实现深度拷贝
+
+```js
+function clone(obj) {
+    if (obj instanceof Array) {
+        let ret = []
+        obj.forEach((item, index) => {
+            ret[index] = clone(item)
+        })
+        return ret
+    } else if (obj intanceof Object) {
+        let ret = {}
+        Object.keys(ret).forEach((item, index) => {
+            ret[item] = clone(obj[item])
+        })
+        return ret
+    } else {
+        return obj
+    }
+}
+```
 
 
 
