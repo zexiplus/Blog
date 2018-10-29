@@ -43,6 +43,9 @@ npm config list
 # 设置npm配置npm install 全局安装路径
 npm config set prefix /usr/local/node_modules
 
+# 快速初始化项目
+npm init -y
+
 # 检查node代码
 node inspect myscript.js
 
