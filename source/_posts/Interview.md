@@ -68,81 +68,90 @@ title: 常用面试问题记录与分析
 
 #### 基础知识
 
-* **页面布局**
 
-  * **实现一个左右宽度300,高度已知, 中间自适应的布局, 各有什么优点, 缺点, 兼容性**
 
-  * **变形题: 实现一个上下高度固定, 中间高度自适应的页面**
+##### 页面布局
 
-    * 浮动, 缺点: 脱离文档流 ,带来混乱. 优点: 兼容性好
+* **实现一个左右宽度300,高度已知, 中间自适应的布局, 各有什么优点, 缺点, 兼容性**
 
-    * 绝对定位, 缺点: 脱离文档流 ,带来之后元素混乱. 优点: 兼容性好
+* **变形题: 实现一个上下高度固定, 中间高度自适应的页面**
 
-    * flex布局 , 优点: 其中某个单元格高度增加, 其他单元格高度也增加. 缺点: 新特性兼容性不好
+  * 浮动, 缺点: 脱离文档流 ,带来混乱. 优点: 兼容性好
 
-      ```css
-      .container { display: flex; } 
-      .center {flex: 1}
-      ```
+  * 绝对定位, 缺点: 脱离文档流 ,带来之后元素混乱. 优点: 兼容性好
 
-    * table 布局, 优点: 兼容性极好, 其中某个单元格高度增加, 其他单元格高度也增加
+  * flex布局 , 优点: 其中某个单元格高度增加, 其他单元格高度也增加. 缺点: 新特性兼容性不好
 
-      ```css
-      .container {display: table;} 
-      .left, .right, .center {display: table-cell}
-      ```
-
-    * 网格布局, 优点: 先进的
-
-      ```css
-      .container {
-          display: grid;
-          width: 100%;
-          grid-template-rows: 100px;
-          grid-template-columns: 300px auto 300px;
-      }
-      ```
-
-    * css计算属性
-
-      ```css
-      .left, .right {width: 300px;}
-      .center {width: calc(100vw - 600px)}
-      ```
-
-* **css盒模型**
-
-  * 标准盒模型, ie盒模型. 包括margin, border, padding, content
-
-  * 两者差别:计算宽度不同, css如何设置box-sizing: border-box/content-box;
-
-  * js如何获取和设置不同盒模型的宽高
-
-    ```js
-    // 只能获取内联样式的宽高
-    el.style.width/height
-    // ie获取元素宽高
-    el.currentStyle.width/height
-    // 通用获取元素的宽和高
-    window.getComputedStyle(el).width/height
-    
-    el.getBoundingClientReact().width/height/left/right
+    ```css
+    .container { display: flex; } 
+    .center {flex: 1}
     ```
 
-  * **BFC 块级格式化上下文**
+  * table 布局, 优点: 兼容性极好, 其中某个单元格高度增加, 其他单元格高度也增加
 
-    * **bfc渲染规则**: 
-      * 垂直方向不发生重叠 
-      *  bfc区域不会与浮动元素重叠 
-      * bfc在页面上是一个容器, 之外的元素不会影响内部元素, 内部也不影响外部元素.
-    * **bfc创建:** 
-      * float值不为none,
-      * position值不为static或relative 
-      * display: table, table-cell 
-      * overflow值不为visible
-    * **bfc使用场景**
-      * 消除边距重叠
-      * 解决浮动子元素无法撑开父元素高度
+    ```css
+    .container {display: table;} 
+    .left, .right, .center {display: table-cell}
+    ```
+
+  * 网格布局, 优点: 先进的
+
+    ```css
+    .container {
+        display: grid;
+        width: 100%;
+        grid-template-rows: 100px;
+        grid-template-columns: 300px auto 300px;
+    }
+    ```
+
+  * css计算属性
+
+    ```css
+    .left, .right {width: 300px;}
+    .center {width: calc(100vw - 600px)}
+    ```
+
+
+
+##### css盒模型
+
+* 标准盒模型, ie盒模型. 包括margin, border, padding, content
+
+* 两者差别:计算宽度不同, css如何设置box-sizing: border-box/content-box;
+
+* js如何获取和设置不同盒模型的宽高
+
+  ```js
+  // 只能获取内联样式的宽高
+  el.style.width/height
+  // ie获取元素宽高
+  el.currentStyle.width/height
+  // 通用获取元素的宽和高
+  window.getComputedStyle(el).width/height
+  
+  el.getBoundingClientReact().width/height/left/right
+  ```
+
+
+
+
+##### BFC 块级格式化上下文
+
+* **bfc渲染规则**: 
+  * 垂直方向不发生重叠 
+  *  bfc区域不会与浮动元素重叠 
+  * bfc在页面上是一个容器, 之外的元素不会影响内部元素, 内部也不影响外部元素.
+* **bfc创建:** 
+  * float值不为none,
+  * position值不为static或relative 
+  * display: table, table-cell 
+  * overflow值不为visible
+* **bfc使用场景**
+  * 消除边距重叠
+  * 解决浮动子元素无法撑开父元素高度
+
+
 
 * **dom事件**
 
@@ -195,117 +204,528 @@ title: 常用面试问题记录与分析
     ```
 
 
-* **http协议**
 
-  * **http协议的主要特点**
+##### http协议
 
-    简单快速, 灵活, 无连接, 无状态
+* **http协议的主要特点**
 
-  * **http报文的组成成分**
+  简单快速, 灵活, 无连接, 无状态
 
+* **http报文的组成成分**
     * 请求报文: 
-      * 请求行: http方法,http协议和版本 
-      * 请求头 一些key, value值
-      * 空行
-      * 请求体
-    * 响应报文: 
-      * 状态行
-      * 相应头
-      * 空行
-      * 响应体
+      - 请求行: http方法, 请求地址,http协议和版本 
+      - 请求头 一些key, value值
+      - 空行
+      - 请求体
+  * 响应报文: 
+    - 状态行
+    - 相应头
+    - 空行
+    - 响应体
+* **http方法**
 
-  * **http方法**
+  * get 获取资源
+  * post 传输资源
+  * put 更新资源
+  * delete 删除资源
+  * head 获得报文首部
 
-    * get 获取资源
-    * post 传输资源
-    * put 更新资源
-    * delete 删除资源
-    * head 获得报文首部
+* **post和get区别**
 
-  * **post和get区别**
+  * get产生的url地址可被收藏, 而post不可以
+  * get请求会被浏览器主动缓存, post不会
+  * get只能url编码, 而post支持多种编码
+  * get请求的url长度有限(过长截断), 而post没有
+  * get比post更不安全, 参数通过url传递, post放在requestbody中
 
-    * get产生的url地址可被收藏, 而post不可以
-    * 浏览器退后按钮对get安全， 对post会重复提交
-    * get请求会被浏览器主动缓存, post不会
-    * get只能url编码, 而post支持多种编码
-    * get请求的url长度有限(过长截断), 而post没有
-    * get比post更不安全, 参数通过url传递, post放在requestbody中
+* **http状态码**
 
-  * **http状态码**
+  * 1xx: 表示请求已接收, 继续处理
 
-    * 1xx: 表示请求已接收, 继续处理
+  * 2xx: 成功-请求已成功被接收
+    * 200 请求成功
+    * 206 部分请求成功(视频, 音频类的流文件)
 
-    * 2xx: 成功-请求已成功被接收
-      * 200 请求成功
-      * 206 部分请求成功(视频, 音频类的流文件)
+  * 3xx: 重定向, 要完成请求需进一步操作
+    * 301请求的页面已经永久转移到新的url
+    * 302 临时转移
+    * 304 资源为改动, 请求缓存
+  * 4xx: 客户端错误
+    * 400 请求的语法错误
+    * 401 请求未授权
+    * 403: 禁止访问
+    * 404 资源不存在
 
-    * 3xx: 重定向, 要完成请求需进一步操作
-      * 301请求的页面已经永久转移到新的url
-      * 302 临时转移
-      * 304 资源为改动, 请求缓存
-    * 4xx: 客户端错误
-      * 400 请求的语法错误
-      * 401 请求未授权
-      * 403: 禁止访问
-      * 404 资源不存在
+  * 5xx: 服务器错误
+    * 500 服务器内部错误
+    * 503 服务器宕机或过载
 
-    * 5xx: 服务器错误
-      * 500 服务器内部错误
-      * 503 服务器宕机或过载
+* **什么是持久连接**
 
-  * **什么是持久连接**
+  * 1.1版本支持持久连接,非 keep-alive 模式时, 没请求一次都要断开重新连接, 当使用connection: keep-alive时, 可持续连接,必须基于 http1.1 的持久连接, 只有get和head才可以进行管线化
 
-    * 1.1版本支持持久连接,非 keep-alive 模式时, 没请求一次都要断开重新连接, 当使用connection: keep-alive时, 可持续连接
+* **什么是管线化**
+  * 管线化：请求1 -> 请求2 -> 请求3 -> 响应1 -> 响应 2....
+  * 非管线化： 请求1 -> 响应1 -> 请求2 -> 响应2 -
 
-  * **什么是管线化**
 
-    * 必须基于 http1.1 的持久连接, 只有get和head才可以进行管线化
-    * 管线化：请求1 -> 请求2 -> 请求3 -> 响应1 -> 响应 2....
-    * 非管线化： 请求1 -> 响应1 -> 请求2 -> 响应2 -> .
+##### 面向对象
 
-* **面向对象**
 
-  * **创建对象的几种方法**
+* **类的声明, 生成实例**
 
-    * **对象字面亮**
+
+  * 构造函数方式
+
+    ```js
+    function Animal(name) {this.name = name}
+    ```
+
+  * class关键字
+
+    ```js
+    class Animal {
+        constructor (name) {
+            this.name = name
+        }
+    }
+    ```
+
+  * 实例化
+
+    ```js
+    new Animal()
+    ```
+
+* **如何实现继承, 继承的几种方式**
+
+
+  * **借助构造函数实现继承**
+
+    缺点: 不能继承原型对象上的属性和方法
+
+    ```js
+    function Parent1() {
+        this.name = 'parent'
+    }
+    // 不会继承原型链上的属性
+    Parent1.prototype.say = function () {
+        return this.name
+    }
+    function Child1() {
+        // 关键: 借助构造函数
+        Parent1.call(this);
+        this.type = 'child'
+    }
+    new Child1().say() // 没有此方法,报错 error
+    ```
+
+  * **借助原型链实现的继承**
+
+    缺点: 共享原型对象属性, 导致不同实例上对原型对象上属性的修改,对互相产生影响
+
+    ```js
+    function Parent2() {
+        this.name = 'parent'
+        this.arr = [1,2,3,4]
+    }
+    
+    function Child2() {
+        this.type = 'child'
+    }
+    // 关键: 借助原型链
+    Child2.prototype = new Parent2
+    
+    var child = new Child()
+    var child2 = new Child()
+    console.log(child.constructor) // Parent2
+    
+    child.arr.push(5)
+    console.log(child2.arr) // 共享原型属性 [1,2,3,4,5]
+    ```
+
+  * **组合式继承**
+
+    缺点: 父类调用两次
+
+    ```js
+    function Parent3() {
+        this.name = 'parent'
+    }
+    
+    function Child3() {
+        Parent3.call(this)
+        this.type = 'child'
+    }
+    
+    Child3.prototype = new Parent3()
+    
+    // 优化1: 组合继承(父类只调用一次), 缺点: constructor无法正确指向
+    Child3.prototype = Parent3.prototype
+    
+    // 优化2: 组合继承(父类只调用一次), constructor也能正确指向
+    Child3.prototype = Object.create(Parent3.prototype)
+    Child3.prototype.constructor = Child3
+    ```
+
+  * **寄生式继承**
+
+    缺点: 子类原型对象无法继承
+
+    ```js
+    function Parent4() {
+        this.name = 'parent4'
+    }
+    
+    function Child() {
+        var obj = new Parent4
+        obj.type = 'child'
+        return obj
+    }
+    ```
+
+
+
+
+##### 原型链
+
+* **创建对象的几种方法**
+
+  * **对象字面亮**
+
+    ```js
+    var obj = {a: 1}
+    var obj2 = new Object({a: 1})
+    ```
+
+  * **构造函数**
+
+    ```js
+    function Car() {}
+    var obj = new Car()
+    ```
+
+  * **Object.create**
+
+    ```js
+    var proto = {a: 1}
+    var instance = Object.create(proto)
+    ```
+
+  * **Object.assign**
+
+* **原型, 构造函数, 实例, 原型链**
+
+* **instanceof原理, constructor**
+
+* **new 运算符**
+
+  * 会创建一个object 然后把此object的原型链链接到构造函数的prototype对象上
+  * 执行构造函数, 把this绑定到此对象上
+  * 如果此函数没有反回对象, 那么new运算符的结果就是此对象
+
+
+
+##### 通信
+
+* **什么是同源策略即限制**
+
+  源: 协议, 域名, 端口
+
+  同源策略限制从一个源加载的文档或脚本如何与来自另一个源的资源进行交互.这是一个隔离潜在恶意文件的安全机制.
+
+  具体限制: cookie, localStorage 和 indexDB 无法读取, dom无法获得, ajax无法发送
+
+* **前后端如何通讯**
+
+  * ajax (fetch)
+
+  * websocket 支持跨域
+
+  * cors 
+
+* **如何创建ajax(兼容性)**
+
+  XMLHttpRequest, ActiveXObject
+
+  ```js
+  var xhr = new XMLHttpRequest()
+  xhr.open('post', url, ture) // 参数3: 是否为异步请求
+  xhr.onload = function() {
+      if ([200, 304, 206].includes(xhr.status)) {
+          
+      }
+  }
+  // or onreadystatechange(0未打开,1未发送,2已获取相应头,3正在下载响应体,4请求完成)
+  xhr.send(data)
+  ```
+
+* **跨域通讯的几种方式**,
+
+  浏览器回自动拦截跨域ajax, 并添加origin发送跨域通信
+
+  * **jsonp**
+
+    利用script标签的跨域加载
+
+    ```html
+    <script src="https://abc.com/js/?data=123&callback=jsonp"></script>
+    <script>
+        jsonp({
+            data: {}
+        })
+    </script>
+    ```
+
+    js发送jsonp
+
+    ```js
+    var script = docuement.createElement('script')
+    script.insertBefore(document.body)
+    script.onload = function () {
+    	callback()
+    }
+    ```
+
+  * **hash**
+
+    利用window.onhashchange
+
+    ```js
+    var iframe = document.createElement('iframe')
+    iframe.src = 'http://123.com#6778'
+    
+    // 123.com
+    window.onhashchange = function () {
+        var data = window.location.hash
+    }
+    ```
+
+  * **postMessage**
+
+    ```js
+    var win = window.open('a.com')
+    win.postMessage('data')
+    
+    // a.com
+    window.addEventListener('message', function (event) {
+        console.log(event.origin, event.source, event.data)
+    })
+    ```
+
+  * **webSocket**
+
+    ```js
+    var ws = new WebSocket('wss://echo.websocket.org')
+    ws.onopen = function () {}
+    ws.onmessage = function (event) {console.log(event.data)}
+    ws.onclose = function () {}
+    ```
+
+  * **cors(跨域的ajax)**
+
+    利用fetch api
+
+    ```js
+    // 进行一些跨域配置
+    fetch('/some/url', {
+        method: 'get'
+    }).then(() => {
+        
+    }).catch(err => {
+        
+    })
+    ```
+
+
+##### 安全
+
+* **csrf (跨站请求伪造)**
+
+  * 在用户注册过的网站A登录过, 并下发cookie
+  * 在恶意网站诱导用户点击网站A的链接(接口存在漏洞)
+
+  防御: 
+
+  * token验证
+  * referer验证, 请求是否从可信站点发起
+  * session验证
+  * 令牌
+
+* **xss(跨域脚本攻击)**
+
+  * 向页面注入脚本
+
+  防御:
+
+  * 过滤用户输入
+
+##### 算法
+
+* 排序
+  * 快速排序
+  * 选择排序
+  * 希尔排序
+  * 冒泡排序
+* 堆栈, 队列, 链表
+* 递归
+* 波兰式和逆波兰式
+
+
+
+
+
+### 二面
+
+#### 渲染机制
+
+* **doctype及作用**
+
+  * DTD文档类型定义, 浏览器使用它来判断文档类型, 决定使用何种协议来解析和切换浏览器模式
+  * doctype是用来声明文档类型和dtd规范的
+
+  文档类型
+
+  * html5, 
+  * html4.01strict模式, 包含所有html元素属性,**不包含**展示性和弃用的元素(比如front)
+  *  html4.01传统模式 包含所有html元素属性, 也**包含**弃用元素
+
+* **浏览器的渲染过程**
+
+  * html - html parse 解析- **dom tree**
+  * style - css parse 规则解析 - **style-rules**
+  * style rules 和 **dom tree** 整合, 变为 **render tree**(渲染树), 浏览器**layout**, 绘制页面(**painting**)
+
+* **重排reflow**
+
+  dom 中每个元素都有自己的盒子, 这些都需要浏览器计算放到他们应有的**位置**, 此过程重排**reflow**
+
+  **触发reflow**
+
+  * 增加, 删除, 修改dom节点时
+
+  * 移动dom的位置
+
+  * 修改css样式的时候(宽高,display)
+
+  * resize窗口的时候
+
+  * 修改网页默认字体
+
+* **重绘repaint**
+
+  dom位置, 大小确定后, 展现在屏幕上的过程称为repaint
+
+  **触发repaint**
+
+  * dom改动
+
+  * css改动
+
+  **减少repaint次数方法**
+
+  使用 **createDocumentFregment**创建节点, 一次性加入页面
+
+
+#### js运行机制
+
+* **什么是单线程?**
+
+  javascript同一时间只能做一件事情
+
+* **什么是任务队列?**
+
+  js分为同步任务和异步任务, 同步任务在主线程(执行栈)执行, 当主线程没有任务可以执行时, 异步任务从异步队列中取出执行
+
+  * 同步任务
+    * console, if, while, 
+  * 异步任务
+    * setTimeout, setInterval,dom事件, promise
+
+* **什么是event loop?**
+
+  Event Loop 是一个很重要的概念，指的是计算机系统的一种运行机制, **Event Loop是一个程序结构，用于等待和发送消息和事件**
+
+#### 页面性能
+
+* **提升页面性能的方法?**
+
+  * 资源压缩合并, 减少http请求
+
+  * 非核心代码异步加载 -- 异步加载的方式 -- 异步加载的区别
+
+    异步加载的方式
+
+    * 动态创建脚本  createElement('script') 
+    * defer 是在**html解析完之后(domContentLoaded事件)**才会执行, 如果多个, 按照顺序依次执行
+    * async 是在**加载完之后立即执行**, 如果是多个, 和声明顺序**无关**
+
+  * 利用浏览器**缓存** -- 缓存的分类 -- 缓存的原理
+
+    分类
+
+    * 强缓存: 不问直接用两者都有以cache-control为准
+      * Expires   `Expires: Thu 21 Jan 2018 ..`(以服务器的绝对时间为准)
+      * Cache-Control    `Catch-Control: max-age=3600`(以客户端拿到文件3600秒为止)
+    * 协商缓存: 不确定是否使用, 先和服务器沟通再决定是否使用
+      * Last-Modified 
+      * Etag
+      * if-None-matchd
+
+  * 使用cdn
+
+  * dns预解析
+
+    ```html
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <link rel="dns-prefetch" href="//host_name_to_prefetch.com">
+    ```
+
+
+#### 错误监控
+
+* **前端错误分类**
+
+  * 及试运行错误(代码错误)
+
+    * try ... catch
+    * window.onerror(只能捕获及时运行错误, 不能捕获资源错误)
+
+  * 资源加载错误(不会冒泡, 但会冒泡)
+
+    * object.onerror
+
+    * **performance.getEntries(),** 返回一个数组, 内含有成功加载的资源. 
+
+    * Error事件捕获
 
       ```js
-      var obj = {a: 1}
-      var obj2 = new Object({a: 1})
+      window.addEventListener('error', function (e) {
+          console.log(e)
+      }, true)
+      
+      throw new Error
       ```
 
-    * **构造函数**
-
-      ```js
-      function Car() {}
-      var obj = new Car()
-      ```
-
-    * **Object.create**
-
-      ```js
-      var proto = {a: 1}
-      var instance = Object.create(proto)
-      ```
-
-    * **Object.assign**
-
-  * **原型, 构造函数, 实例, 原型链**
-
-  * **instanceof原理**
-
-  * **new 运算符**
-
-* **原型链**
-
-* 通信
-
-* 安全
-
-* 算法
+* **错误的捕获方式(如何保证产品质量)**
 
 
+* **跨域js文件错误处理**
 
+  * 客户端script增加crossorigin属性
+
+  * 服务端资源响应增加Access-Control-Allow-Origin: *
+
+
+* **上报错误的基本原理**
+
+  * 采用Ajax通信的方式上报
+
+  * 利用Image对象上报
+
+    ```js
+    new Image().src = 'http://error.com/test?error=123'
+    ```
 
 
 ##### html
@@ -506,37 +926,7 @@ js的下载和执行会阻塞之后所有资源的下载
   * **销毁&清理期**
     - componentWillUnmount
 
-* **js的继承机制**
 
-  * **原型继承**
-
-  * **类式继承(借用构造函数)**
-
-    ```js
-    function Sup() {
-        this.name = 'Sup'
-    }
-    
-    function Sub() {
-        Sub.call(this)
-    }
-    ```
-
-  * **混合继承(同时包含原型继承和类式继承)**
-
-  * **实例继承(寄生式继承)**
-
-    ```js
-    function Sup() {
-        this.name = 'Sup'
-    }
-    
-    function Sub() {
-        var obj = new Sup()
-        obj.name = 'Sub'
-        return obj
-    }
-    ```
 
   * **寄生组合式继承**
 
@@ -547,6 +937,7 @@ js的下载和执行会阻塞之后所有资源的下载
         subType.prototype = prototype
     }
     ```
+
 
 
 
