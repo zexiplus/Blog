@@ -650,9 +650,9 @@ title: 常用面试问题记录与分析
 
 * **提升页面性能的方法?**
 
-  * 资源压缩合并, 减少http请求
+  * **资源压缩合并, 减少http请求**
 
-  * 非核心代码异步加载 -- 异步加载的方式 -- 异步加载的区别
+  * **非核心代码异步加载 -- 异步加载的方式 -- 异步加载的区别**
 
     异步加载的方式
 
@@ -672,9 +672,9 @@ title: 常用面试问题记录与分析
       * Etag
       * if-None-matchd
 
-  * 使用cdn
+  * **使用cdn**
 
-  * dns预解析
+  * **dns预解析**
 
     ```html
     <meta http-equiv="x-dns-prefetch-control" content="on">
@@ -686,12 +686,12 @@ title: 常用面试问题记录与分析
 
 * **前端错误分类**
 
-  * 及试运行错误(代码错误)
+  * **及时运行错误(代码错误)**
 
     * try ... catch
     * window.onerror(只能捕获及时运行错误, 不能捕获资源错误)
 
-  * 资源加载错误(不会冒泡, 但会冒泡)
+  * **资源加载错误(不会冒泡, 但会捕获)**
 
     * object.onerror
 
@@ -712,9 +712,11 @@ title: 常用面试问题记录与分析
 
 * **跨域js文件错误处理**
 
-  * 客户端script增加crossorigin属性
+  * 客户端script增加**crossorigin属性**
 
-  * 服务端资源响应增加Access-Control-Allow-Origin: *
+  * 服务端资源响应增加**Access-Control-Allow-Origin: ***
+
+    如果没有上述两个设置， 跨域js不会报错
 
 
 * **上报错误的基本原理**
@@ -726,6 +728,13 @@ title: 常用面试问题记录与分析
     ```js
     new Image().src = 'http://error.com/test?error=123'
     ```
+
+
+
+
+
+
+
 
 
 ##### html
