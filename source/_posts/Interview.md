@@ -114,7 +114,7 @@ title: 常用面试问题记录与分析
 
   * 标准盒模型, ie盒模型. 包括margin, border, padding, content
 
-  * 两者差别, css如何设置
+  * 两者差别:计算宽度不同, css如何设置box-sizing: border-box/content-box;
 
   * js如何获取和设置不同盒模型的宽高
 
@@ -204,7 +204,7 @@ title: 常用面试问题记录与分析
   * **http报文的组成成分**
 
     * 请求报文: 
-      * 请求行: http方法, 请求地址,http协议和版本 
+      * 请求行: http方法,http协议和版本 
       * 请求头 一些key, value值
       * 空行
       * 请求体
@@ -225,6 +225,7 @@ title: 常用面试问题记录与分析
   * **post和get区别**
 
     * get产生的url地址可被收藏, 而post不可以
+    * 浏览器退后按钮对get安全， 对post会重复提交
     * get请求会被浏览器主动缓存, post不会
     * get只能url编码, 而post支持多种编码
     * get请求的url长度有限(过长截断), 而post没有
@@ -259,7 +260,8 @@ title: 常用面试问题记录与分析
   * **什么是管线化**
 
     * 必须基于 http1.1 的持久连接, 只有get和head才可以进行管线化
-    * 请求一 -> 请求2 -> 请求3 -> 响应1 -> 响应 2....
+    * 管线化：请求1 -> 请求2 -> 请求3 -> 响应1 -> 响应 2....
+    * 非管线化： 请求1 -> 响应1 -> 请求2 -> 响应2 -> .
 
 * **面向对象**
 
@@ -310,9 +312,9 @@ title: 常用面试问题记录与分析
 
 * 语意化标签: section章节, article容器, nav导航, aside附加栏, header页头, main主题内容, footer页脚
 
-* 替换元素, 非替换元素 input, select, img, 这类根据标签属性的元素
+* 替换元素： input, select, img, 这类根据标签属性的元素
 
-* 非替换元素 div, span 这类根据内容显示的元素
+* 非替换元素： div, span 这类根据内容显示的元素
 
 * meta标签 
 
@@ -329,15 +331,80 @@ title: 常用面试问题记录与分析
   ```
 
 
+
+##### 阻塞
+
+js的下载和执行会阻塞之后所有资源的下载
+
+当css外部样式表后面跟着js资源之前时会阻塞
+
+
+
 ##### vue
 
+* vue是什么？ 有哪些特性？
+
+  vuejs是一套基于mvvm思想的， 构建用户界面的框架。vue在设计上着重关心视图层， 特点有双向数据绑定， vue后缀的单文件组件， 低耦合， 可复用性强， 独立开发， 可测试性， 2.0支持virtualdom
+
 * 实际开发过程中遇到过哪些问题?
+
+  * v-show 的上传文件后页面缓存问题， 使用v-if 解决
+
+  * 因为对父子组件生命周期顺序不了解产生的数据拿不到，和页面视图不更新的问题
+
+    ```js
+    父beforeCreate->父created->父beforeMount->子beforeCreate->子created->子beforeMount->子mounted->父mounted
+    ```
+
+  * 使用vue-router的路由守卫beforeEach和meta字段实现权限控制和伪登录检测， 不再每个页面中单独实现
+
+  * 浏览器无法记录用户历史浏览的位置， 本来是用store记录位置， 后来使用scrollBehavior来做
+
+  * 数据更新而页面却没更新， 响应式没有理解到位， 使用Vue.set()更新数据
+
+  * style标签不添加scope属性影响其他页面内容， 增加scope属性
+
+  * 页面白屏问题， 在已定义了<teamplate>标签后又在里面写了空的template
+
+  * 首屏加载速度太慢， 采用异步加载机制
+
+  * watch 属性的监控改变使页面卡死， watch不能修改自身
+
+  * v-for没有增加key属性导致页面的效率变低
+
+* **vuex 包含哪些？**
+
+  * state， 包含应用的所有状态, 分别有getters， setters用于获取，设置状态
+
+    ```js
+    var s = this.$store.state.a
+    ```
+
+  * mutations 更改state的唯一方式， 同步的
+
+    ```js
+    this.$store.commit('mutationName', params)
+    ```
+
+  * action 提交mutations , 可包含异步操作
+
+    ```js
+    this.$store.dispatch('actionName')
+    ```
+
+* **vue和react的区别**
+
+  react是基于virtualDOM的， 一种在内存中描述dom的数据结构。react的数据通常被看作不可变的， 而dom更新则是通过virtual dom的diff算法来计算的。
+
+  vue的数据默认是可变的， 通过Object.defineProperty()监控数据， 数据变更会触发dom更新， vue作用于实际dom， 并对真实节点的引用实现双向数据绑定。
 
 
 
 ##### 动画
 
 实现动画的方式: 1.js控制dom动画, 2.svg动画(path), 3. canvas + css3 动画
+
+使用硬件加速优化页面性能， 默认transform， transition 不使用3d加速， 但transform3d使用3d加速
 
 
 
@@ -362,42 +429,42 @@ title: 常用面试问题记录与分析
 
   ```css
   span {
-      .color: #ccc\9; /*ie 6,7,8 */
+      color: #ccc\9; /*ie 6,7,8 */
       +color: #000; /* ie 6,7 only  */
       _color: #777; /* ie6 only */
   }
   ```
 
-* **Webpack热刷新原理** 
+* **Webpack是什么**
 
   webpack是一个前端模块化方案，更侧重模块打包，我们可以把开发中的所有资源（图片、js文件、css文件等）都看成模块，通过loader（加载器）和plugins（插件）对资源进行处理，打包成符合生产环境部署的前端资源
 
-
+* **Webpack热刷新原理** 
 
   使用webpack-hot-middleware插件, 使用SSE(server sent events)服务器事件
 
   ```js
-  // client
-  var listener = new EventSource('/message')
-  listener.onmessage = function (e) {
-      console.log(e.data)
-  }
-  
-  // server
-  http.createServer(function (req, res) {
-      if (req.url == '/message') {
-          res.writeHead(200, {
-              'Content-Type': 'text/event-stream',
-              'Cache-Control': 'no-cache',
-              'Connection': 'keep-alive'
-          })
-          var i = 0
-          setInterval(function() {
-              i ++
-              res.write('update')
-          }, 1000)
-      }
-  }).listen(3000)
+    // client
+    var listener = new EventSource('/message')
+    listener.onmessage = function (e) {
+        console.log(e.data)
+    }
+    
+    // server
+    http.createServer(function (req, res) {
+        if (req.url == '/message') {
+            res.writeHead(200, {
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive'
+            })
+            var i = 0
+            setInterval(function() {
+                i ++
+                res.write('update')
+            }, 1000)
+        }
+    }).listen(3000)
   ```
 
 * **css 实现等边三角形**
@@ -425,7 +492,7 @@ title: 常用面试问题记录与分析
 
 * **react组件的生命周期**
 
-  * **实例化**
+  * **实例化(渲染期)**
     - getDefaultProps
     - getInitialState (**此时可以访问this.props**)
     - componentWillMount
@@ -672,9 +739,11 @@ title: 常用面试问题记录与分析
     - 除了对最初请求的响应外，服务器还可以额外向客户端推送资源，而无需客户端明确地请求
     - 下次请求时直接从缓存中读取
 
-  * **diff算法**
-  * **xss, csrf防范**
-  * **cookie设置**
+* **diff算法**
+
+* **xss, csrf防范**
+
+* **cookie设置**
 
 
 #### 10.19
