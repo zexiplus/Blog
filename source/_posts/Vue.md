@@ -1,10 +1,10 @@
 ---
-title: Vue 学习总结
+title: vue 使用备考指南 
 ---
 
 # vue
 
-vue 使用指南
+vue 使用,备考指南
 
 
 
@@ -12,11 +12,75 @@ vue 使用指南
 
 [TOC]
 
+### vue 构建命令
+
+* 初始化项目
+
+  ```shell
+  npm list
+  npm init webpack
+  ```
+
+* 开发环境运行
+
+  ```shell
+  npm run dev
+  ```
+
+* 编译并生成报告
+
+  ```shell
+  npm run build --report
+  ```
 
 
-### 问答
 
-* vue核心是什么?
+
+### 工程目录结构
+
+* build 文件夹：用于存放 webpack 相关配置和脚本。其中webpack.base.conf.js 用于配置 less、sass等css预编译库
+
+* config 文件夹：主要存放配置文件，用于区分开发环境、线上环境的不同。 其中index.js 配置开发环境的 端口号、是否开启热加载 或者 设置生产环境的静态资源相对路径、是否开启gzip压缩、npm run build 命令打包生成静态资源的名称和路径等。
+
+* dist 文件夹：默认 npm run build 命令打包生成的静态资源文件，用于生产部署。
+* static 文件夹, 存放不通过打包的静态资源例如js， 图片等
+
+* node_modules：存放npm命令下载的开发环境和生产环境的依赖包。
+
+* src: 存放项目源码及需要引用的资源文件。
+  * src下assets：存放项目中需要用到的资源文件，css、js、images等。
+
+  * src下componets：存放vue开发中一些公共组件：header.vue、footer.vue等。
+
+  * src下emit：自己配置的vue集中式事件管理机制。
+  * src下的 const目录： 存放开发环境下的全局常量
+  * src下的 filter 目录： 存放自定义过滤器
+
+  * src下router：vue-router vue路由的配置文件。
+
+  * src下service：自己配置的vue请求后台接口方法。
+
+  * src下page：存在vue页面组件的文件夹。
+
+  * src下util：存放vue开发过程中一些公共的.js方法。
+
+  * src下vuex：存放 vuex 为vue专门开发的状态管理器。
+
+  * src下app.vue：使用标签`<route-view></router-view>`渲染整个工程的.vue组件。
+
+  * src下main.js：vue-cli工程的入口文件。
+
+* index.html：设置项目的一些meta头信息和提供`<div id="app"></div>`用于挂载 vue 节点。
+
+* package.json：用于 node_modules资源部 和 启动、打包项目的 npm 命令管理。
+
+
+
+### 核心问题解读
+
+#### vue 相关知识
+
+* **vue核心是什么?**
 
   **双向数据绑定**和**组件系统**
 
@@ -83,13 +147,13 @@ vue 使用指南
 
 
 
-* key的作用?
+* **key的作用**?
 
-  用于管理可复用的元素, vue保证高效的渲染元素, 通常会复用已有元素而不是从头开始.
+  **用于管理可复用的元素, vue保证高效的渲染元素**, 通常会复用已有元素而不是从头开始.
 
 
 
-* keep-alive 的作用?
+* **keep-alive 的作用?**
 
   主要用于**保留组件状态**和**避免重新渲染**, 属性: **include**(保存组件状态)和**exclude**(不缓存组件的状态)
 
@@ -100,7 +164,7 @@ vue 使用指南
   </keep-alive>
   ```
 
-* 如何编写可复用组件?
+* **如何编写可复用组件?**
 
   Props, 事件, slot
 
@@ -110,345 +174,26 @@ vue 使用指南
 
 
 
-* vue的生命周期?
+* **vue的生命周期?**
 
   vue的实例从新建到销毁的过程, 具体包括:
 
-  开始创建--初始化数据--编译模版--挂载dom渲染--更新渲染—卸载
-
-
-
-
-
-
-
-
-
-
-
-### vue remind
-
-* **使用html字符串**
-
-  ```html
-  <script>
-      new Vue({
-          el: '#app',
-          data() {
-              return {
-                  htmlTemplate: '<p>这里是一段html</p>'
-              }
-          }
-      })
-  </script>
-  <div v-html="htmlTemplate">
-      
-  </div>
-  ```
-
-
-**vue cli**
-
-```js
-vue list // 列出所有可用脚手架
-vue init webpack demo // 创建以webpack为脚手架名为demo的项目
-```
-
-
-
-**main.js**
-
-```js
-/* ----------- main.js  ------------------ */
-import App from './App'
-new Vue({
-  el: '#app',
-  router,
-  store,
-  components: { App },
-  template: '<App/>'
-})
-
-
-// 与上面写法等效 (使用render函数)
-new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App)
-})
-
-
-```
-
-
-
-**Vue config**
-
-```bash
-# 在vue中使用less于编译器
-npm i less less-loader -S
-# webpack.base.config.js
-modules.exports.module.rules: [{test: /\.less$/, loader: 'style-loader!css-loader!less-loader'}]
-```
-
-
-
-**vue plugins**
-
-> Vue.js 的插件应当有一个公开方法 `install` 。这个方法的第一个参数是 `Vue` 构造器，第二个参数是一个可选的选项对象：
-
-```js
-MyPlugin.install = function (Vue, options) {
-  // 1. 添加全局方法或属性
-  Vue.myGlobalMethod = function () {
-    // 逻辑...
-  }
-
-  // 2. 添加全局资源
-  Vue.directive('my-directive', {
-    bind (el, binding, vnode, oldVnode) {
-      // 逻辑...
-    }
-    ...
-  })
-
-  // 3. 注入组件
-  Vue.mixin({
-    created: function () {
-      // 逻辑...
-    }
-    ...
-  })
-
-  // 4. 添加实例方法
-  Vue.prototype.$myMethod = function (methodOptions) {
-    // 逻辑...
-  }
-}
-```
-
-
-
-**vue directives**
-
-> 注册指令
-
-```js
-//全局注册
-Vue.directive('directiveName',{
-  	bind: function (el, binding) {
-    	//binding.value 指绑定的值
-  	},
-  	inserted: function () {},
-  	update: function () {},
-  	componentUpdated: function () {},
- 	unbind: function () {}
-});
-//组件内注册
-export default {
-  directives: {
-    directiveName: {
-      bind() {} .....//一系列钩子函数
-    }
-  }
-}
-
-```
-
-
-
-**vue style**
-
-```html
-<!-- 样式引入-->
-<style lang="less" scoped>
-	@import './demo.less'
-</style>
-
-<div :class="{classOne: true, classTwo: true}"
-     :style="{color: 'red', fontSize: '12px', 'background-color': 'red'}">
-</div>
-
-```
-
-```js
-/* --------------header 高度为100,动态设置main容器高度 --------- */
-let timer;
-export default {
-  data() {
-    return { mainHeight: 0 }
-  },
-  created() {
-    window.addEventListener('resize', () => {
-      if (timer) {
-        cleartTimeout(timer)
-      }
-      else {
-        timer = setTimeout(() => {
-       		this.mainHeight = window.innerHeight - 100;   
-        })
-      }
-    })
-  },
-}
-```
-
-
-
-**vue load on demand**
-
-```js
-/* ---------------异步引入模块 ------------ */
-// 写法一
-const component = () => import('componentName')  
-
-// 写法二
-const component = resolve => require(['componentName'],resolve)
-```
-
-
-
-**vue render（createElement function h）**
-
-```html
-<custom-component>
-  <p slot="header">
-    这里是头部内容
-  </p>
-  <p>
-    这里是默认slot内容
-  </p>
-  <p slot="footer">
-    这里是底部内容
-  </p>
-</custom-component>
-```
-
-```js
-// render 函数
-Vue.component('customComponent', {
-  render(h) {
-    let hearder = this.$slot.header;
-    let main = this.$slot.default;
-    let footer = this.$slot.footer;
-    return h('div', [
-      h('header', header),
-      h('main', main),
-      h('footer', footer),
-    ])
-  }
-})
-```
-
-
-
-**vue render（with jsx）**
-
-- {value} 单花括号变量名
-
-```jsx
-new Vue({
-  el: '#demo',
-  props: ['name','imgSrc'],
-  methods: {
-    handleImgClick() {
-      console.log('awesome picture')
-    }
-  },
-  render(h) {  
-    return (
-    	<div 
-          level={1} 
-          name={this.name} 
-          class={{ foo: true, bar: false }}
-      	  style={{ color: 'red', fontSize: '14px' }}>
-        	<img src={this.imgSrc} onClick={this.handleImgClick}/>
-      	</div>
-    )
-  }
-})
-```
-
-
-
-**Vue options**
-
-```js
-// watch 深度观察, *注: 观察数组时不需要deep，但是arr[1] = 1,赋值操作不会触发观察,方法操作才会触发例如arr.splice(0, 1, 1)
-watch: {
-  c: {
-      handler: function (val, oldVal) { /* ... */ },
-      deep: true
-    }
-}
-```
-
-
-
-**service**  
-
->  分离请求(太多ajax太丑陋，封装成单个js暴露出去，每个方法均返回promise实例)
-
-```js
-// index.js
-import Vue from 'vue'
-import VueResource from 'vue-resource'
-Vue.use(VueResource)
-
-// 小 service模块
-import login from './login' 
-import cart from '.cart'
-
-export default {
-  login,
-  cart,
-}
-
-// cart.js
-import Vue from 'vue'
-export default {
-  getProductsById(id) {
-    return Vue.http.get('url', {params: {id}})
-  }
-}
-```
-
-
-
-**vue others**
-
-```js
-// Vue.extend(component) 创建并返回一个子类，可用于构造新组件用于测试
-import app from './app'
-const App = Vue.extend(app)
-new App().$mount('#id')  // 创建并挂载组件
-const vm = new App().$mount() // 创建组件并挂载（也可以不挂载）
-expect(vm.$el.querySelector('h1').textContent).toEqual('title') // 判断组件内部选择器h1内容
-
-// 路由跳转
-this.$router.push({name: 'pathName'})
-
-/* --------------------返回当前route路径 ------------------ */
-computed() { 
-  return this.$route.path
-}
-
-
-/* ----------单独引用element 组件使用方法------- */
-import { MessageBox } from 'element-ui'
-//单独调用
-MessageBox.alert(msg, title, {type:'error'});
-//挂载后调用
-this.$alert(msg, title, {type:'error'});
-
-
-/*---------------动态组建 (可用于一个页面有多个弹窗)----------------------*/
-v-bind:is=”componentName”
-<component :is=”currentView”></component>
-
-```
-
+  **开始创建--初始化数据--编译模版--挂载dom渲染--更新渲染—卸载**
+
+
+
+* **vue生命周期的钩子函数有哪些， 做了什么？**
+  * **beforeCreate** 在`实例初始化之后`，数据观测 (data observer) 和 event/watcher 事件配置之前被调用
+  * **created** 在`实例创建完成后`被立即调用。在这一步，实例已完成以下的配置：`数据观测 (data observer)`， `属性和方法的运算`，`watch/event 事件回调`, 此时$el属性未赋值，ajax调用建议在此阶段执行
+  * **beforeMount**  在`挂载开始之前`被调用：相关的 render 函数首次被调用
+  * **mounted** `el` 被新创建的 `vm.$el` 替换，并`挂载到实例上去之后`调用该钩子
+  * **beforeUpdate**`数据更新时调用`，发生在虚拟 DOM 打补丁之前。这里适合在更新之前访问现有的 DOM
+  * **updated** 由于数据更改导致的`虚拟 DOM 重新渲染和打补丁`，在这`之后`会`调用`该钩子
+  * **activated** keep-alive 组件激活时调用
+  * **deactivated** keep-alive 组件停用时调用
+  * **beforeDestroy** 实例销毁之前调用。在这一步，实例仍然完全可用
+  * **destoryed** Vue 实例销毁后调用
+  * **errorCaptured** 当捕获一个来自子孙组件的错误时被调用。此钩子会收到三个参数：错误对象、发生错误的组件实例以及错误信息字符串
 
 
 
