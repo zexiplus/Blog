@@ -6,7 +6,123 @@ title: Vue 学习总结
 
 vue 使用指南
 
+
+
+## 目录
+
 [TOC]
+
+
+
+### 问答
+
+* vue核心是什么?
+
+  **双向数据绑定**和**组件系统**
+
+* 怎么理解vue是一套构建用户界面的**渐进式web框架**?
+
+  vue是非侵入式的, 没有多做职责之外的事, vue只提供了双向数据绑定和组件系统, 其他功能由vue插件提供
+
+  体现在:
+
+  * 在原有系统上中某个页面使用vue, 也可以从0开发整个项目
+
+* vue常见的**指令**?
+
+  * v-if, v-show, v-model, v-bind, v-for, v-once
+  * v-pre 跳过这个元素和其子元素的编译过程, 用于没有使用vue指令的节点, 加速编译过程
+
+* vue常见的**修饰符**?
+
+  * **v-on事件**常用修饰符
+
+    * .stop停止冒泡, .prevent阻止默认行为, .capture使用捕获模式, .once只触发一次
+
+    * .self只在绑定元素上使用
+
+    * **.native** 监听组件**根元素的原生事件**
+
+      例如在第三方UI组件上绑定事件不起作用, 则使用此修饰符
+
+      ```html
+      <el-input @keyup.enter.native="submit"></el-input>
+      ```
+
+    * .[keyCode] 只在指定键值码触发
+
+    * .left, .right, .middle 在鼠标左键, 右键, 中键触发
+
+  * **v-model**常用修饰符
+
+    * .number将输入字符串转化为数字
+
+    * .trim去掉首位空格
+
+      ```html
+      <input v-model.number="age" />
+      ```
+
+  * **v-bind**常用修饰符
+
+    * .sync 会扩展成一个更新父组件绑定值的 v-on 侦听器
+
+    * .prop - 被用于绑定 DOM 属性
+
+      ```html
+      <text-document :title.prop="title" ></text-document>
+      ```
+
+* v-on可以监听多个方法吗?
+
+  可以, 但是同一种监听器只能响应一个函数, click只能响应一个
+
+  ```html
+  <button @focus="handleFocus" @click="handleFocus1" @click="handleFocus2"></button>
+  ```
+
+
+
+* key的作用?
+
+  用于管理可复用的元素, vue保证高效的渲染元素, 通常会复用已有元素而不是从头开始.
+
+
+
+* keep-alive 的作用?
+
+  主要用于**保留组件状态**和**避免重新渲染**, 属性: **include**(保存组件状态)和**exclude**(不缓存组件的状态)
+
+  ```html
+  <keep-alive :include="/a|b/" :exclude="['c', 'd']">
+      <component :is="viewname">
+      </component>
+  </keep-alive>
+  ```
+
+* 如何编写可复用组件?
+
+  Props, 事件, slot
+
+  * props 允许外部环境传递变量到内部
+  * 事件 允许内部触发外部的行为
+  * slot 允许外部环境将内容插入到内部的视图结构
+
+
+
+* vue的生命周期?
+
+  vue的实例从新建到销毁的过程, 具体包括:
+
+  开始创建--初始化数据--编译模版--挂载dom渲染--更新渲染—卸载
+
+
+
+
+
+
+
+
 
 
 
