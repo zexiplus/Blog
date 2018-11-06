@@ -655,7 +655,7 @@ title: 常用面试问题记录与分析
 
     异步加载的方式
 
-    * 动态创建脚本  createElement('script') 
+    * **动态创建脚本  createElement('script')** 
     * defer 是在**html解析完之后(domContentLoaded事件)**才会执行, 如果多个, 按照顺序依次执行
     * async 是在**加载完之后立即执行**, 如果是多个, 和声明顺序**无关**
 
@@ -789,6 +789,123 @@ title: 常用面试问题记录与分析
 
 
 
+#### 项目分析
+
+
+
+大数据营收系统
+
+
+
+**项目任务：** 
+
+* **整体项目框架搭建**，包括文件结构组织，以来模块的引入，webpack配置，vue-router路由全局钩子，axios全局拦截器设置， 代码规范检查设置 （组长做的比较多， 其他每个组员都有分工）
+* **highChart 各种图表初始化参数的配置**（每个人员根据自身分配的路由页面， 来进行配置， 如果有和他人重叠的地方，互相沟通）
+
+* **element-ui主题定制**， 特色开发（这个由我来做， 主要修改了element-variables.scss文件的配置， 和不同组件对应的css文件修改）
+
+* **公共组件的开发**（对于页面中出现频率较高的组件， 例如日期筛选栏， 数字表盘， 排行榜等）协同开发
+
+* **个人分配的路由页面开发**
+
+**项目业绩 ：**
+
+公司通过分析用户喜好和营收数据，2018年调整战略， 营业额持续提升 
+
+
+
+**整体方案**
+
+
+
+
+
+**难点**
+
+* 第一次协同开发， 对git的合并， 提交比较生疏， 对gitflow流程不太熟悉
+
+  克服： 参看网上教程， 对git命令多使用， 不懂的问组长
+
+* 对于设计图给出但highchart无法实现的需要通过dom动画的方式来模拟， 并封装成公共组件进行调用， 这其中还需要考虑数据极差比较大的情况下对小数据的良好显示，动画的平滑过渡 
+
+
+
+**收获**
+
+* 代码规范提高， 协同开发能力提升
+
+* 对Vue的使用， hightChartjs的配置熟悉， 公共组件的抽象能力提高
+
+* 对业务理解力， 业务处理能力都有显著提高
+
+
+
+wall.e 开源硬件机器人项目
+
+
+
+技术方案： 页面Vue
+
+功能：
+
+* 局域网/公网下远程遥控前后左右
+* 视频实时传输
+* 温度采集与持久保存
+* 加速度测量
+* gps定位（因为硬件端口冲突未实现）
+
+
+
+思路&亮点
+
+数据存储采用分布式思想， 传感器测量的数据上传至云端（mlab）保存
+
+客户端与智能硬件之间采用动态连接
+
+通信协议采用websocket 保证实时传输的延迟较低
+
+可以使用公网/局域网模式
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ### 四面
@@ -840,115 +957,9 @@ title: 常用面试问题记录与分析
 
 
 
-
-
-
-
-
-
-##### html
-
-* 语意化标签: section章节, article容器, nav导航, aside附加栏, header页头, main主题内容, footer页脚
-
-* 替换元素： input, select, img, 这类根据标签属性的元素
-
-* 非替换元素： div, span 这类根据内容显示的元素
-
-* meta标签 
-
-  * 指定渲染引擎
-
-    ```html
-    <meta name="renderer" content="webkit">
-    ```
-
-* link标签 dns 预解析
-
-  ```html
-  <link rel="dns-prefetch" href="//static.123.com">
-  ```
-
-
-
-##### 阻塞
-
-js的下载和执行会阻塞之后所有资源的下载
-
-当css外部样式表后面跟着js资源之前时会阻塞
-
-
-
-##### vue
-
-* vue是什么？ 有哪些特性？
-
-  vuejs是一套基于mvvm思想的， 构建用户界面的框架。vue在设计上着重关心视图层， 特点有双向数据绑定， vue后缀的单文件组件， 低耦合， 可复用性强， 独立开发， 可测试性， 2.0支持virtualdom
-
-* 实际开发过程中遇到过哪些问题?
-
-  * v-show 的上传文件后页面缓存问题， 使用v-if 解决
-
-  * 因为对父子组件生命周期顺序不了解产生的数据拿不到，和页面视图不更新的问题
-
-    ```js
-    父beforeCreate->父created->父beforeMount->子beforeCreate->子created->子beforeMount->子mounted->父mounted
-    ```
-
-  * 使用vue-router的路由守卫beforeEach和meta字段实现权限控制和伪登录检测， 不再每个页面中单独实现
-
-  * 浏览器无法记录用户历史浏览的位置， 本来是用store记录位置， 后来使用scrollBehavior来做
-
-  * 数据更新而页面却没更新， 响应式没有理解到位， 使用Vue.set()更新数据
-
-  * style标签不添加scope属性影响其他页面内容， 增加scope属性
-
-  * 页面白屏问题， 在已定义了<teamplate>标签后又在里面写了空的template
-
-  * 首屏加载速度太慢， 采用异步加载机制
-
-  * watch 属性的监控改变使页面卡死， watch不能修改自身
-
-  * v-for没有增加key属性导致页面的效率变低
-
-* **vuex 包含哪些？**
-
-  * state， 包含应用的所有状态, 分别有getters， setters用于获取，设置状态
-
-    ```js
-    var s = this.$store.state.a
-    ```
-
-  * mutations 更改state的唯一方式， 同步的
-
-    ```js
-    this.$store.commit('mutationName', params)
-    ```
-
-  * action 提交mutations , 可包含异步操作
-
-    ```js
-    this.$store.dispatch('actionName')
-    ```
-
-* **vue和react的区别**
-
-  react是基于virtualDOM的， 一种在内存中描述dom的数据结构。react的数据通常被看作不可变的， 而dom更新则是通过virtual dom的diff算法来计算的。
-
-  vue的数据默认是可变的， 通过Object.defineProperty()监控数据， 数据变更会触发dom更新， vue作用于实际dom， 并对真实节点的引用实现双向数据绑定。
-
-
-
-##### 动画
-
-实现动画的方式: 1.js控制dom动画, 2.svg动画(path), 3. canvas + css3 动画
-
-使用硬件加速优化页面性能， 默认transform， transition 不使用3d加速， 但transform3d使用3d加速
-
-
-
 ### 面试实战
 
-#### 2018.10.13 
+#### 2018.10.13 （14×13 get）
 
 * **浏览器小于12px像素字体显示**
 
@@ -979,7 +990,7 @@ js的下载和执行会阻塞之后所有资源的下载
 
 * **Webpack热刷新原理** 
 
-  使用webpack-hot-middleware插件, 使用SSE(server sent events)服务器事件
+  使用**webpack-hot-middleware**插件, 使用**SSE**(server sent events)**服务器事件**
 
   ```js
     // client
@@ -1005,7 +1016,7 @@ js的下载和执行会阻塞之后所有资源的下载
     }).listen(3000)
   ```
 
-* **css 实现等边三角形**
+* **css 实现等边三角形**(原理：利用两个正方形旋转底边)
 
   ```css
   .box {
@@ -1044,19 +1055,7 @@ js的下载和执行会阻塞之后所有资源的下载
   * **销毁&清理期**
     - componentWillUnmount
 
-
-
-  * **寄生组合式继承**
-
-    ```js
-    function Sup() {
-        var prototype = Object(superType.prototype)
-        prototype.constructor = subType
-        subType.prototype = prototype
-    }
-    ```
-
-
+* **什么是受控组件和非受控组件？**
 
 
 
@@ -1213,7 +1212,7 @@ js的下载和执行会阻塞之后所有资源的下载
 
 
 
-#### 10.18
+#### 10.18 （12 × 14 get）
 
 * **简单与复杂请求**
 
@@ -1366,7 +1365,7 @@ js的下载和执行会阻塞之后所有资源的下载
 
 
 
-* 闭包的使用场景
+* **闭包的使用场景**
 
   * 缓存数据, 事件处理函数缓存数据
 
@@ -1378,17 +1377,65 @@ js的下载和执行会阻塞之后所有资源的下载
 
 
 
-* http 和 https的区别是什么, 用到了哪些算法, 是怎样实现的?
+* **http 和 https的区别是什么, 用到了哪些算法, 是怎样实现的?**
 
-* 用js实现一个散列类
+* **用js实现一个散列类**
 
-* margin: 5px 20px 30px; 上下左右的margin分别是多少 
+* **margin: 5px 20px 30px; 上下左右的margin分别是多少** 
 
   上5px， 左右20px， 下30px；
 
 
 
 
+
+
+
+
+
+### 基础面试题
+
+##### html
+
+- 语意化标签: section章节, article容器, nav导航, aside附加栏, header页头, main主题内容, footer页脚
+
+- 替换元素： input, select, img, 这类根据标签属性的元素
+
+- 非替换元素： div, span 这类根据内容显示的元素
+
+- meta标签 
+
+  - 指定渲染引擎
+
+    ```html
+    <meta name="renderer" content="webkit">
+    ```
+
+- link标签 dns 预解析
+
+  ```html
+  <link rel="dns-prefetch" href="//static.123.com">
+  ```
+
+
+
+##### 阻塞
+
+js的下载和执行会阻塞之后所有资源的下载
+
+当css外部样式表后面跟着js资源之前时会阻塞
+
+
+
+
+
+
+
+##### 动画
+
+实现动画的方式: 1.js控制dom动画, 2.svg动画(path), 3. canvas + css3 动画
+
+使用硬件加速优化页面性能， 默认transform， transition 不使用3d加速， 但transform3d使用3d加速
 
 
 
@@ -1403,6 +1450,281 @@ js的下载和执行会阻塞之后所有资源的下载
 
 
 ### vue面试题
+
+#### vue
+
+- **vue是什么？ 有哪些特性？**
+
+  vuejs是一套基于mvvm思想的， 构建用户界面的框架。vue在设计上着重关心视图层， 特点有双向数据绑定， vue后缀的单文件组件， 低耦合， 可复用性强， 独立开发， 可测试性， 2.0支持virtualdom
+
+- **vue如何优化首屏加载速度？**
+
+  * 大文件定位， 使用webpack bundle analyzer， 运行`npm run build --report` 查看工程js大小，， 优化大文件
+
+  * 路由视图懒加载
+
+    ```js
+    const page = () => require('page.vue')
+    ```
+
+  * 将js文件放入body的最后， 使用`html-webpack-plugin`插件， 将`inject`的值改为`body`
+
+    ```
+    plugins: [
+            new htmlWebpackPlugin({
+                inject: 'body'
+            })
+        ]
+    ```
+
+  * 将其他js库使用cdn方式引入
+
+  * UI库按需引用
+
+  * 开启gzip压缩
+
+    在config/index.js
+
+    ```js
+    build: {
+        productionGzip: true
+    }
+    ```
+
+- **Vue打包后会生成哪些文件**
+
+  - index.html 单页文件入口
+  - app.[hash].css 所有组件中的css
+  - app.[hash].js 包含所有组件中的js代码
+  - vendor.[hash].js 包含vue及其他node_modules代码
+  - mainifest.[hash].js 包含了webpack运行环境和模块化所需的js
+  - 0~n.[hash].js vue-router按需加载生成的js
+
+- **key的作用**?
+
+  用于管理可复用的元素, vue保证高效的渲染元素, 通常会复用已有元素而不是从头开始.
+
+- **keep-alive 的作用?**
+
+  主要用于保留组件状态和避免重新渲染, 属性: include(保存组件状态)和exclude(不缓存组件的状态)
+
+- **怎么实现缓存个别组件？**
+
+  使用keep-alive组件， 在需要缓存的router配置中加入meta
+
+  ```html
+  <keep-alive>
+      <router-view v-if="$router.meta.keepAlive"></router-view>
+  </keep-alive>
+  ```
+
+  ```js
+  new Router({
+      routes: [
+          {
+              path: '/page1',
+              component: page1,
+              name: 'page1',
+              meta: {
+                  keepAlive: true // 控制是否缓存此组件
+              }
+          }
+      ]
+  })
+  ```
+
+- **实现页面切换动画效果？**
+
+  ```html
+  <transiton name="slide-left">
+  	<component :is="componentName"></component>
+  </transiton>
+  <style>
+     .slide-left-enter-active {
+       animation: slideLeft 0.3s;
+     }
+    @keyframes slideLeft {
+      from {
+        transform: translate3d(100%, 0, 0);/*横坐标,纵坐标,z坐标*/
+        visibility: visible;
+      }
+      to {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+  </style>
+  ```
+
+
+- **vue的生命周期?**
+
+  vue的实例从新建到销毁的过程, 具体包括:
+
+  开始创建--初始化数据--编译模版--挂载dom渲染--更新渲染—卸载
+
+- **vue生命周期的钩子函数有哪些， 做了什么？**
+  - **beforeCreate** 在`实例初始化之后`，数据观测 (data observer) 和 event/watcher 事件配置之前被调用
+  - **created** 在`实例创建完成后`被立即调用。在这一步，实例已完成以下的配置：`数据观测 (data observer)`， `属性和方法的运算`，`watch/event 事件回调`, 此时$el属性未赋值，ajax调用建议在此阶段执行
+  - **beforeMount**  在`挂载开始之前`被调用：相关的 render 函数首次被调用
+  - **mounted** `el` 被新创建的 `vm.$el` 替换，并`挂载到实例上去之后`调用该钩子
+  - **beforeUpdate**`数据更新时调用`，发生在虚拟 DOM 打补丁之前。这里适合在更新之前访问现有的 DOM
+  - **updated** 由于数据更改导致的`虚拟 DOM 重新渲染和打补丁`，在这`之后`会`调用`该钩子
+  - **activated** keep-alive 组件激活时调用
+  - **deactivated** keep-alive 组件停用时调用
+  - **beforeDestroy** 实例销毁之前调用。在这一步，实例仍然完全可用
+  - **destoryed** Vue 实例销毁后调用
+  - **errorCaptured** 当捕获一个来自子孙组件的错误时被调用。此钩子会收到三个参数：错误对象、发生错误的组件实例以及错误信息字符串
+
+
+
+#### vue-router
+
+* **当路由从/page?id=1变为/page?id=2时怎么通知视图更新**
+
+  * 使用watch 监控 $route 对象
+
+    ```js
+    watch: {
+        '$route': function (to, from) {
+            ...
+        }
+    }
+    ```
+
+  * 使用路由守卫beforeRouteUpdate
+
+    ```js
+    beforeRouteUpdate(to, from, next) {
+        ...
+        next()
+    }
+    ```
+
+* **vue-router的钩子函数有哪些？**
+
+  * 全局守卫： router.beforeEach
+
+  * 全局解析守卫： router.beforeResolve
+
+  * 全局后置钩子： router.afterEach
+
+  * 路由独享的守卫： beforeEnter
+
+  * 组件内的守卫： beforeRouteEnter、beforeRouteUpdate (2.2 新增)、beforeRouteLeave
+
+
+
+* **vue-router 导航解析流程？**
+
+  1、导航被触发。
+
+  2、在失活的组件里调用离开守卫。
+
+  3、调用全局的 `beforeEach` 守卫。
+
+  4、在重用的组件里调用 `beforeRouteUpdate 守卫 (2.2+)`。
+
+  5、在路由配置里调用 `beforeEnter`。
+
+  6、解析异步路由组件。
+
+  7、在被激活的组件里调用 `beforeRouteEnter`。
+
+  8、调用全局的 `beforeResole` 守卫 (2.5+)。
+
+  9、导航被确认。
+
+  10、调用全局的 `afterEach` 钩子。
+
+  11、触发 `DOM` 更新。
+
+  12、用创建好的实例调用 `beforeRouteEnter` 守卫中传给 `next` 的回调函数。
+
+
+
+
+
+#### Vuex
+
+* **什么是vuex？**
+
+  Vuex 是一个专为 Vue.js 应用程序开发的状态管理器，采用 集中式存储 管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化
+
+* **vuex的核心对象？**
+  * state - Vuex store实例的根状态对象，用于定义共享的状态变量。
+  * Action -动作，向store发出调用通知，执行本地或者远端的某一个操作（可以理解为store的methods）
+  * Mutations -修改器，它只用于修改state中定义的状态变量。
+  * getter -读取器，外部程序通过它获取变量的具体值，或者在取值前做一些计算（可以认为是store的计算属性）
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- **实际开发过程中遇到过哪些问题?**
+
+  - v-show 的上传文件后页面缓存问题， 使用v-if 解决
+
+  - 因为对父子组件生命周期顺序不了解产生的数据拿不到，和页面视图不更新的问题
+
+    ```js
+    父beforeCreate->父created->父beforeMount->子beforeCreate->子created->子beforeMount->子mounted->父mounted
+    ```
+
+  - 使用vue-router的路由守卫beforeEach和meta字段实现权限控制和伪登录检测， 不再每个页面中单独实现
+
+  - 浏览器无法记录用户历史浏览的位置， 本来是用store记录位置， 后来使用scrollBehavior来做
+
+  - 数据更新而页面却没更新， 响应式没有理解到位， 使用Vue.set()更新数据
+
+  - style标签不添加scope属性影响其他页面内容， 增加scope属性
+
+  - 页面白屏问题， 在已定义了<teamplate>标签后又在里面写了空的template
+
+  - 首屏加载速度太慢， 采用异步加载机制
+
+  - watch 属性的监控改变使页面卡死， watch不能修改自身
+
+  - v-for没有增加key属性导致页面的效率变低
+
+- **vuex 包含哪些？**
+
+  - state， 包含应用的所有状态, 分别有getters， setters用于获取，设置状态
+
+    ```js
+    var s = this.$store.state.a
+    ```
+
+  - mutations 更改state的唯一方式， 同步的
+
+    ```js
+    this.$store.commit('mutationName', params)
+    ```
+
+  - action 提交mutations , 可包含异步操作
+
+    ```js
+    this.$store.dispatch('actionName')
+    ```
+
+- **vue和react的区别**
+
+  react是基于virtualDOM的， 一种在内存中描述dom的数据结构。react的数据通常被看作不可变的， 而dom更新则是通过virtual dom的diff算法来计算的。
+
+  vue的数据默认是可变的， 通过Object.defineProperty()监控数据， 数据变更会触发dom更新， vue作用于实际dom， 并对真实节点的引用实现双向数据绑定。
 
 
 
@@ -1439,6 +1761,8 @@ js的下载和执行会阻塞之后所有资源的下载
 
     webpack插件 **prerender-spa-plugin** 可以达到预渲染
 
+    在构建时(build time)简单地生成针对特定路由的静态 HTML 文件。优点是设置预渲染更简单，并可以将你的前端作为一个完全静态的站点
+
     ```javascript
     const path = require('path')
     const PrerenderSPAPlugin = require('prerender-spa-plugin')
@@ -1456,10 +1780,6 @@ js的下载和执行会阻塞之后所有资源的下载
 
 
 
-    在构建时(build time)简单地生成针对特定路由的静态 HTML 文件。优点是设置预渲染更简单，并可以将你的前端作为一个完全静态的站点
-
-
-* **在使用vue过程中遇到过哪些坑, 是怎么解决的?**
 * **什么是PWA?** 
 
   Progress Web App, 提升web app的一种新方法, 能给用户原生应用的体验.
