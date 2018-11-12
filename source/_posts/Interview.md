@@ -639,9 +639,9 @@ title: 常用面试问题记录与分析
   * 异步任务
     * setTimeout, setInterval,dom事件, promise
 
-* **什么是event loop?**
+* **什么是event loop(事件循环)?**
 
-  Event Loop 是一个很重要的概念，指的是计算机系统的一种运行机制, **Event Loop是一个程序结构，用于等待和发送消息和事件**
+  Event Loop 是一个很重要的概念，指的是计算机系统的一种运行机制, **Event Loop是一个程序结构，用于等待和发送消息和响应事件**
 
   每当遇到I/O的时候，主线程就让Event Loop线程去通知相应的I/O程序，然后接着往后运行，所以不存在红色的等待时间。等到I/O程序完成操作，Event Loop线程再把结果返回主线程。主线程就调用事先设定的回调函数，完成整个任务
 
@@ -867,6 +867,12 @@ wall.e 开源硬件机器人项目
 可以使用公网/局域网模式
 
 
+
+难点：
+
+nodejs调试比较困难， 运行在之上的johnny-five调用硬件api， 产生的错误更难进行定位
+
+在开源硬件平台运行node本身就是比较耗费性能的事情， 还需要启动服务器， 控制硬件io， 比较耗费性能， 
 
 
 
@@ -1387,6 +1393,53 @@ wall.e 开源硬件机器人项目
 
 
 
+#### 11.7
+
+* **display: inline 元素的padding和margin能否设置**
+
+  行内元素的width, height, padding-top/bottom， margin-top/bottom设置均不起作用， **但margin-left/right, padding-left/right起作用**
+
+* **讲讲v-model的实现原理**
+
+* **怎么实现一个函数实现以下调用？**
+
+  ```js
+  function sum() {
+      ...
+  }
+  console.log(sum(1)(2)) // 3
+  console.log(sum(1)(4)(5)(5)) // 15 
+      
+  function sum(a) {
+      var s = function (b) {
+          a = a + b
+          return s
+      }
+      s.toString = function () { return a }
+      return s
+  }
+  
+  var log = console.log
+  console.log = function (value) {
+      log(value.toString())
+  }
+  console.log(sum(1)(2)(3))
+  ```
+
+* **vue的优缺点？**
+
+  缺点：
+
+  * 不支持ie8
+
+  * 以template组织的组件不易debug， 没有jsx形式的调试方便
+  * weex原生应用开发不够好（对比ReactNative）
+  * vue的书籍进阶不够
+
+* **虚拟dom是什么**
+
+  Virtual DOM是一个映射真实DOM的JavaScript对象，如果需要改变任何元素的状态，那么是先在Virtual DOM上进行改变，而不是直接改变真实的DOM。当有变化产生时，一个新的Virtual DOM对象会被创建并计算新旧Virtual DOM之间的差别。之后这些差别会应用在真实的DOM上
+
 
 
 
@@ -1640,7 +1693,23 @@ js的下载和执行会阻塞之后所有资源的下载
 
   12、用创建好的实例调用 `beforeRouteEnter` 守卫中传给 `next` 的回调函数。
 
+#### vue实现
 
+**四个类**：
+
+- 1、实现一个Compile，对指令进行解析，初始化视图，并且订阅数据的变更，绑定好更新函数
+- 2、实现一个Observer，对数据进行劫持，通知数据的变化
+- 3、实现一个Watcher，将其作为以上两者的一个中介点，在接收数据变更的同时，让Dep添加当前Watcher，并及时通知视图进行update
+- 4、实现MVVM，整合以上三者，作为一个入口函数
+
+**步骤：**
+
+* 第一步：创建`MVVM`、`Compile`类，并且利用`createDocumentFragment`将`<div id="app"></div>`下的标签放到`JS文档碎片`中去。
+* 第二步：`Compiler`对 标签 进行编译，将带有 `v-` 指令的标签和`{{}}`的标签解析出来
+* 第三步：创建`Observer类`进行数据劫持、深度递归劫持和代理，当data中设置值或者修改值的时候，利用`Object.defineProperty`对值进行监控。
+* 第四步：创建`Watch类`观察者，用新值和老值进行比对，如果发生变化，就调用更新方法，进行视图更新。
+* 第五步：将输入框`v-model`和视图绑定起来，输入框的值变化，同时页面中通过`{{}}`绑定的值也变化，实现`双向数据绑定`。
+* 第六步：在`MVVM类`中，设置`proxyData`代理，将`vm.$data`的值代理到`vm`上，即可以直接通过 `vm`
 
 
 

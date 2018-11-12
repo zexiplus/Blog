@@ -1,10 +1,10 @@
 ---
-title: 系统/软件快捷键收录
+title: 系统/软件快捷键和配置定义
 ---
 
 # shortcuts
 
-> 保存了系统/软件常用快捷键,以便查看使用   ←↑→↓
+> 保存了系统/软件快捷键和配置定义,以便查看使用   ←↑→↓
 
 
 
@@ -60,6 +60,41 @@ title: 系统/软件快捷键收录
 | 在命令行中使用vscode              | **code main.js**                          |
 | 插入假数据                        | 命令面板 输入 faker                       |
 
+* **js debug 配置说明**
+
+  | 参数                       | 说明                                                     |
+  | -------------------------- | -------------------------------------------------------- |
+  | ${workspaceRoot}           | VSCode中打开文件夹的路径                                 |
+  | ${workspaceRootFolderName} | (VSCode中打开文件夹的路径, 但不包含"/"                   |
+  | ${file}                    | (当前打开的文件                                          |
+  | ${relativeFile}            | 当前打开的文件,相对于workspaceRoot                       |
+  | ${fileBasename}            | 当前打开文件的文件名, 不含扩展名                         |
+  | ${fileDirname}             | 当前打开文件的目录名                                     |
+  | ${fileExtname}             | 当前打开文件的扩展名                                     |
+  | ${cwd}                     | the task runner's current working directory on startup() |
+
+  **配置示例** 
+
+  ```json
+  {
+      "version": "0.2.0",
+      "configurations": [
+          {
+              "type": "node",
+              "request": "launch",
+              "name": "Launch Program",
+              "program": "${workspaceFolder}/${relativeFile}"
+          },
+          {
+              "type": "chrome",
+              "request": "launch",
+              "name": "Launch Chrome against localhost",
+              "url": "http://localhost:8080",
+              "webRoot": "${workspaceFolder}"
+          }
+      ]
+  }
+  ```
 
 
 #### sublime 
