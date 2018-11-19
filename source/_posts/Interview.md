@@ -112,6 +112,13 @@ title: 常用面试问题记录与分析
     <link rel="dns-prefetch" href="//static.123.com">
     ```
 
+##### 阻塞
+
+js的下载和执行会阻塞之后所有资源的下载
+
+当css外部样式表后面跟着js资源之前时会阻塞
+
+
 
 ##### 页面布局
 
@@ -253,6 +260,16 @@ title: 常用面试问题记录与分析
 * **http协议的主要特点**
 
   简单快速, 灵活, **无连接, 无状态**
+
+* **https和http的主要区别**
+
+    [介绍](https://www.jianshu.com/p/33feb2fadb15)
+
+    - http默认端口80，https默认端口443
+
+    - https在http基础上增加了网络安全层ssl协议, 分为对称加密和非对称加密, 比较多使用rsa算法为主的公钥加密技术
+
+    - https的web服务器启用ssl需要获得一个公钥证书，并将该证书与要使用ssl的服务器绑定, 证书的目的是为了让客户端区分公钥是否伪造和属于谁的问题
 
 * **http报文的组成成分**
 
@@ -481,7 +498,7 @@ title: 常用面试问题记录与分析
 
 * **什么是同源策略即限制**
 
-  * 源: 协议, 域名(包括子域名), 端口不一致
+  * 源: 协议, 域名(包括子域名不一致), 端口不一致
 
   * 例子: a.interview.com 访问interview.com属于**跨域**, interview.com访问a.interview.com**也是跨域**
 
@@ -1069,21 +1086,9 @@ title: 常用面试问题记录与分析
 
 
 
-### 基础面试题
 
 
-
-##### 阻塞
-
-js的下载和执行会阻塞之后所有资源的下载
-
-当css外部样式表后面跟着js资源之前时会阻塞
-
-
-
-
-
-
+### 其他
 
 ##### 动画
 
@@ -1095,15 +1100,96 @@ js的下载和执行会阻塞之后所有资源的下载
 
 
 
-### nodejs面试题
+### MVVM
+
+#### 原理
+
+* **怎么实现双向数据绑定**
+
+  ```js
+  function Vue(options) {
+    this.$init(options);
+  }
+  Vue.prototype.$init = function(options = {}) {
+    let data = this._data = options.data || {}
+    let self = this
+    let dep = new Dep()
+    // 属性代理 vm.a === vm.data.a
+    Object.keys(data).forEach((key, index) => {
+      Object.defineProperty(self, key, {
+        configurable: true,
+        enumerable: true,
+        get(){
+          return data[key]
+          dep.depend()
+        },
+        set(val) {
+          data[key] = val
+          dep.notice() 
+        }
+      })
+    })
+  }
+  
+  function Dep() {
+    // 
+  }
+  Dep.prototype.notice = function() {
+    // 触发页面更新
+  }
+  Dep.prototype.depend = function() {
+    // 关联当前所有数据和watcher的关系
+  }
+  
+  let vm = new Vue({data: {a: 1, b: 2}})
+  
+  
+  console.log(vm.a === vm._data.a) // 实例访问数据
+  vm.a = 3
+  console.log(vm._data.a)
+  ```
 
 
 
+* **什么是diff算法?**
 
+  [介绍](https://www.infoq.cn/article/react-dom-diff)
 
+  Web 界面由 DOM 树来构成，当其中某一部分发生变化时，其实就是对应的某个 DOM 节点发生了变化.
 
+  给定任意两棵树, 寻找差异, 找到最少转换步骤.标准的diff算法复杂度是O(n^3), react优化后的diff算法复杂度降为O(n). 
 
-### vue面试题
+* **diff算法思想(优化假设)**
+  * 两个相同组件产生类似的 DOM 结构，不同的组件产生不同的 DOM 结构
+  * 对于同一层次的一组子节点，它们可以通过唯一的 id 进行区分
+
+* **节点比较**
+
+  * **节点类型不同**的比较
+
+    * 在同一位置前后输出了**不同类型**的节点, 则**直接替换**
+
+      ```html
+      span ---> div
+      removeNode span , insertNode div
+      ```
+
+    * **逐层进行节点比较,** 两棵树只会对**同一层次**的节点进行比较.**及不在同一层的节点, 即使他们完全一样, 也会销毁并重建**. 如图. React 只会对相同颜色方框内的 DOM 节点进行比较，即同一个父节点下的所有子节点。当发现节点已经不存在，则该节点及其子节点会被完全删除掉，不会用于进一步的比较。这样只需要对树进行一次遍历，便能完成整个 DOM 树的比较
+
+      ![diff](./imgs/diff.png)
+
+  * **相同类型节点比较**
+
+    * 对于相同类型的节点, react会对**属性进行重设**从而实现**节点转换**
+
+      ```jsx
+      renderA: <div id="before" />
+      renderB: <div id="after" />
+      => [replaceAttribute id "after"]
+      ```
+
+    * 列表节点的比较, React 会逐个对节点进行更新，转换到目标节点
+
 
 #### vue
 
@@ -1296,8 +1382,6 @@ js的下载和执行会阻塞之后所有资源的下载
 
 
 
-
-
 #### Vuex
 
 * **什么是vuex？**
@@ -1309,22 +1393,6 @@ js的下载和执行会阻塞之后所有资源的下载
   * Action -动作，向store发出调用通知，执行本地或者远端的某一个操作（可以理解为store的methods）
   * Mutations -修改器，它只用于修改state中定义的状态变量。
   * getter -读取器，外部程序通过它获取变量的具体值，或者在取值前做一些计算（可以认为是store的计算属性）
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1510,130 +1578,6 @@ js的下载和执行会阻塞之后所有资源的下载
 * **什么是 workbox?**
 
   google提出的web app 静态资源本地存储方案, 该解决方案, 包含一些js库和构建工具.
-
-
-
-
-
-
-
-#### http 和 https 的区别
-
-- http默认端口80，https默认端口443
-- https采用ssl加密，http无加密
-- https的web服务器启用ssl需要获得一个公钥证书，并将该证书与要使用ssl的服务器绑定
-
-
-
-#### 懒加载（load on demand)
-
-懒加载或者按需加载，是一种很好的优化网页或应用的方式。这种方式实际上是先把你的代码在一些逻辑断点处分离开，然后在一些代码块中完成某些操作后，立即引用或即将引用另外一些新的代码块
-
-```js
-// 1.webpack 使用promise和async函数实现 懒加载
-
-// 2.vue 使用 import 函数
-Vue.component('AsyncCmp', () => import('./AsyncCmp'))
-
-// 3.react 与 vue 类似
-const LoadableComponent = Loadable({
-  loader: () => import('./Dashboard'),
-  loading: Loading,
-})
-
-export default class LoadableDashboard extends React.Component {
-  render() {
-    return <LoadableComponent />;
-  }
-}
-
-// 图片懒加载 <img> 标签不要设置src属性，放在自定义属性中，根据window.scrollTop判断图片是否出现在用户视野中，如果出现 将自定义属性中的 url 放入src属性中
-```
-
-
-
-
-
-
-
-### 高级问题
-
-
-
-#### 分析双向数据绑定的原理，并用简单的代码实现
-
-```js
-function Vue(options) {
-  this.$init(options);
-}
-Vue.prototype.$init = function(options = {}) {
-  let data = this._data = options.data || {}
-  let self = this
-  let dep = new Dep()
-  // 属性代理 vm.a === vm.data.a
-  Object.keys(data).forEach((key, index) => {
-    Object.defineProperty(self, key, {
-      configurable: true,
-      enumerable: true,
-      get(){
-        return data[key]
-        dep.depend()
-      },
-      set(val) {
-        data[key] = val
-        dep.notice() 
-      }
-    })
-  })
-}
-
-function Dep() {
-  // 
-}
-Dep.prototype.notice = function() {
-  // 触发页面更新
-}
-Dep.prototype.depend = function() {
-  // 关联当前所有数据和watcher的关系
-}
-
-let vm = new Vue({data: {a: 1, b: 2}})
-
-
-console.log(vm.a === vm._data.a) // 实例访问数据
-vm.a = 3
-console.log(vm._data.a)
-```
-
-
-
-#### 手动封装一个promise库，能实现基本的promise api。
-
-
-
-
-
-#### 实现深度拷贝
-
-```js
-function clone(obj) {
-    if (obj instanceof Array) {
-        let ret = []
-        obj.forEach((item, index) => {
-            ret[index] = clone(item)
-        })
-        return ret
-    } else if (obj intanceof Object) {
-        let ret = {}
-        Object.keys(ret).forEach((item, index) => {
-            ret[item] = clone(obj[item])
-        })
-        return ret
-    } else {
-        return obj
-    }
-}
-```
 
 
 
