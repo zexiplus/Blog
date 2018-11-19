@@ -1538,6 +1538,8 @@ js的下载和执行会阻塞之后所有资源的下载
 
   12、用创建好的实例调用 `beforeRouteEnter` 守卫中传给 `next` 的回调函数。
 
+
+
 #### vue实现
 
 **四个类**：
@@ -1775,16 +1777,6 @@ js的下载和执行会阻塞之后所有资源的下载
 
 
 
-
-
-#### http 和 https 的区别
-
-- http默认端口80，https默认端口443
-- https采用ssl加密，http无加密
-- https的web服务器启用ssl需要获得一个公钥证书，并将该证书与要使用ssl的服务器绑定
-
-
-
 #### 懒加载（load on demand)
 
 懒加载或者按需加载，是一种很好的优化网页或应用的方式。这种方式实际上是先把你的代码在一些逻辑断点处分离开，然后在一些代码块中完成某些操作后，立即引用或即将引用另外一些新的代码块
@@ -1815,85 +1807,6 @@ export default class LoadableDashboard extends React.Component {
 
 
 
-
-### 高级问题
-
-
-
-#### 分析双向数据绑定的原理，并用简单的代码实现
-
-```js
-function Vue(options) {
-  this.$init(options);
-}
-Vue.prototype.$init = function(options = {}) {
-  let data = this._data = options.data || {}
-  let self = this
-  let dep = new Dep()
-  // 属性代理 vm.a === vm.data.a
-  Object.keys(data).forEach((key, index) => {
-    Object.defineProperty(self, key, {
-      configurable: true,
-      enumerable: true,
-      get(){
-        return data[key]
-        dep.depend()
-      },
-      set(val) {
-        data[key] = val
-        dep.notice() 
-      }
-    })
-  })
-}
-
-function Dep() {
-  // 
-}
-Dep.prototype.notice = function() {
-  // 触发页面更新
-}
-Dep.prototype.depend = function() {
-  // 关联当前所有数据和watcher的关系
-}
-
-let vm = new Vue({data: {a: 1, b: 2}})
-
-
-console.log(vm.a === vm._data.a) // 实例访问数据
-vm.a = 3
-console.log(vm._data.a)
-```
-
-
-
-#### 手动封装一个promise库，能实现基本的promise api。
-
-
-
-
-
-#### 实现深度拷贝
-
-```js
-function clone(obj) {
-    if (obj instanceof Array) {
-        let ret = []
-        obj.forEach((item, index) => {
-            ret[index] = clone(item)
-        })
-        return ret
-    } else if (obj intanceof Object) {
-        let ret = {}
-        Object.keys(ret).forEach((item, index) => {
-            ret[item] = clone(obj[item])
-        })
-        return ret
-    } else {
-        return obj
-    }
-}
-```
 
 
 
