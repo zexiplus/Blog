@@ -1,6 +1,6 @@
-# Interview in actural combat
+# 实战面试
 
-遇到了实际前端面试过程中遇到的问题
+记录实际前端面试过程中遇到的问题
 
 
 
@@ -305,9 +305,9 @@
 
   每一个I/O都需要一个回调函数——一旦执行完便堆到事件循环上用于执行
 
-  ![libuv](/Users/float/Desktop/GitHub/blog/source/_posts/.//imgs/libuv.png)
+  ![libuv](.//imgs/libuv.png)
 
-  ![eventloop](/Users/float/Desktop/GitHub/blog/source/_posts/imgs/eventLoop.png)
+  ![eventloop](./imgs/eventLoop.png)
 
 - **vue-router 的 跳转实现原理**
 
@@ -393,32 +393,51 @@
     button.onclick = (function(num) { return function () {console.log(num ++})(1)
     ```
 
-  - 面向对象编程对象的似有方法创建
+  - 面向对象编程对象的私有方法创建
 
 
 
 - **http 和 https的区别是什么, 用到了哪些算法, 是怎样实现的?**
 
+  https在http上增加了ssl/tls层协议， 使得信息传输不再是明文， 更安全。
+
+  ssl层加密技术分为对称加密，和非对称加密， 常用的非对称加密有RSA算法， RSA算法采用分解大质数原理
+
+  服务器会提供公钥和证书给客户端， 公钥用于客户端加密， 证书解决了公钥防伪造认证问题。
+
+  此外， http默认端口 80， https默认端口 443
+
 - **用js实现一个散列类**
 
-- **margin: 5px 20px 30px; 上下左右的margin分别是多少** 
-
-  上5px， 左右20px， 下30px；
 
 
+- **margin: 5px 20px 30px; 上下左右的margin分别是多少?** 
+
+  上5px， 左右20px， 下30px
 
 
+* **js的简单类型和复杂类型存储在哪些地方， 有什么区别？**
+
+  复杂类型存放在堆区， 存放比较快， 但查找较慢， 变量赋值复制的是内存地址（索引）
+
+  简单类型存储在栈区， 存放慢， 查找快， 变量赋值复制的是值为非索引
 
 #### 11.11
 
 - **为什么使用hightChart.js , 它使用的svg对比canvas有什么优势**
+  * hightChart.js采用svg， svg 是基于xml的， 部分采用 canvas保证了良好的兼容性， 可在不支持svg的浏览器上使用canvas保证向下兼容
+  * 因为svg基于xml， 操作xml也是操作dom， 一些事件绑定可以实现， 也可以自定义操作dom
 
-- **vue2是怎么实现v-model双向数据绑定的, diff算法的实现原理**
+
+
+- **vue是怎么实现v-model双向数据绑定的, diff算法的实现原理**
 
 - **http://toutiao.com 往 http://mp.toutiao.com发送一个ajax请求，请问跨域了么？mp.toutiao.com 的服务器可以收到是怎样的请求？解决跨域的方法**
 
   * 跨域了, 跨域的要求是: 协议, 端口, 域名中有一项不同都属于跨域, 子域名和父域名也属于域名不同
-  * 服务器会收到跨域的ajax请求(cors), 如果是简单请求会直接收到请求, 如果是复杂请求, 浏览器会先发送请求预检(options). 服务器会对比请求头的origin字段与响应头设置的access-control-allow-origin对比, 如果通过检验, 则发送cors响应
+
+  * 服务器会收到跨域的ajax请求(cors), **如果是简单请求会直接收到请求, 如果是复杂请求, 浏览器会先发送请求预检(options)**. 服务器会对比请求头的origin字段与响应头设置的access-control-allow-origin对比, 如果通过检验, 则发送cors响应
+
   * 解决办法, 服务端的响应头增加access-control-allow-origin 包含请求的域
 
 - **Promise的 all方法和race方法**
@@ -445,12 +464,42 @@
       const p = Promise.race([p1, p2, p3])
       ```
 
-- HTTP缓存介绍
+- **HTTP缓存介绍？**
 
-- 算法求：数组A，取M个数，和为N
+  * **强缓存**
+
+  * **协商缓存**
+
+- **实现一个长宽比为4：3的div**
+
+  * 使用子元素margin撑开父元 , **margin是以父元素的宽度计算的**
+
+    ```css
+    .container {
+        width: 200px;
+    }
+    .container:after {
+        content: '';
+        margin-top: 75%;
+    }
+    ```
+
+  * 利用自身padding, **padding是用自身宽度计算的**
+
+    ```css
+    .container {
+        width: 200px;
+        padding-bottom: 75%;
+    }
+    ```
+
+
+- **算法求：数组A，取M个数，和为N**
 
   例如: A 2000个数的数组 , M 50, N 1000
 
-- 最近关注的新技术
+- **最近关注的新技术**
 
-  react native, weex, vue ssr, next.js
+  * 服务端： egg.js, ssr(nuxt.js)
+  * 移动端： weex， 小程序， react-native, PWA(渐进式web应用于离线应用)， android快应用
+  * 其他 electron， rx.js
