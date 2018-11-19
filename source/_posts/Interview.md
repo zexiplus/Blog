@@ -744,15 +744,15 @@ js的下载和执行会阻塞之后所有资源的下载
 
   * 建立tcp连接
 
-    ![tcp三次握手](/Users/float/Desktop/GitHub/blog/source/_posts/imgs/tcp.jpg)
+    ![tcp三次握手](./imgs/tcp.jpg)
 
   * 发送http请求
 
-    ![http-request](/Users/float/Desktop/GitHub/blog/source/_posts/imgs/http_request.jpg)
+    ![http-request](./imgs/http_request.jpg)
 
   * 关闭tcp连接
 
-    ![closeLink](/Users/float/Desktop/GitHub/blog/source/_posts/imgs/closeLink.jpg)
+    ![closeLink](./imgs/closeLink.jpg)
 
 
 
@@ -832,6 +832,13 @@ js的下载和执行会阻塞之后所有资源的下载
     <meta http-equiv="x-dns-prefetch-control" content="on">
     <link rel="dns-prefetch" href="//host_name_to_prefetch.com">
     ```
+
+* **动画性能**
+
+  实现动画的方式: 1.js控制dom动画, 2.svg动画(path), 3. canvas + css3 动画
+
+  使用硬件加速优化页面性能， 默认transform， transition 不使用3d加速， 但transform3d使用3d加速
+
 
 
 #### 错误监控
@@ -1089,22 +1096,12 @@ js的下载和执行会阻塞之后所有资源的下载
 
 
 
-### 补充
+
+## 补充
+
+补充前面章节缺少的知识点
 
 
-##### 动画
-
-实现动画的方式: 1.js控制dom动画, 2.svg动画(path), 3. canvas + css3 动画
-
-使用硬件加速优化页面性能， 默认transform， transition 不使用3d加速， 但transform3d使用3d加速
-
-
-
-
-* **什么是diff算法?**
-
-
-### ES6/7
 
 #### Promise
 
@@ -1348,6 +1345,12 @@ js的下载和执行会阻塞之后所有资源的下载
 
 
 
+#### 深入响应式原理与MVVM思想
+
+
+
+##### 什么是diff算法?
+
   [介绍](https://www.infoq.cn/article/react-dom-diff)
 
 
@@ -1387,11 +1390,34 @@ js的下载和执行会阻塞之后所有资源的下载
     * 列表节点的比较, React 会逐个对节点进行更新，转换到目标节点
 
 
+
 #### vue
+
+* ##### 实现vue的几个关键类有哪些， 作用是什么
+
+  **类:**
+
+  - **Compile**，对指令进行解析，初始化视图，并且订阅数据的变更，绑定好更新函数
+  - **Observer**，对数据进行劫持，通知数据的变化
+  - **Watcher**，将其作为以上两者的一个中介点，在接收数据变更的同时，让Dep添加当前Watcher，并及时通知视图进行update
+  - **Dep** 发布订阅事件相关
+  - **MVVM**，整合以上三者，作为一个入口函数
+
+  **步骤：**
+
+  - 第一步：创建`MVVM`、`Compile`类，并且利用`createDocumentFragment`将`<div id="app"></div>`下的标签放到`JS文档碎片`中去。
+  - 第二步：`Compiler`对 标签 进行编译，将带有 `v-` 指令的标签和`{{}}`的标签解析出来
+  - 第三步：创建`Observer类`进行数据劫持、深度递归劫持和代理，当data中设置值或者修改值的时候，利用`Object.defineProperty`对值进行监控。
+  - 第四步：创建`Watch类`观察者，用新值和老值进行比对，如果发生变化，就调用更新方法，进行视图更新。
+  - 第五步：将输入框`v-model`和视图绑定起来，输入框的值变化，同时页面中通过`{{}}`绑定的值也变化，实现`双向数据绑定`。
+  - 第六步：在`MVVM类`中，设置`proxyData`代理，将`vm.$data`的值代理到`vm`上，即可以直接通过 `vm`
+
 
 - **vue是什么？ 有哪些特性？**
 
-  vuejs是一套基于mvvm思想的， 构建用户界面的框架。vue在设计上着重关心视图层， 特点有双向数据绑定， vue后缀的单文件组件， 低耦合， 可复用性强， 独立开发， 可测试性， 2.0支持virtualdom
+  vuejs是一套基于mvvm思想的， 构建用户界面的框架。vue在设计上着重关心视图层， 特点有双向数据绑定， vue后缀的单文件组件， 低耦合， 可复用性强， 独立开发， 可测试性， 2.0支持virtualdom.
+
+  特性： **数据驱动， 单文件组件系统**
 
 - **vue如何优化首屏加载速度？**
 
@@ -1575,26 +1601,6 @@ js的下载和执行会阻塞之后所有资源的下载
   11、触发 `DOM` 更新。
 
   12、用创建好的实例调用 `beforeRouteEnter` 守卫中传给 `next` 的回调函数。
-
-
-
-#### vue实现
-
-**四个类**：
-
-- 1、实现一个Compile，对指令进行解析，初始化视图，并且订阅数据的变更，绑定好更新函数
-- 2、实现一个Observer，对数据进行劫持，通知数据的变化
-- 3、实现一个Watcher，将其作为以上两者的一个中介点，在接收数据变更的同时，让Dep添加当前Watcher，并及时通知视图进行update
-- 4、实现MVVM，整合以上三者，作为一个入口函数
-
-**步骤：**
-
-* 第一步：创建`MVVM`、`Compile`类，并且利用`createDocumentFragment`将`<div id="app"></div>`下的标签放到`JS文档碎片`中去。
-* 第二步：`Compiler`对 标签 进行编译，将带有 `v-` 指令的标签和`{{}}`的标签解析出来
-* 第三步：创建`Observer类`进行数据劫持、深度递归劫持和代理，当data中设置值或者修改值的时候，利用`Object.defineProperty`对值进行监控。
-* 第四步：创建`Watch类`观察者，用新值和老值进行比对，如果发生变化，就调用更新方法，进行视图更新。
-* 第五步：将输入框`v-model`和视图绑定起来，输入框的值变化，同时页面中通过`{{}}`绑定的值也变化，实现`双向数据绑定`。
-* 第六步：在`MVVM类`中，设置`proxyData`代理，将`vm.$data`的值代理到`vm`上，即可以直接通过 `vm`
 
 
 
