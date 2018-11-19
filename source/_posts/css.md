@@ -328,10 +328,17 @@ overflow: hidden;
   flex-shrink: <number>; /* default 1 */
   ```
 
-* **自身对齐 align-self**
+* **自身对齐(垂直方向) align-self**
 
   ```css
   align-self: auto | flex-start | flex-end | center | baseline | stretch;
+  ```
+
+* **自身对齐（水平方向） margin**
+
+  ```css
+  margin-left: auto; /* 右对齐 */
+  margin-right: auto; /* 左对齐 */
   ```
 
 * **others**
