@@ -267,11 +267,46 @@ overflow: hidden;
 
 * **单位宽度 flex**
 
+  https://segmentfault.com/q/1010000004080910/a-1020000004121373
+
   ```css
   flex: initial; /* 原始宽度 */
   flex: 1; /* 单位宽度（若其他item没设置，则被拉伸填满）*/
   flex: 2; /* 单位宽度的两倍 */
   ```
+
+  `flex` 是 `flex-grow`、`flex-shrink`、`flex-basis`的缩写
+
+  ```css
+  .parent {
+      display: flex;
+  }
+  .item1 {
+      width: 140px;
+      flex: 2 1 0%;
+      background: blue;
+  }
+  .item2 {
+      width: 100px;
+      flex: 2 1 auto;
+      background: darkblue;
+  }
+  .item3 {
+      flex: 1 1 200px;
+      background: lightblue;
+  }
+  ```
+
+  父容器宽度 600px， 子元素 宽度 0% + 100px + 200px = 300px ， 剩余宽度 300px， 每个分配n/m的剩余空间， 如item1 增加 2/（2+2+1）× 300 的像素宽度 0% + 120 = 120px， 最后
+
+  ```js
+  item-1 = 0% + 120px = 120px
+  item-2 = auto + 120px = 220px
+  item-3 = 200px + 60px = 260px
+  ```
+
+
+​	
 
 * **排列顺序 order**
 

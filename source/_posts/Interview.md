@@ -70,6 +70,49 @@ title: 常用面试问题记录与分析
 
 
 
+##### html
+
+- **语意化标签**: section章节, article容器, nav导航, aside附加栏, header页头, main主题内容, footer页脚
+
+- **替换元素**： input, select, img, 这类根据标签属性的元素
+
+  **非替换元素**： div, span 这类根据内容显示的元素
+
+- **meta标签都有哪些作用**
+
+  - 指定渲染引擎
+
+    ```html
+    <meta name="renderer" content="webkit">
+    ```
+
+  * 关键字
+
+    ```html
+    <meta name="keywords" content="">
+    ```
+
+  * 内容, 用于搜索引擎优化
+
+    ```html
+    <meta name="description" content="">
+    ```
+
+  * 指定视窗大小
+
+    ```html
+    <meta name="viewport" content="width=device-width">
+    ```
+
+- link标签除了引用css外, 还有什么作用
+
+  - link标签 dns 预解析
+
+    ```html
+    <link rel="dns-prefetch" href="//static.123.com">
+    ```
+
+
 ##### 页面布局
 
 * **实现一个左右宽度300,高度已知, 中间自适应的布局, 各有什么优点, 缺点, 兼容性**
@@ -209,21 +252,30 @@ title: 常用面试问题记录与分析
 
 * **http协议的主要特点**
 
-  简单快速, 灵活, 无连接, 无状态
+  简单快速, 灵活, **无连接, 无状态**
 
 * **http报文的组成成分**
-    * 请求报文: 
+
+    * **请求报文**: 
       - 请求行: http方法, 请求地址,http协议和版本 
       - 请求头 一些key, value值
       - 空行
       - 请求体
-      * 响应报文: 
-        - 状态行
-        - 相应头
-        - 空行
-        - 响应体
-* **http方法**
+    * **响应报文:** 
+      - 状态行
+      - 相应头
+      - 空行
+      - 响应体
 
+* **常用请求头**
+
+    Accept, accept-encoding, host, referer, cookie, connection
+
+* **常用响应头**
+
+    Allow, Content-Length, Set-Cookie,Etag, content-type
+
+* **http方法**
   * get 获取资源
   * post 传输资源
   * put 更新资源
@@ -233,8 +285,8 @@ title: 常用面试问题记录与分析
 * **post和get区别**
 
   * get产生的url地址可被收藏, 而post不可以
-  * get请求会被浏览器主动缓存, post不会
-  * get只能url编码, 而post支持多种编码
+  * get请求会被浏览器**主动缓存**, post不会
+  * get只能url编码, 而post**支持多种编码**
   * get请求的url长度有限(过长截断), 而post没有
   * get比post更不安全, 参数通过url传递, post放在requestbody中
 
@@ -275,21 +327,22 @@ title: 常用面试问题记录与分析
 * **类的声明, 生成实例**
 
 
-  * 构造函数方式
+    * 构造函数方式
 
-    ```js
-    function Animal(name) {this.name = name}
-    ```
+  ```js
+  function Animal(name) {this.name = name}
+  ```
 
-  * class关键字
 
-    ```js
-    class Animal {
-        constructor (name) {
-            this.name = name
-        }
-    }
-    ```
+    * class关键字
+
+  ```js
+  class Animal {
+      constructor (name) {
+          this.name = name
+      }
+  }
+  ```
 
   * 实例化
 
@@ -428,11 +481,13 @@ title: 常用面试问题记录与分析
 
 * **什么是同源策略即限制**
 
-  源: 协议, 域名, 端口
+  * 源: 协议, 域名(包括子域名), 端口不一致
 
-  同源策略限制从一个源加载的文档或脚本如何与来自另一个源的资源进行交互.这是一个隔离潜在恶意文件的安全机制.
+  * 例子: a.interview.com 访问interview.com属于**跨域**, interview.com访问a.interview.com**也是跨域**
 
-  具体限制: cookie, localStorage 和 indexDB 无法读取, dom无法获得, ajax无法发送
+  * 同源策略限制从一个源加载的文档或脚本如何与来自另一个源的资源进行交互.这是一个隔离潜在恶意文件的安全机制.
+
+  * 具体限制: cookie, localStorage 和 indexDB 无法读取, dom无法获得, ajax无法发送(或成功发送浏览器并不响应)
 
 * **前后端如何通讯**
 
@@ -458,9 +513,59 @@ title: 常用面试问题记录与分析
   xhr.send(data)
   ```
 
-* **跨域通讯的几种方式**,
+* **跨域通讯的几种方式**
 
-  浏览器回自动拦截跨域ajax, 并添加origin发送跨域通信
+  浏览器会自动拦截跨域ajax请求, 并添加origin发送跨域通信
+
+  出于安全原因，浏览器限制从脚本内发起的跨源HTTP请求。 例如，XMLHttpRequest和Fetch API遵循同源策略。 这意味着使用这些API的Web应用程序只能从加载应用程序的同一个域请求HTTP资源，除非使用CORS头文件. 这段描述不准确，**并不一定是浏览器限制了发起跨站请求，而也可能是跨站请求可以正常发起**，但是返回结果被浏览器拦截了。
+
+  - **cors(跨域的ajax)**
+
+    跨域资源共享CORS 是一种机制，它使用额外的 HTTP头来告诉浏览器  让运行在一个 origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源。当一个资源从与该资源本身所在的服务器**不同的域或端口**请求一个资源时，资源会发起一个**跨域 HTTP 请求**
+
+    跨域资源共享标准新增了一组 HTTP 首部字段，允许服务器声明哪些源站通过浏览器有权限访问哪些资源
+
+    跨域资源共享标准新增了一组 HTTP 首部字段，允许服务器声明哪些源站通过浏览器有权限访问哪些资源。另外，规范要求，对那些可能对服务器数据产生副作用的 HTTP 请求方法（特别是 `GET`以外的 HTTP 请求，或者搭配某些 MIME 类型的 `POST`请求，浏览器必须首先使用 `OPTIONS`方法发起一个预检请求（preflight request），从而获知服务端是否允许该跨域请求。服务器确认允许之后，才发起实际的 HTTP 请求。在预检请求的返回中，服务器端也可以通知客户端，是否需要携带身份凭证（包括 Cookies和 HTTP 认证相关数据）
+
+    * **cors的请求头**
+
+      这些首部字段无须手动设置。 当开发者使用 XMLHttpRequest 对象发起跨域请求时，它们已经被设置就绪
+
+      * **origin**
+
+        ```js
+        Origin: <origin>
+        ```
+
+      * **Access-Control-Request-Method**
+
+        首部字段用于预检请求。其作用是，将实际请求所使用的 HTTP 方法告诉服务器
+
+      * **Access-Control-Request-Headers** 
+
+        其作用是，将实际请求所携带的首部字段告诉服务器
+
+    * **cors响应头**
+
+      * **Access-Control-Allow-Origin: ***
+
+        origin 参数的值指定了允许访问该资源的外域 URI, * 表示所有
+
+      * **Access-Control-Allow-Methods**
+
+        首部字段用于预检请求的响应。其指明了实际请求所允许使用的 HTTP 方法
+
+      * **Access-Control-Allow-Credentials**
+
+        头指定了当浏览器的`credentials`设置为true时是否允许浏览器读取response的内容
+
+      * **Access-Control-Allow-Headers**
+
+        用于预检请求的响应。其指明了实际请求中允许携带的首部字段
+
+      * **Access-Control-Expose-Headers**
+
+        在跨域访问时，XMLHttpRequest对象的getResponseHeader()方法只能拿到一些最基本的响应头，Cache-Control、Content-Language、Content-Type、Expires、Last-Modified、Pragma，如果要访问其他头，则需要服务器设置本响应头
 
   * **jsonp**
 
@@ -520,21 +625,6 @@ title: 常用面试问题记录与分析
     ws.onclose = function () {}
     ```
 
-  * **cors(跨域的ajax)**
-
-    利用fetch api
-
-    ```js
-    // 进行一些跨域配置
-    fetch('/some/url', {
-        method: 'get'
-    }).then(() => {
-        
-    }).catch(err => {
-        
-    })
-    ```
-
 
 ##### 安全
 
@@ -547,7 +637,6 @@ title: 常用面试问题记录与分析
 
   * token验证
   * referer验证, 请求是否从可信站点发起
-  * session验证
 
 * **xss(跨域脚本攻击)**
 
@@ -623,6 +712,33 @@ title: 常用面试问题记录与分析
 
   使用 **createDocumentFregment**创建节点, 一次性加入页面
 
+* **浏览器在输入url敲回车后发生了什么?**
+
+  * DNS域名解析；
+  * 建立TCP连接；
+  * 发送HTTP请求；
+  * 服务器处理请求；
+  * 返回响应结果；
+  * 关闭TCP连接；
+  * 浏览器解析HTML；
+  * 浏览器布局渲染；
+
+  **步骤详解**
+
+  * 建立tcp连接
+
+    ![tcp三次握手](/Users/float/Desktop/GitHub/blog/source/_posts/imgs/tcp.jpg)
+
+  * 发送http请求
+
+    ![http-request](/Users/float/Desktop/GitHub/blog/source/_posts/imgs/http_request.jpg)
+
+  * 关闭tcp连接
+
+    ![closeLink](/Users/float/Desktop/GitHub/blog/source/_posts/imgs/closeLink.jpg)
+
+
+
 
 #### js运行机制
 
@@ -644,6 +760,26 @@ title: 常用面试问题记录与分析
   Event Loop 是一个很重要的概念，指的是计算机系统的一种运行机制, **Event Loop是一个程序结构，用于等待和发送消息和响应事件**
 
   每当遇到I/O的时候，主线程就让Event Loop线程去通知相应的I/O程序，然后接着往后运行，所以不存在红色的等待时间。等到I/O程序完成操作，Event Loop线程再把结果返回主线程。主线程就调用事先设定的回调函数，完成整个任务
+
+* **宏任务和微任务的定义和优先级?**
+
+  setInterval, setTimeout是宏任务, 比**promise, process.nextTick**这种微任务慢
+
+  ```js
+  setTimeout(() => console.log(0), 0)
+  new Promise(resolve => {
+      resolve()
+      console.log(1)
+  }).then(res => {
+      console.log(2)
+  })
+  console.log(3)
+  
+  // 1, 3, 2, 0
+  ```
+
+
+
 
 #### 页面性能
 
@@ -793,9 +929,7 @@ title: 常用面试问题记录与分析
 
 
 
-大数据营收系统
-
-
+##### 大数据营收系统
 
 **项目任务：** 
 
@@ -812,11 +946,7 @@ title: 常用面试问题记录与分析
 
 公司通过分析用户喜好和营收数据，2018年调整战略， 营业额持续提升 
 
-
-
-**整体方案**
-
-
+**整体方案:**
 
 
 
@@ -828,8 +958,6 @@ title: 常用面试问题记录与分析
 
 * 对于设计图给出但highchart无法实现的需要通过dom动画的方式来模拟， 并封装成公共组件进行调用， 这其中还需要考虑数据极差比较大的情况下对小数据的良好显示，动画的平滑过渡 
 
-
-
 **收获**
 
 * 代码规范提高， 协同开发能力提升
@@ -840,13 +968,13 @@ title: 常用面试问题记录与分析
 
 
 
-wall.e 开源硬件机器人项目
+##### wall.e 开源硬件机器人项目
 
+**技术方案：**
 
+ 页面Vue, 服务端采用express搭建服务器接受请求, johnny-five开源库操纵各个传感器和硬件io
 
-技术方案： 页面Vue
-
-功能：
+**功能：**
 
 * 局域网/公网下远程遥控前后左右
 * 视频实时传输
@@ -856,9 +984,9 @@ wall.e 开源硬件机器人项目
 
 
 
-思路&亮点
+**思路&亮点**
 
-数据存储采用分布式思想， 传感器测量的数据上传至云端（mlab）保存
+采用分布式思想, 服务器, 页面, 数据分别存在不同位置
 
 客户端与智能硬件之间采用动态连接
 
@@ -868,47 +996,31 @@ wall.e 开源硬件机器人项目
 
 
 
-难点：
 
-nodejs调试比较困难， 运行在之上的johnny-five调用硬件api， 产生的错误更难进行定位
-
-在开源硬件平台运行node本身就是比较耗费性能的事情， 还需要启动服务器， 控制硬件io， 比较耗费性能， 
+**难点**
 
 
+* nodejs调试和硬件调试比较困难, 错误难以定位,日志难以分析
 
+  克服: 上网查找nodejs的调试方法,学会使用node-inspector
 
+* 服务器文件运行在开发板上, 文件同步比较困难, 每次更改需要手动ftp传到开发板上,或者直接在开发板上编辑并运行代码, 但这样比较卡
 
+  客服: 用nodejs的fs.watch api 监听开发目录变化, 当文件变动自动执行process.exec 内传入的ftp命令, 开发板使用forever或者pm2守护进程, 当代码更改自动重启服务器
 
-
-
-
-
+* 页面温度计能根据传感器的输入改变颜色和长度, 其中使用canvasapi 绘制温度计, 写了一个函数把温度作为输入, 颜色和长度作为输出, 调整温度计的变化
 
 
 
+##### Colorful.css 
+
+根据用户选择主题色, 生成可定制的css, 有网页版本和命令行版本
 
 
 
+使用的技术: 动态创建样式技术,  node命令行
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+收获 熟悉了node怎样编写一个命令行软件, 怎么创建并发布一个npm包
 
 
 
@@ -960,515 +1072,7 @@ nodejs调试比较困难， 运行在之上的johnny-five调用硬件api， 产�
 
 
 
-
-
-
-### 面试实战
-
-#### 2018.10.13 （14×13 get）
-
-* **浏览器小于12px像素字体显示**
-
-  ```css
-  span {
-      font-size: 12px;
-      transform: scale(0.8)
-  }
-  ```
-
-* **html doctype的意义 (标准模式和兼容模式)**
-
-  标准模式的排版和js以浏览器支持的最高标准运行,  兼容模式浏览器以向后兼容的方式模拟老旧浏览器的行为防止站点无法工作
-
-* **实现ie6, 7 , 8不同字体颜色**
-
-  ```css
-  span {
-      color: #ccc\9; /*ie 6,7,8 */
-      +color: #000; /* ie 6,7 only  */
-      _color: #777; /* ie6 only */
-  }
-  ```
-
-* **Webpack是什么**
-
-  webpack是一个前端模块化方案，更侧重模块打包，我们可以把开发中的所有资源（图片、js文件、css文件等）都看成模块，通过loader（加载器）和plugins（插件）对资源进行处理，打包成符合生产环境部署的前端资源
-
-* **Webpack热刷新原理** 
-
-  使用**webpack-hot-middleware**插件, 使用**SSE**(server sent events)**服务器事件**
-
-  ```js
-    // client
-    var listener = new EventSource('/message')
-    listener.onmessage = function (e) {
-        console.log(e.data)
-    }
-    
-    // server
-    http.createServer(function (req, res) {
-        if (req.url == '/message') {
-            res.writeHead(200, {
-                'Content-Type': 'text/event-stream',
-                'Cache-Control': 'no-cache',
-                'Connection': 'keep-alive'
-            })
-            var i = 0
-            setInterval(function() {
-                i ++
-                res.write('update')
-            }, 1000)
-        }
-    }).listen(3000)
-  ```
-
-* **css 实现等边三角形**(原理：利用两个正方形旋转底边)
-
-  ```css
-  .box {
-      border-bottom: 1px solid #fff;
-      width: 100px;
-      height: 100px;
-      position: relative;
-  }
-  
-  .box:after, box:before {
-      position: absolute;
-  }
-  .box:before {
-      transform: rotate(30deg);
-      transform-origin: left bottom;
-  }
-  .box:after {
-      transform: rotate(60deg);
-      transform-origin: right bottom;
-  }
-  ```
-
-* **react组件的生命周期**
-
-  * **实例化(渲染期)**
-    - getDefaultProps
-    - getInitialState (**此时可以访问this.props**)
-    - componentWillMount
-    - render
-    - componentDidMount
-  * **存在期**
-    - componentWillReceiveProps
-    - shouldComponentUpdate (首次渲染不会调用) 
-    - componentWillUpdate
-    - componentDidUpdate
-  * **销毁&清理期**
-    - componentWillUnmount
-
-* **什么是受控组件和非受控组件？**
-
-
-
-#### 2018.10.17
-
-
-
-* **防止JS对象被修改**
-
-  * 不可扩展对象Object.preventExtensions(obj) [不能添加新成员]
-
-  * 密封对象 Object.seal(obj) [不能删除, 但属性可修改]
-
-  * 冻结对象 Object.freeze(obj) [不能删不能增不能改]
-
-  * 设置属性 Object.defineProperty, Object.defineProperties
-
-    ```js
-    Object.defineProperty(obj, 'name', {
-        configurable: boolean, // 是否可删除
-        enumerable: boolean, // 是否可枚举
-        writable: boolean, // 是否可修改
-        value: val // 属性值
-    })
-    ```
-
-
-
-* **CSS选择符有哪些？哪些属性可以继承？**
-
-  可继承 **字体, 颜色, 字大小, 缩进**
-
-
-
-* **前端存储方式有哪些？**
-
-  **Cookie, localStorage, sessionStorage, indexDB**
-
-* **什么是面向对象？面向对象有哪些基本特征？**
-
-
-  * 面向对象是一种思想. 面向对象是指, 把复杂过程封装在对象中,细节交给对象实现, 只暴露出简单的接口,让对象去实现具体的细节.  这种思想将数据作为第一位, 方法其次, 这是对数据的优化, 简化了过程.  通过继承机制, 实现对象之间的属性,方法共用.
-
-  * **封装性**: 隐藏具体细节, 隔离变化, 仅提供外部访问的接口
-
-  * **继承性:** 子类继承父类的一些方法, 可以提高代码复用性
-
-  * **多态性: **同一方法可以在子类和父类有不同实现
-
-* **千位符**
-
-  ```js
-  function format(num){
-      if(!num) return
-      var numString = num.toString()
-      var trailIndex = numString.indexOf('.')
-      var headString
-      if (trailIndex >= 0) {
-          var trail = numString.slice(trailIndex)
-          headString = numString.slice(0, trailIndex)
-          return numString.replace(/(\d{3}\B)/g, function($1) {
-              return $1 + ','
-          }).concat(trail)
-      } else {
-  		headString = numString
-          return numString.replace(/(\d{3}\B)/g, function($1) {
-              return $1 + ','
-          })
-      }
-  }
-  
-  console.log(format(1231423423.22)) //1,231,423,423.22
-  ```
-
-
-* **快排算法**
-
-  ```js
-  var quicksort = function (arr) {
-      // 递归函数, 终止情况为数组的长度为1
-      if (arr.length <= 1) {
-          return arr;
-      }
-      var pivotIndex = Math.floor(arr.length / 2); // 选取一半位置为基准点
-      var pivot = arr.splice(pivotIndex, 1)[0]; // 挑选出基准值
-      var left = [];
-      var right = [];
-      // 建立左右两个数组, 左边存放小于基准的数值, 右边存放大于基准的数值
-      for (var i = 0; i < arr.length; i++) {
-          if (arr[i] < pivot) {
-              left.push(arr[i]);
-          } else {
-              right.push(arr[i]);
-          }
-      }
-      // 调用自身并进行连接 返回排序后的数组
-      return quicksort(left).concat([pivot], quicksort(right));
-  };
-  var array = [8, 7, 0, 7, 5, 2, 5, 3, 1];
-  quicksort(array); // [0,1,2,3,5,5,7,7,8] 
-  ```
-
-* **链表与数组的区别**
-
-  * 数组是在内存中连续存放的
-
-  * 插入存储效率低
-
-  * 查找效率高
-
-  * 不利于扩展, 数组定义的空间不够要重新定义数组
-
-  * 链表在内存中存放不是连续的
-
-  * 每一个数据都保存着下一个数据的地址
-
-  * 插入增加数据效率高
-
-  * 查找数据效率低
-
-  * 不指定大小, 扩容方便
-
-* **性能优化**
-
-  * 合并文件 , 使用 css精灵图以 减少http请求
-
-  * 使用合适的缓存策略 响应头增加 expire, max-age字段 增加E-tag
-
-  * 选择适当的图片格式, 压缩图片质量
-
-  * 使用cdn
-
-  * 选择合理的 web component更新方式和周期
-
-  * 压缩组件, js,css
-
-  * 减少重定向
-
-  * 不要使用css表达式
-
-  * 减少dns查询次数
-
-  * 合理使用预加载和懒加载
-
-* **进程间通信(ipc)方式有哪些**
-
-  * 匿名管道(**pipe**) 半双工, 数据单向流动, 只能在亲缘(父子)进程间使用
-  * 具名管道(**named pipe**) 允许非亲缘管道间使用
-  * 高级管道(**popen**)  将另一个进程在当前程序中启动
-  * 消息队列(**message queue**) 消息队列是存放消息的链表, 克服了管道只能传递无格式字节流, 和缓冲区大小受限的情况
-  * 信号(**sinal**)
-  * 共享内存通信(**shared memory**) 由一个进程创建, 多个进程共享的内存, 是最快的进程间通讯方式
-  * 套接字(**socket**)  可用于不同主机之间通讯 步骤 命名, 绑定, 监听, 连接, 发送信息, 解绑
-
-
-
-#### 10.18 （12 × 14 get）
-
-* **简单与复杂请求**
-
-  * **简单请求**: 两者必须都满足
-
-    * 仅包含GET, HEAD or POST(如果是post, content-type必须是 application/x-www-form-urlencoded, multipart/form-data, or text/plain 其中一种)
-    * 没设置自定义头信息的请求 
-
-  * **复杂请求**
-
-    不满足简单请求的请求类型
-
-    1. 获取服务器支持的HTTP请求方法；也是黑客经常使用的方法。
-    2. 用来检查服务器的性能。例如：AJAX进行跨域请求时的预检，需要向另外一个域名的资源发送一个HTTP OPTIONS请求头，用以判断实际发送的请求是否安全。
-
-* **http2**
-
-  * **首部压缩**
-
-    * 如果首部发生变化了，那么只需要发送变化了数据在Headers帧里面，新增或修改的首部帧会被追加到“首部表”
-
-  * **共享同一个tcp连接**
-
-    * “资源合并减少请求”的优化手段对于HTTP2.0来说是没有效果的，只会增大无用的工作量而已
-    * http1一个域名限制打开6个tcp连接， 所以使用cdn1， cdn2 ， cdn3 ...分发不同资源， http2不需要
-
-  * **并行双向字节流的请求和回应**
-    - 同一链接上有多个不同方向的数据流在传输。客户端可以一边乱序发送stream，也可以一边接收者服务器的响应，而服务器那端同理
-  * **请求分有优先级**
-    - 每个HTTP2.0流里面有个优先值，这个优先值确定着客户端和服务器处理不同的流采取不同的优先级策略，高优先级的流都应该优先发送，但又不会绝对的
-  * **服务端推送**
-    - 除了对最初请求的响应外，服务器还可以额外向客户端推送资源，而无需客户端明确地请求
-    - 下次请求时直接从缓存中读取
-
-* **diff算法**
-
-* **xss, csrf防范**
-
-* **cookie设置**
-
-
-#### 10.19
-
-
-
-* **讲讲对mvvm模式的理解**
-
-  **model（模型层）， view（视图层）， viewmodel（展示模型)**
-
-  展示模型将模型层中的**数据与复杂的业务逻辑封装成属性与简单的数据**暴露给视图，让视图和展示模型中的属性进行同步, 同时用户改变视图, 视图通过视图模型, 修改数据同步至模型上.
-
-* **讲讲 vue store**
-
-* **讲讲至今遇到的最大困难**
-
-  what，how，why,  done，right，better
-
-* **说一下Event loop**
-
-  **Event Loop是一个程序结构，用于等待和发送消息和事件.**
-
-  简单说，就是在程序中设置两个线程：一个负责程序本身的运行，称为"主线程"；另一个负责主线程与其他进程（主要是各种I/O操作）的通信，被称为"Event Loop线程"（可以译为"消息线程"）
-
-  Node采用的是单线程的处理机制(所有的I/O请求都采用非阻塞的工作方式)，至少从Node.js开发者的角度是这样的。而在底层，Node.js借助libuv来作为抽象封装层，从而屏蔽不同操作系统的差异，Node可以借助livuv来实现线程。
-
-  Libuv库负责将不同的任务分配给不同的线程，形成一个事件循环，以异步的方式将任务的执行结果返回给V8引擎。
-
-  每一个I/O都需要一个回调函数——一旦执行完便堆到事件循环上用于执行
-
-  ![libuv](.\/imgs/libuv.png)
-
-  ![eventloop](./imgs/eventLoop.png)
-
-* **vue-router 的 跳转实现原理**
-
-  我们都知道，单页面应用(SPA)的核心之一是: **更新视图而不重新请求页面**;vue-rouetr在实现单页面前端路由时，提供了两种方式：**Hash模式和History模式；根据mode参数来决定采用哪一种方式**。
-
-  那为什么这两种方式能够实现试图更新不跳转，其原因在于：
-
-  * **Hash模式**： 
-    ​ hash（#）是URL 的锚点，代表的是网页中的一个位置，单单改变#后的部分，浏览器只会滚动到相应位置，不会重新加载网页，使用”后退”按钮，就可以回到上一个位置；
-
-    1 $router.push() //显式调用方法
-
-    2 HashHistory.push() //（window.location.hash= XXX）
-
-    3 History.transitionTo() //开始更新
-
-    4 History.updateRoute()  //更新路由
-
-    5 {app._route= route} 
-
-    6 vm.render() //更新视图
-
-    7监听hash变化(**window.onhashchange**)
-
-  * **History模式：** 
-    ​    HTML5 History API提供了一种功能，能让开发人员在不刷新整个页面的情况下修改站点的URL，就是利用 **history.pushState** API 来完成 URL 跳转而无须重新加载页面；
-
-    * **history.replaceState**
-
-        仅仅替换浏览器的地址栏, 并不发出请求, 退后按钮无作用
-
-        `history.replaceState(null, null, 'hello');`
-
-    * **history.pushState**
-
-       ```javascript
-       history.pushState([data], [title], [url]);
-       ```
-
-        点击浏览器的后退按钮，你会发现它和你预想的效果一样。因为pushState方法将我们传给它的URL添加到浏览器的history中，从而改变了浏览器的history,在HTML5History的构造函数中监听popState（**window.onpopstate**）
-
-
-
-#### 10.20
-
-* **最近在研究哪些技术,仓库?**
-  - rx.js
-  - tars.js
-  - nuxt.js
-  - serviceWorker
-
-#### 10.30
-
-* **自我介绍**
-
-  https://www.zhihu.com/question/21387153/answer/264462043
-
-  * 我最突出的技能是什么
-
-  * 我在哪方面的知识掌握是最全面的
-
-  * 我性格上最大的优势是什么
-
-  * 我最擅长的事情是什么
-  * 我有哪些成就和贡献
-
-​	我是施泽西, 一名web前端开发工程师, 毕业于中南林业科技大学2017届. 毕业后在深圳市茁壮网络股份有限公司就职, 担任web前端开发工程师一职, 至今有一年半的工作经验.
-
-​	我负责的工作主要是pc端页面的构建, 维护和开发. 当然也曾开发过一些手机端和电视端的页面. 在我就职期间我参与开发过pc端运营数据大数据可视化系统, 党员建设管理系统, 智慧教育后台管系统, 路由器设置系统. 还有公司内部homed后台管理系统的维护.
-
-​	2.因为所在公司技术选型的原因, 我最擅长的技术栈是 vue + elementUi + webpack, 除此之外也钻研和使用react作为主要使用和学习的技术框架. 我专注于研究javascript的运行机制, css 的复杂表现, html的语意化.
-
-​	3.再说说我的性格, 我认为自己是一个积极进取的人, 对自身自律. 喜欢在一定的时间内钻研一件事情. 对互联网技术有着浓厚的兴趣. 我还有一个特质就是不服输, 不怕失败. 我喜欢在失败中分析失败的原因, 避免下次失败. 我在工作生活中也是这样, 如果一件事情让我犹豫不决, 我会去尝试, 哪怕失败. 再来一遍很多情况下就会有好的结果.
-
-​	4.我最擅长做有挑战性的事情, 无论是时间上还是技术上的挑战. 我善于在闲暇之余分析项目, 找出此项目存在的问题, 还有哪些需要改善, 哪些比较浪费时间和精力去管理, 然后去做优化. 我乐于用自己所学的知识运用在实际的项目上, 
-
-​	5.最后说说我的贡献, 我能高效准时的完成开发任务, 在极端情况下无法按时完成任务, 也会去和leader沟通, 实时汇报工作进度.也乐于帮助同事去分析一些bug.这些是我在工作中的主要贡献. 
-
-
-
-* **闭包的使用场景**
-
-  * 缓存数据, 事件处理函数缓存数据
-
-    ```js
-    button.onclick = (function(num) { return function () {console.log(num ++})(1)
-    ```
-
-  * 面向对象编程对象的似有方法创建
-
-
-
-* **http 和 https的区别是什么, 用到了哪些算法, 是怎样实现的?**
-
-* **用js实现一个散列类**
-
-* **margin: 5px 20px 30px; 上下左右的margin分别是多少** 
-
-  上5px， 左右20px， 下30px；
-
-
-
-#### 11.7
-
-* **display: inline 元素的padding和margin能否设置**
-
-  行内元素的width, height, padding-top/bottom， margin-top/bottom设置均不起作用， **但margin-left/right, padding-left/right起作用**
-
-* **讲讲v-model的实现原理**
-
-* **怎么实现一个函数实现以下调用？**
-
-  ```js
-  function sum() {
-      ...
-  }
-  console.log(sum(1)(2)) // 3
-  console.log(sum(1)(4)(5)(5)) // 15 
-      
-  function sum(a) {
-      var s = function (b) {
-          a = a + b
-          return s
-      }
-      s.toString = function () { return a }
-      return s
-  }
-  
-  var log = console.log
-  console.log = function (value) {
-      log(value.toString())
-  }
-  console.log(sum(1)(2)(3))
-  ```
-
-* **vue的优缺点？**
-
-  缺点：
-
-  * 不支持ie8
-
-  * 以template组织的组件不易debug， 没有jsx形式的调试方便
-  * weex原生应用开发不够好（对比ReactNative）
-  * vue的书籍进阶不够
-
-* **虚拟dom是什么**
-
-  Virtual DOM是一个映射真实DOM的JavaScript对象，如果需要改变任何元素的状态，那么是先在Virtual DOM上进行改变，而不是直接改变真实的DOM。当有变化产生时，一个新的Virtual DOM对象会被创建并计算新旧Virtual DOM之间的差别。之后这些差别会应用在真实的DOM上
-
-
-
-
-
-
-
-### 基础面试题
-
-##### html
-
-- 语意化标签: section章节, article容器, nav导航, aside附加栏, header页头, main主题内容, footer页脚
-
-- 替换元素： input, select, img, 这类根据标签属性的元素
-
-- 非替换元素： div, span 这类根据内容显示的元素
-
-- meta标签 
-
-  - 指定渲染引擎
-
-    ```html
-    <meta name="renderer" content="webkit">
-    ```
-
-- link标签 dns 预解析
-
-  ```html
-  <link rel="dns-prefetch" href="//static.123.com">
-  ```
+### 补充
 
 
 
@@ -1482,13 +1086,254 @@ js的下载和执行会阻塞之后所有资源的下载
 
 
 
-
-
 ##### 动画
 
 实现动画的方式: 1.js控制dom动画, 2.svg动画(path), 3. canvas + css3 动画
 
 使用硬件加速优化页面性能， 默认transform， transition 不使用3d加速， 但transform3d使用3d加速
+
+
+
+### ES6/7
+
+#### Promise
+
+* **基本用法**
+
+  ```js
+  // 定时promise
+  function timeout(m, message) {
+      return new Promise((resolve, reject) => {
+          setTimeout(resolve, m, message)
+      })
+  }
+  timeout(1000, 'message').then(function (m) {
+      console.log(m)
+  })
+  
+  // 图片加载promise
+  function imgPromise(url) {
+      return new Promise((resolve, reject) => {
+          let img = new Image()
+          img.timeBegin = new Date()
+          img.onload = function () {
+              resolve(img)
+          }
+          img.onerror = function (err) {
+              console.error('can not load img' + url)
+          }
+          img.src = url
+      })
+  }
+  imgPromise('//cdn2.jianshu.io/assets/web/web-note-ad-side-banner-22096669b4c4b91c3b9266894e951aef.png').then((img) => {
+      img.timeEnd = new Date()
+      console.log('spend time', img.timeEnd - img.timeBegin)
+  })
+  ```
+
+* **Promise.resolve（param）**
+
+  将现有对象转化为promise对象
+
+  ```js
+  Promise.resolve(123)
+  // 相当于
+  new Promise(resolve => resolve(123))
+  ```
+
+  **参数**：
+
+  * 空： 直接返回一个resolved状态的promise对象
+
+  * promise对象， 直接返回原对象， 不做处理
+
+  * 不具有then方法的对象， 或不是对象： 返回新promise对象， 状态为resolved
+
+    ```js
+    const p = Promise.resolve(666)
+    p.then(() => {console.log(666)}) // 666
+    ```
+
+  * 具有then方法的对象， 先转换为promise对象， 然后立即执行thenable的then方法
+
+    ```js
+    let thenable = {
+        then: function (resolve, reject) {resolve('7878')}
+    }
+    
+    let p = Promise.resolve(thenable)
+    p.then(function(value) {
+        console.log(value)
+    })
+    ```
+
+* **Promise.reject(param)**
+
+  返回一个promise实例， 状态为rejected
+
+  ```js
+  const p = Promise.reject('666')
+  // 相当于
+  const m = new Promise((resolve, reject) => reject('666'))
+  m.then(null, function (s) {
+      console.log(s)
+  })
+  ```
+
+* **Promise.all**
+
+  Promise.all方法用于将多个 Promise 实例，包装成一个新的 Promise 实例
+
+  `Promise.all`方法接受一个数组作为参数，`p1`、`p2`、`p3`都是 Promise 实例，如果不是，就会先调用下面讲到的`Promise.resolve`方法，将参数转为 
+
+  （1）只有`p1`、`p2`、`p3`的状态都变成`fulfilled`，`p`的状态才会变成`fulfilled`，此时`p1`、`p2`、`p3`的**返回值组成一个数组**，传递给`p`的回调函数。
+
+  （2）只要`p1`、`p2`、`p3`之中有一个被`rejected`，`p`的状态就变成`rejected`，**此时第一个被`reject`的实例的返回值**，会传递给`p`的回调函数
+
+  ```js
+  const p = Promise.all([p1, p2, p3])
+  p.then(function ([p1val, p2val, p3val]) {
+      console.log(p1val, p2val, p3val)
+  })
+  ```
+
+* **Promise.race**(竞赛)
+
+  将多个 Promise 实例，包装成一个新的 Promise 实例
+
+  只要`p1`、`p2`、`p3`之中有一个实例率先改变状态，`p`的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给`p`的回调函数
+
+  ```js
+  const p = Promise.race([
+    fetch('/resource-that-may-take-a-while'),
+    new Promise(function (resolve, reject) {
+      setTimeout(() => reject(new Error('request timeout')), 5000)
+    })
+  ]);
+  
+  p
+  .then(console.log)
+  .catch(console.error);
+  ```
+
+* **Promise.prototype.then(resolveCallback, rejectCallback)**
+
+  then期望接受一个函数， 若不是函数， 将会发生值穿透， then方法返回的是一个**新的promise**， 不是之前的promise对象， 可以采用链式调用
+
+  第一个回调函数完成以后，**会将返回结果作为参数，传入第二个回调函数**
+
+  ```js
+  getMember(id).then(function (member) {
+      return getComment(comment.id)
+  }).then(function (comment) {
+      console.log(comment)
+  }, fucntion (err) {
+  	console.error(err)        
+  })
+  ```
+
+* **Promise.prototype.catch(rejectCallback)**
+
+  catch是then(null, rejectCallback)的语法糖
+
+  ```js
+  getJSON('/posts.json').then(function(posts) {
+    // ...
+  }).catch(function(error) {
+    // 处理 getJSON 和 前一个回调函数运行时发生的错误
+    console.log('发生错误！', error);
+  });
+  ```
+
+* **Promise.prototype.finally**
+
+  finally方法用于指定不管 Promise 对象最后状态如何，都会执行的操作
+
+* **Promise题目**
+
+  * 分析打印结果
+
+    ```js
+    let p = Promise.resolve(1)
+    p.then(function (value) {
+        console.log(value)
+        return 3
+    }).then(function (value) {
+        console.log(value)
+    })
+    setTimeout(function () {
+        console.log(4)
+    }, 0)
+    console.log(2)
+    
+    // 2, 1, 3, 4
+    ```
+
+    ```js
+    let p = Promise.resolve(1)
+    p.then(function (value) {
+        console.log(value)
+        return new Promise((resolve, reject) => {
+            resolve(3)
+        })
+    }).then(function (value) {
+        console.log(value)
+    })
+    setTimeout(function () {
+        console.log(4)
+    }, 0)
+    console.log(2)
+    
+    // 2, 1, 3, 4
+    ```
+
+  * 状态只能改变一次
+
+    ```js
+    const promise = new Promise((resolve, reject) => {
+      resolve('success1')
+      reject('error')
+      resolve('success2')
+    })
+     
+    promise
+      .then((res) => {
+        console.log('then: ', res)
+      })
+      .catch((err) => {
+        console.log('catch: ', err)
+      })
+    
+    // then: success1
+    ```
+
+  * 值穿透
+
+    `.then` 或者 `.catch` 的参数期望是函数，传入非函数则会发生值穿透
+
+    ```js
+    Promise.resolve(1)
+      .then(2)
+      .then(Promise.resolve(3))
+      .then(console.log)
+    // 1 
+    ```
+
+  * 错误捕获
+
+    ```js
+    Promise.resolve()
+      .then(function success (res) {
+        throw new Error('error')
+      }, function fail1 (e) {
+        console.error('fail1: ', e)
+      })
+      .catch(function fail2 (e) {
+        console.error('fail2: ', e)
+      })
+    // fail2: ...
+    ```
+
 
 
 
@@ -1932,56 +1777,11 @@ js的下载和执行会阻塞之后所有资源的下载
 
 
 
-
-
-
-
-
-
-### 优质网站
-
-- https://blog.csdn.net/kongjiea/article/details/46341575
-- https://segmentfault.com/a/1190000000465431
-- http://www.cnblogs.com/syfwhu/p/4434132.html
-
-
-
-### 术语
-
-#### xss 和 csrf区别
-
-- **csrf (Cross-site request forgery)** 
-
-  跨站请求伪造， 攻击者盗用了你的身份，以你的名义发送恶意请求 。
-
-  条件
-
-  1.登录受信任网站A，并在本地生成Cookie。
-
-  2.在不登出A的情况下，访问危险网站B。
-
-  ![csfr](/Users/float/Desktop/GitHub/blog/source/_posts/imgs/csrf.jpg)
-
-- **xss （Cross-site scripting）**
-
-  - 分类
-
-    1.持久型（永久上传某段代码，之后的所有用户都会被攻击）
-
-    2.非持久型（让某个用户点击恶意代码片段连接，只对这个用户攻击）恶意代码注入，将恶意代码片段通过任何途径上传到服务器端，当下次用户进行访问时就会执行恶意代码
-
-  - 防御
-
-    1.过滤用户输入，谨慎存取
-    2.对用户输入进行转码
-
-
-
 #### http 和 https 的区别
 
 - http默认端口80，https默认端口443
 - https采用ssl加密，http无加密
-- https的web服务器启用ssl需要获得一个服务器证书，并将该证书与要使用ssl的服务器绑定
+- https的web服务器启用ssl需要获得一个公钥证书，并将该证书与要使用ssl的服务器绑定
 
 
 
@@ -2012,57 +1812,7 @@ export default class LoadableDashboard extends React.Component {
 
 
 
-------
 
-#### 浏览器在输入url敲回车后发生了什么
-
-- **步骤**
-
-  1.DNS域名解析；
-  2.建立TCP连接；
-  3.发送HTTP请求；
-  4.服务器处理请求；
-  5.返回响应结果；
-  6.关闭TCP连接；
-  7.浏览器解析HTML；
-  8.浏览器布局渲染；
-
-- **步骤详解**
-
-  - **建立tcp连接**
-
-![tcp三次握手](./imgs/tcp.jpg)
-
-​	
-
-- **发送http请求**​	
-
-![http-request](./imgs/http_request.jpg)
-
-- **关闭tcp连接**
-
-![closeLink](./imgs/closeLink.jpg)
-
-
-
-- **浏览器解析html**
-
-  浏览器需要加载解析的不仅仅是HTML，还包括CSS、JS。以及还要加载图片、视频等其他媒体资源。
-
-  浏览器通过解析HTML，生成DOM树，解析CSS，生成CSS规则树，然后通过DOM树和CSS规则树生成渲染树。渲染树与DOM树不同，渲染树中并没有head、display为none等不必显示的节点。
-
-  要注意的是，浏览器的解析过程并非是串连进行的，比如在解析CSS的同时，可以继续加载解析HTML，但在解析执行JS脚本时，会停止解析后续HTML，这就会出现阻塞问题。
-
-- **浏览器布局渲染**
-
-根据渲染树布局，计算CSS样式，即每个节点在页面中的大小和位置等几何信息。HTML默认是流式布局的，CSS和js会打破这种布局，改变DOM的外观样式以及大小和位置。这时就要提到两个重要概念：replaint和reflow。
-
-> replaint：屏幕的一部分重画，不影响整体布局，比如某个CSS的背景色变了，但元素的几何尺寸和位置不变。
-> reflow： 意味着元件的几何尺寸变了，我们需要重新验证并计算渲染树。是渲染树的一部分或全部发生了变化。这就是Reflow，或是Layout。
-
-所以我们应该尽量减少reflow和replaint，我想这也是为什么现在很少有用table布局的原因之一。
-
-最后浏览器绘制各个节点，将页面展示给用户。
 
 
 
