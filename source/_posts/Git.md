@@ -45,6 +45,19 @@ title: Git 操作大全
 
 > git 常用命令, [中括号内]代表可省略
 
+* **添加文件修改**
+
+  ```shell
+  git add .
+  ```
+
+* **删除文件夹**
+
+  ```shell
+  git rm ./foldername -r -f
+  ```
+
+
 * **显示所有仓库列表**
 
   ```shell

@@ -63,6 +63,8 @@ nodejs 实用仓库收录, 下载/使用方法总结 https://github.com/zexiplus
 
   ```shell
   npm publish
+  # 发布共有包
+  npm publish --access=public
   ```
 
 * **全局链接**
@@ -742,3 +744,20 @@ npm i inquirer
 
 
 
+#### highlightjs
+
+页面语法高亮插件 https://github.com/highlightjs/highlight.js
+
+* **import**
+
+  ```html
+  <link rel="stylesheet" href="/path/to/styles/default.css">
+  <script src="/path/to/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  ```
+
+* **usage**
+
+  ```html
+  <pre><code class="html">...</code></pre>
+  ```

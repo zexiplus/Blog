@@ -816,10 +816,17 @@ js的下载和执行会阻塞之后所有资源的下载
 
     分类
 
-    * 强缓存: 不问直接用两者都有以cache-control为准
+    * **强缓存**(优先级较高): 请求浏览器直接使用已有的缓存， 两者都有以cache-control为准
+
       * Expires   `Expires: Thu 21 Jan 2018 ..`(以服务器的绝对时间为准)
       * Cache-Control    `Catch-Control: max-age=3600`(以客户端拿到文件3600秒为止)
-    * 协商缓存: 不确定是否使用, 先和服务器沟通再决定是否使用
+
+    * **协商缓存**: 不确定是否使用,  先和服务器沟通再决定是否使用， 服务器接收请求会对比以下字段
+
+      在 第二次 请求 的 时候， 浏览器 会把 这个 Last- Modified 带上， 变成 If- Modified- Since 字段，
+
+      如果已有直接返回304
+
       * Last-Modified 
       * Etag
       * if-None-matchd
@@ -1349,7 +1356,54 @@ js的下载和执行会阻塞之后所有资源的下载
 
 
 
-##### 什么是diff算法?
+##### 什么是AST？
+
+AST（abstruct syntax tree）抽象语法树， 是源代码的抽象结构的树状表现。
+
+Vue在mount过程中， template会被编译为AST，经过generate（AST转化为render函数）得到render， render函数返回Vnode， Vnode是Vue的虚拟dom节点， 保存着标签名， 子节点， 属性， 文本信息等
+
+
+
+**Vue 的 VNode渲染为真实dom（diff算法）的实现 ?**
+
+> vue源码在`src/core/vdom/patch.js`实现
+
+* **createPatchFunction** 接受一个参数， 返回一个 patch 函数
+* **patch** 接受参数 oldVnode， vnode, hydrating, removeOnly, parentElm, refElm, 用于对比新旧Vnode变化，执行相应操作
+  * oldVnode: 旧的虚拟节点或旧的真实dom节点
+  * vnode: 新的虚拟节点
+  * hydrating: 是否要跟真是dom混合
+  * removeOnly: 特殊flag，用于<transition-group>组件
+  * parentElm:父节点
+  * refElm: 新节点将插入到refElm之前
+* **patch 函数 实现**
+  * 若 oldVnode 存在， vnode不存在， 则调用 `invokeDestroyHook(oldVnode)` 销毁oldVnode
+  * 若vnode存在， oldVnode不存在， 则使用` createElm `新建vnode
+  * 若vnode和oldVnode是相同的VirtualNode， 则调用 patchVnode 比较两个节点的差异
+  * 当vnode和oldVnode不是同一个节点时， 创建Vnode插入到oldVnode.elm的父节点上
+* **patchVnode 实现**
+  * 如果oldVnode === Vnode 直接返回， 无操作
+  * 如果vnode和oldVnode具有相同的key， 则把oldVnode.elm和oldVnode.child都复制到vnode上，也不用再有其他操作
+  * 如果vnode是text节点， 就设置文本内容
+  * 如果vnode不是text节点
+    * 如果oldVnode与vnode都有子节点，并且子节点不相等，就调用updateChildren执行更新子节点操作
+    * oldVnode没有子节点，vnode有子节点，则创建节点
+    * oldVnode有子节点，vnode没有子节点，就移除旧的节点
+    * 如果oldVnode为text节点，就移除文本节点
+
+
+
+##### Vnode的分类都有哪些？
+
+* EmptyVnode
+* TextVnode
+* ComponentVnode
+* ElementVnode
+* CloneVnode
+
+
+
+##### react 的 diff算法实现过程?
 
   [介绍](https://www.infoq.cn/article/react-dom-diff)
 
@@ -1359,6 +1413,7 @@ js的下载和执行会阻塞之后所有资源的下载
   给定任意两棵树, 寻找差异, 找到最少转换步骤.标准的diff算法复杂度是O(n^3), react优化后的diff算法复杂度降为O(n). 
 
 * **diff算法思想(优化假设)**
+
   * 两个相同组件产生类似的 DOM 结构，不同的组件产生不同的 DOM 结构
   * 对于同一层次的一组子节点，它们可以通过唯一的 id 进行区分
 
@@ -1406,10 +1461,10 @@ js的下载和执行会阻塞之后所有资源的下载
   **步骤：**
 
   - 第一步：创建`MVVM`、`Compile`类，并且利用`createDocumentFragment`将`<div id="app"></div>`下的标签放到`JS文档碎片`中去。
-  - 第二步：`Compiler`对 标签 进行编译，将带有 `v-` 指令的标签和`{{}}`的标签解析出来
+  - 第二步：`Compiler`对 标签 进行编译，将带有 `v-` 指令的标签和`{}`的标签解析出来
   - 第三步：创建`Observer类`进行数据劫持、深度递归劫持和代理，当data中设置值或者修改值的时候，利用`Object.defineProperty`对值进行监控。
   - 第四步：创建`Watch类`观察者，用新值和老值进行比对，如果发生变化，就调用更新方法，进行视图更新。
-  - 第五步：将输入框`v-model`和视图绑定起来，输入框的值变化，同时页面中通过`{{}}`绑定的值也变化，实现`双向数据绑定`。
+  - 第五步：将输入框`v-model`和视图绑定起来，输入框的值变化，同时页面中通过`{}`绑定的值也变化，实现`双向数据绑定`。
   - 第六步：在`MVVM类`中，设置`proxyData`代理，将`vm.$data`的值代理到`vm`上，即可以直接通过 `vm`
 
 
