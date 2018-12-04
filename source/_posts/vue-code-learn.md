@@ -77,6 +77,16 @@ vue使用flow做静态类型检查, 包括
 
 
 
+## 问答
+
+#### 什么是AST？
+
+AST（abstruct syntax tree）抽象语法树， 是源代码的抽象结构的树状表现。
+
+Vue在mount过程中， template会被编译为AST，经过generate（AST转化为render函数）得到render， render函数返回Vnode， Vnode是Vue的虚拟dom节点， 保存着标签名， 子节点， 属性， 文本信息等
+
+
+
 
 
 

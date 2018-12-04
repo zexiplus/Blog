@@ -358,6 +358,19 @@ overflow: hidden;
   ```
 
 
+
+### Grid layout
+
+> css 栅格布局， IE不支持， chrome 57， ff52， opera44 支持
+
+```css
+
+```
+
+
+
+
+
 ### Transition
 
 ```css
@@ -505,6 +518,39 @@ overflow: hidden;
 
 
 ### Tips
+
+* **垂直居中**
+
+  * table-cell
+
+    ```css
+    .container {
+        display: tabble-cell;
+        vertical-align: middle;
+    }
+    ```
+
+  * transform
+
+    ```css
+    .container {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%)
+    }
+    ```
+
+  * flex
+
+    ```css
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    ```
+
 
 * **自定义input[type=“checkbox”]样式**
 
