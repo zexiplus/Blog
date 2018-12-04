@@ -108,8 +108,32 @@ nodejs 实用仓库收录, 下载/使用方法总结 https://github.com/zexiplus
 
 
 
-
 ### node packages
+
+
+
+#### puppeteer
+
+> Puppeteer is a Node library which provides a high-level API to control Chrome or Chromium over the DevTools Protoco
+
+example.js
+
+```js
+const puppeteer = require('puppeteer');
+
+(async () => {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto('https://example.com');
+  await page.screenshot({path: 'example.png'});
+
+  await browser.close();
+})();
+```
+
+`node example.js`
+
+
 
 #### moment 
 

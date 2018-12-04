@@ -378,6 +378,13 @@ ls.on('close', code => {
 
 #### path
 
+* **sep**
+
+  区分windows平台和linux的文件分割符 
+
+  - `\` on Windows
+  - `/` on POSIX
+
 ```js
 //内置路径处理模块
 var path = require('path')  

@@ -80,6 +80,14 @@ title: 常用面试问题记录与分析
 
 - **meta标签都有哪些作用**
 
+  - Web app
+
+     这个meta的作用是让普通移动网页被添加到主屏幕后，拥有一些类native的功能, 就是类似隐藏ios的上下状态栏，实现全屏，禁止弹性拖拽，全屏，修改顶部颜色等
+
+    ```html
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    ```
+
   - 指定渲染引擎
 
     ```html
