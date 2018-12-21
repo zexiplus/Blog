@@ -1270,8 +1270,6 @@ title: web前端程序员必备单词,短语,简称收录
 
 560. granular 细粒度
 
-     
-
 561. pseudo 伪
 
 562. armed with 用...武装
@@ -1397,6 +1395,8 @@ title: web前端程序员必备单词,短语,简称收录
 618. Miscellaneous 各种各样的
 
 619. forum 论坛
+
+620. transact 办理
 
 
 
