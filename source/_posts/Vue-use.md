@@ -1,22 +1,22 @@
 ### vue remind
 
-- **使用html字符串**
+**使用html字符串**
 
-  ```html
-  <script>
-      new Vue({
-          el: '#app',
-          data() {
-              return {
-                  htmlTemplate: '<p>这里是一段html</p>'
-              }
-          }
-      })
-  </script>
-  <div v-html="htmlTemplate">
-      
-  </div>
-  ```
+```html
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                htmlTemplate: '<p>这里是一段html</p>'
+            }
+        }
+    })
+</script>
+<div v-html="htmlTemplate">
+    
+</div>
+```
 
 **vue cli**
 
@@ -322,5 +322,102 @@ v-bind:is=”componentName”
 
 
 
+**el-dialog子组件控制隐藏显示**
 
+> parent.vue
+
+```vue
+<script>
+export default {
+    data() {
+        return {
+            modalVisible: false
+        }
+    }
+    methods: {
+        handleClick() {
+            this.modalVisible = false;
+            this.$nextTick(() => {
+                this.modalVisible = true
+            })
+        }
+    }
+}
+</script>
+<template>
+	<div>
+      	<button @click="handleClick"></button>
+    </div>
+	<child :modalVisible="modalVisible"></child>
+</template>
+
+```
+
+> child.vue
+
+```vue
+<template>
+	<el-dialog :visible.sync="dialogVisible" @close="handleClose">
+        
+    </el-dialog>
+</template>
+<script>
+    export default {
+        props: ['modalVisible'],
+        watch: {
+            modalVisible(val, oldVal) {
+                this.dialogVisible = val
+            }
+        },
+        data() {
+            return {
+               dialogVisible: false
+            }
+        },
+        methods: {
+            handleClose() {
+                this.dialogVisible = false
+            }
+        }
+    }
+</script>
+```
+
+
+
+**Vue 与 百度地图集成使用**
+
+> index.html
+
+```html
+<script src="http://api.map.baidu.com/api?v=2.0&ak=pQf559mwHb6XGADlIsKEirjCvQ7wwZw1"></script>
+```
+
+> map.vue
+
+在mounted的nextTick中调用地图api
+
+```vue
+<script>
+    export default {
+        mounted() {
+            this.$nextTick(() => {
+                 var map = new BMap.Map("l-map");
+                  map.enableScrollWheelZoom(true);
+                  window.map = map
+                  map.centerAndZoom("深圳", 12);
+                  var ac = new BMap.Autocomplete({ input: "suggestId", location: map }); 
+            })
+        }
+    }
+</script>
+```
+
+
+
+**vue 新建/编辑子组件表单传值问题**
+
+* 新建/编辑表单公用同一套组件
+* 通过props传入编辑的对象, v-model绑定在 data的属性上
+* 使用 watch 观察监听的对象并给 data属性赋值
 

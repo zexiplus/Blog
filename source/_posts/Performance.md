@@ -12,6 +12,36 @@ title: Web 性能分析
 
 
 
+#### 尾递归优化
+
+函数调用自身，称为递归。如果尾调用自身，就称为尾递归。
+
+递归非常耗费内存，因为需要同时保存成千上百个调用记录，很容易发生"栈溢出"错误（stack overflow）。但对于尾递归来说，由于**只存在一个调用记录**，所以永远不会发生"栈溢出"错误
+
+
+
+```js
+// 优化前， 普通递归调用
+function factorial(n) {
+  if (n === 1) return 1;
+  return n * factorial(n - 1);
+}
+
+factorial(5) // 120
+
+// 优化后， 尾递归调用
+function factorial(n, total) {
+  if (n === 1) return total;
+  return factorial(n - 1, n * total);
+}
+
+factorial(5, 1) // 120
+```
+
+
+
+
+
 #### 什么是阻塞？
 
 在页面中我们通常会引用外部文件，而浏览器在解析HTML页面是**从上到下依次解析**、渲染，如果<head>中引用了一个a.js文件，而这个文件很大或者有问题，需要2秒加载，那么浏览器会停止渲染页面（此时是白屏显示），2秒后加载完成才会继续渲染，这个就是阻塞。
@@ -193,4 +223,97 @@ css 的加载**不会**阻塞dom的解析(DOM tree), 但**会**阻塞dom 树的�
 33. **Pack Components into a Multipart Document** 将文件打包到多个文档
 
 34. **Avoid Empty Image src** 避免图片带有空src属性(减少不必要的请求)
+
+
+
+
+
+### performance API
+
+
+
+#### window.performance
+
+页面性能对象
+
+
+
+* **window.performance.timing**
+
+  页面性能时间对象
+
+  >通过`window.performance.timing`所获的的页面渲染所相关的数据，在单页应用中改变了url但不刷新页面的情况下是不会更新的。因此如果仅仅通过该api是无法获得每一个子路由所对应的页面渲染的时间。如果需要上报切换路由情况下每一个子页面重新render的时间，需要自定义上报
+
+  ```js
+  let times = {};
+    let t = window.performance.timing;
+    
+    //重定向时间
+    times.redirectTime = t.redirectEnd - t.redirectStart;
+    
+    //dns查询耗时
+    times.dnsTime = t.domainLookupEnd - t.domainLookupStart;
+    
+    //TTFB 读取页面第一个字节的时间
+    times.ttfbTime = t.responseStart - t.navigationStart;
+    
+    //DNS 缓存时间
+    times.appcacheTime = t.domainLookupStart - t.fetchStart;
+    
+    //卸载页面的时间
+    times.unloadTime = t.unloadEventEnd - t.unloadEventStart;
+    
+    //tcp连接耗时
+    times.tcpTime = t.connectEnd - t.connectStart;
+    
+    //request请求耗时
+    times.reqTime = t.responseEnd - t.responseStart;
+    
+    //解析dom树耗时
+    times.analysisTime = t.domComplete - t.domInteractive;
+    
+    //白屏时间
+    times.blankTime = t.domLoading - t.fetchStart;
+    
+    //domReadyTime
+    times.domReadyTime = t.domContentLoadedEventEnd - t.fetchStart;
+  ```
+
+* **window.performance.getEntries()**
+
+  可以通过window.performance.getEntries()来获取资源的加载和请求相关的数据
+
+  > 通过window.performance.getEntries()所获取的资源加载和异步请求所相关的数据，在页面切换路由的时候会重新的计算，可以实现自动的上报
+
+  ```js
+    let  entryTimesList = [];
+    let entryList = window.performance.getEntries();
+    entryList.forEach((item,index)=>{
+    
+       let templeObj = {};
+       
+       let usefulType = ['navigation','script','css','fetch','xmlhttprequest','link','img'];
+       if(usefulType.indexOf(item.initiatorType)>-1){
+         templeObj.name = item.name;
+         
+         templeObj.nextHopProtocol = item.nextHopProtocol;
+        
+         //dns查询耗时
+         templeObj.dnsTime = item.domainLookupEnd - item.domainLookupStart;
+  
+         //tcp链接耗时
+         templeObj.tcpTime = item.connectEnd - item.connectStart;
+         
+         //请求时间
+         templeObj.reqTime = item.responseEnd - item.responseStart;
+  
+         //重定向时间
+         templeObj.redirectTime = item.redirectEnd - item.redirectStart;
+  
+         entryTimesList.push(templeObj);
+       }
+    });
+  ```
+
+  
 

