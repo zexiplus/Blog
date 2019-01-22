@@ -12,7 +12,7 @@ title: 面试实战总结
 
 
 
-#### 2018.10.13 （14×13 get）
+#### 2018.10.13 （14×13 pass）
 
 - **浏览器小于12px像素字体显示**
 
@@ -112,7 +112,7 @@ title: 面试实战总结
 
 
 
-#### 2018.10.17
+#### 2018.10.17 (dji)
 
 
 
@@ -246,7 +246,7 @@ title: 面试实战总结
 
 
 
-#### 10.18 （12 × 14 get）
+#### 10.18 （12 × 14 pass）
 
 - **简单与复杂请求**
 
@@ -283,7 +283,7 @@ title: 面试实战总结
 
 - **cookie设置**
 
-#### 10.19
+#### 10.19 （taobao fail）
 
 
 
@@ -428,9 +428,12 @@ title: 面试实战总结
 
   简单类型存储在栈区， 存放慢， 查找快， 变量赋值复制的是值为非索引
 
-#### 11.11
+#### 11.11 (jin ri tou tiao fail)
 
 - **为什么使用hightChart.js , 它使用的svg对比canvas有什么优势**
+
+  [参考](https://www.zhihu.com/question/19690014)
+
   * hightChart.js采用svg， svg 是基于xml的， 部分采用 canvas保证了良好的兼容性， 可在不支持svg的浏览器上使用canvas保证向下兼容
   * 因为svg基于xml， 操作xml也是操作dom， 一些事件绑定可以实现， 也可以自定义操作dom
 
@@ -440,7 +443,7 @@ title: 面试实战总结
 
 - **http://toutiao.com 往 http://mp.toutiao.com发送一个ajax请求，请问跨域了么？mp.toutiao.com 的服务器可以收到是怎样的请求？解决跨域的方法**
 
-  * 跨域了, 跨域的要求是: 协议, 端口, 域名中有一项不同都属于跨域, 子域名和父域名也属于域名不同
+  * 跨域了, 跨域的要求是: **协议, 端口, 域名**中有一项不同都属于跨域, **子域名和父域名也属于域名不同**（localhost和127.0.0.1也是跨域）
 
   * 服务器会收到跨域的ajax请求(cors), **如果是简单请求会直接收到请求, 如果是复杂请求, 浏览器会先发送请求预检(options)**. 服务器会对比请求头的origin字段与响应头设置的access-control-allow-origin对比, 如果通过检验, 则发送cors响应
 
@@ -508,4 +511,219 @@ title: 面试实战总结
 
   * 服务端： egg.js, ssr(nuxt.js)
   * 移动端： weex， 小程序， react-native, PWA(渐进式web应用于离线应用)， android快应用
-  * 其他 electron， rx.js
+  * 其他 electron， rx.js， PWA（渐进式web应用）， 服务端渲染
+
+
+
+#### 12.21 (shenxinfu pass)
+
+* **http 请求类型**
+
+  * get, post, head, delete, put
+
+  * options 试探访问， 测试服务器能力
+
+  * trace 回显服务器收到的请求， 用于测试或诊断
+
+  * connect 将连接改为管道式的方式， connect的作用就是将服务器作为代理，让服务器代替用户去访问其他网页(vpn)
+
+* **promise 的优缺点**
+
+  * 优点： 避免嵌套回调函数的书写方式
+
+  * 缺点：
+
+    * 内部错误必须用promise.prototype.catch才能捕获， 不能暴露给外部
+    * promise一旦执行， 无法取消
+    * pending状态无法知道具体的执行细节和状态
+
+* **实现快速排序算法**
+
+  * 思路： 
+
+    * 定义一个递归调用的函数quickSort， 递归调用自身， 当入参的数组长度只有一项时返回数组
+
+      ```js
+      if (arr.length <= 1) {
+          return arr
+      }
+      ```
+
+    * 函数内部定义基准点和基准数
+
+      ```js
+      let pivotIndex = Math.floor(arr.length / 2)
+      let pivot = arr[pivotIndex]
+      ```
+
+    * 循环遍历数组， 把小于基准数的数组推到数组left， 大于基准数的推到数组right
+
+      ```js
+      let left, right;
+      arr.forEach(item => {
+          if (item < pivot) {
+              left.push(item)
+          } else {
+              right.push(item)
+          }
+      })
+      ```
+
+    * 把数组left和 数组right作为参数调用并连接函数的返回结果 
+
+      ```js
+      return quickSort(left).concat(quickSort(right))
+      ```
+
+* **es6新的数据结构**
+
+  * symbol 用于 定义一个独一无二的值， 作用： 用作object的键值
+
+* **let var的区别** 
+
+  * var 在作用域内变量会提升， let不会
+  * var允许在作用域内重复声明， let不允许
+  * 作用域
+
+* **常见web安全防护类型， 举例**
+
+  * csrf  例如：诱链点击
+  * xss  例如：用户表单提交包含恶意代码的字段
+
+* **设计模式有哪些**
+
+  * 工厂， 单例， 发布订阅模式
+  * 构造函数模式， 模块模式
+
+* **正则匹配手机号， html标签内容， 捕获组和非捕获组**
+
+  * 知识点： 
+
+    * `\w === [a-zA-Z0-9]` 匹配所有字母
+
+    * `\1`反向引用第一组
+
+    * **捕获组**：当一个模式的全部或部分内容由一对括号时， 它就对内容进行捕获并临时存储于内存中， 可以通过后向引用重用捕获的内容
+
+      `/1234(abc|def)\1/`
+
+    * **非捕获组**（Non- Capturing Group）： Group）。 非 捕获 分组 不会 将其 内容 存储 在 内存 中。 在 你 并不 想 引用 分组 的 时候， 可以 使用 它。 由于 不 存储 内容， 非 捕获 分组 就会 带来 较高 的 性能， 而 运行 本书 的 简单 示例 很难 察觉到 性能 的 提升。
+
+      `/1234(?: abc|def)/`
+
+* **讲讲event loop, mirco task 和 task(macro task)**
+
+  * **event loop** : JS 执行是单线程的，它是基于事件循环的。事件循环大致分为以下4个步骤：
+
+    * 所有同步任务都在主线程上执⾏，形成⼀个执⾏栈（execution context stack）。
+    * 主线程之外，还存在一个"任务队列"（task queue）。只要异步任务有了运行结果，就在"任务队
+      列"之中放置一个事件。
+    * 一旦"执行栈"中的所有同步任务执行完毕，系统就会读取"任务队列"，看看里面有哪些事件。那
+      些对应的异步任务，于是结束等待状态，进入执行栈，开始执行
+    * 主线程不断重复上述第三步
+
+    ```js
+    for (macroTask of macroTaskQueue) {
+    // 1. Handle current MACRO-TASK
+    	handleMacroTask();
+    // 2. Handle all MICRO-TASK
+    	for (microTask of microTaskQueue) {
+        	handleMicroTask(microTask);
+        }
+    }
+    ```
+
+  * **task**
+
+    在浏览器环境中，常见的 **macro task** 有 `setTimeout`、`MessageChannel`、`postMessage`、`setImmediate`。而常见的 **micro task** 有 `MutationObsever` 和 `Promise.then`
+
+* **vue的异步更新队列怎么实现的**
+
+  [参考链接1](https://blog.csdn.net/u010014658/article/details/72510305)
+
+  [参考链接2](https://segmentfault.com/q/1010000005813183)
+
+  * nextTick 内部使用promise.then或mutationObserver或setTimeout来实现
+
+  * nextTick被使用的地方
+
+    * 用户使用
+
+    * vue内部处理dom更新时使用(在同一时间循环中只触发一次跟新)
+
+      ```js
+      function queueWatcher (watcher) {
+          var id = watcher.id;
+          if (has[id] == null) { // 记录触发更新的 watcher id
+              has[id] = true;
+              if (!flushing) {
+                  queue.push(watcher);
+              } else {
+                  var i = queue.length - 1;
+                  while (i >= 0 && queue[i].id > watcher.id) {
+                      i--;
+                  }
+                  queue.splice(Math.max(i, index) + 1, 0, watcher);
+              }
+              if (!waiting) {
+                  waiting = true;
+                  nextTick(flushSchedulerQueue);
+              }
+          }
+      }
+      ```
+
+* **vue的diff 算法实现原理**
+
+* **vue的自定义指令, 应用场景**
+
+  自定义指令的生命周期函数
+
+  * `bind`：只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。
+  * `inserted`：被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。
+  * `update`：所在组件的 VNode 更新时调用，**但是可能发生在其子 VNode 更新之前**。指令的值可能发生了改变，也可能没有。但是你可以通过比较更新前后的值来忽略不必要的模板更新 (详细的钩子函数参数见下)。
+  * `componentUpdated`：指令所在组件的 VNode **及其子 VNode** 全部更新后调用。
+  * `unbind`：只调用一次，指令与元素解绑时调用。
+
+  ```js
+  // 定义
+  directives: {
+      focus: {
+          bind() {},
+          inserted: function(el, binding, vnode, oldVnode) {
+          	el.focus()
+              /* 
+              	binding.name --> focus
+              	binding.value --> true
+              */
+          },
+         	update: function() {},
+          componentUpdated() {},
+          unbind() {},
+      }
+  }
+  ```
+
+  ```html
+  <!-- 使用 -->
+  <input v-focus="true" />
+  ```
+
+* **html5的新特性**
+
+  * mutationobserver 监控dom改变
+  * 语意特性,添加`<header><header/><nav><nav>`等标签
+  * 多媒体， 用于媒介回放的 video 和 audio 元素
+  * 图像效果，用于绘画的 canvas 元素，svg元素等
+  * 离线 & 存储,对本地离线存储的更好的支持,local Store,Cookies等
+  * 设备兼容特性 ，HTML5提供了前所未有的数据与应用接入开放接口。使外部应用可以直接与浏览器内部的数据直接相连，
+  * 连接特性，更有效的连接工作效率，使得基于页面的实时聊天，更快速的网页游戏体验，更优化的在线交流得到了实现。HTML5拥有更有效的服务器推送技术，Server-Sent Event和WebSockets就是其中的两个特性，这两个特性能够帮助我们实现服务器将数据“推送”到客户端的功能
+  * 性能与集成特性，HTML5会通过XMLHttpRequest2等技术，帮助您的Web应用和网站在多样化的环境中更快速的工作
+  * 离线应用PWA
+
+
+
+* **css 选择器有哪些  权重分别是**
+
+  * 伪类和类权重相同
+  * !important > inline-style > id

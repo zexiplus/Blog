@@ -19,5 +19,12 @@ title: 常用js技巧片段
     fn(5)
     ```
 
-* 
+* 正则`reg.source`属性
+
+  ```js
+  var reg = /123/
+  console.log(reg.source) // '123'
+  ```
+
+  
 

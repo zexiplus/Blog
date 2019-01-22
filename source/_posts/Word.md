@@ -77,8 +77,6 @@ title: web前端程序员必备单词,短语,简称收录
 
 20. **causal  因果**
 
-    ​
-
 21. **consistency 一致性**
 
 22. **guarantees 担保**
@@ -186,8 +184,6 @@ title: web前端程序员必备单词,短语,简称收录
 69. **poles 极**
 
 70. **voltage 电压**
-
-    ​
 
 71. **satisfies 满足**
 
@@ -1156,7 +1152,7 @@ title: web前端程序员必备单词,短语,简称收录
 
 510. monk 和尚
 
-    ​
+
 
 
 511. gothic 哥特
@@ -1262,7 +1258,7 @@ title: web前端程序员必备单词,短语,简称收录
 
 556. overarching 总体
 
-557. recursive 递归，逐步
+557. **recursive 递归，逐步**
 
 558. obsolete 过时的
 
@@ -1270,7 +1266,7 @@ title: web前端程序员必备单词,短语,简称收录
 
 560. granular 细粒度
 
-561. pseudo 伪
+561. **pseudo 伪**
 
 562. armed with 用...武装
 
@@ -1314,11 +1310,11 @@ title: web前端程序员必备单词,短语,简称收录
 
   ​         
 
-581. matrices  矩阵，模型
+581. **matrices  矩阵，模型**
 
-582. heap 堆
+582. **heap 堆**
 
-583. shim 垫片
+583. **shim 垫片**
 
 584. crack 破解
 
@@ -1398,7 +1394,9 @@ title: web前端程序员必备单词,短语,简称收录
 
 620. transact 办理
 
+     
 
+621. trial 实验性的
 
 
 
