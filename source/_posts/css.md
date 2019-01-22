@@ -145,6 +145,11 @@ Learn css and make pages pretty
   input:focus {
       border: 2px solid #fff;
   }
+  
+  /* 激活的button */
+  button:active {
+      background-color: #00ff00;
+  }
   ```
 
 * **父元素选择器**(草案)

@@ -1,5 +1,5 @@
 ---
-title: Today learnt
+title: 整理每日所学的琐碎知识点
 ---
 
 
@@ -21,3 +21,23 @@ title: Today learnt
 * 使普通元素能获得焦点 `<div tabindex="1">enable focus</div>`
 * 使表单元素失去焦点 `<input tabindex="-1" />`
 
+
+
+### 12.7
+
+* 正则表达式 反向引用 \n, n为数字
+
+  ```js
+  var reg = /([a-z]+)(-\1)*/ // 匹配abc-abc-abc ...
+  ```
+
+* reg.flags, reg.global为只读属性， 更改无效
+
+  ```js
+  reg.flags // ''
+  reg.global // false
+  ```
+
+* 在元素上同时绑定click和touchstart事件在移动设备会执行两次
+
+  **解决方案**: 在touchstart事件中调用 event.preventDefault()

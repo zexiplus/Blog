@@ -80,12 +80,19 @@ title: 常用面试问题记录与分析
 
 - **meta标签都有哪些作用**
 
+
   - Web app
 
      这个meta的作用是让普通移动网页被添加到主屏幕后，拥有一些类native的功能, 就是类似隐藏ios的上下状态栏，实现全屏，禁止弹性拖拽，全屏，修改顶部颜色等
 
     ```html
     <meta name="apple-mobile-web-app-capable" content="yes">
+=======
+  - dns预解析
+
+    ```html
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
     ```
 
   - 指定渲染引擎
@@ -181,7 +188,7 @@ js的下载和执行会阻塞之后所有资源的下载
 * js如何获取和设置不同盒模型的宽高
 
   ```js
-  // 只能获取内联样式的宽高
+  // 只能获取内联样式(style)的宽高
   el.style.width/height
   // ie获取元素宽高
   el.currentStyle.width/height
@@ -508,7 +515,7 @@ js的下载和执行会阻塞之后所有资源的下载
 
   * 源: 协议, 域名(包括子域名不一致), 端口不一致
 
-  * 例子: a.interview.com 访问interview.com属于**跨域**, interview.com访问a.interview.com**也是跨域**
+    例子: a.interview.com 访问interview.com属于**跨域**, interview.com访问a.interview.com**也是跨域**
 
   * 同源策略限制从一个源加载的文档或脚本如何与来自另一个源的资源进行交互.这是一个隔离潜在恶意文件的安全机制.
 
@@ -822,12 +829,14 @@ js的下载和执行会阻塞之后所有资源的下载
 
   * 利用浏览器**缓存** -- 缓存的分类 -- 缓存的原理
 
+    ![缓存流程](./imgs/caches.png)
+
     分类
 
     * **强缓存**(优先级较高): 请求浏览器直接使用已有的缓存， 两者都有以cache-control为准
 
       * Expires   `Expires: Thu 21 Jan 2018 ..`(以服务器的绝对时间为准)
-      * Cache-Control    `Catch-Control: max-age=3600`(以客户端拿到文件3600秒为止)
+      * Cache-Control (优先级最高)    `Catch-Control: max-age=3600`(以客户端拿到文件3600秒为止)
 
     * **协商缓存**: 不确定是否使用,  先和服务器沟通再决定是否使用， 服务器接收请求会对比以下字段
 
@@ -838,6 +847,11 @@ js的下载和执行会阻塞之后所有资源的下载
       * Last-Modified 
       * Etag
       * if-None-matchd
+
+    |              | **获取资源形式** | **状态码**          | **发送请求到服务器**                       |
+    | ------------ | ---------------- | ------------------- | ------------------------------------------ |
+    | **强缓存**   | 从缓存取         | 200（from cache）   | 否，直接从缓存取                           |
+    | **协商缓存** | 从缓存取         | 304（not modified） | 是，正如其名，通过服务器来告知缓存是否可用 |
 
   * **使用cdn**
 
