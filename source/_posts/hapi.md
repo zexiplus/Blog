@@ -10,9 +10,11 @@ hapi 学习记录
 
 ### 参考
 
-[官方中文文档](https://hapijs.com/tutorials/getting-started?lang=zh_CN)
+* [官方中文文档](https://hapijs.com/tutorials/getting-started?lang=zh_CN)
 
-[基于 hapi 的 Node.js 小程序后端开发实践指南](https://juejin.im/book/5b63fdba6fb9a04fde5ae6d0)
+* [基于 hapi 的 Node.js 小程序后端开发实践指南](https://juejin.im/book/5b63fdba6fb9a04fde5ae6d0)
+
+* [掘金小册——hapi案例配套源码](https://github.com/yeshengfei/hapi-tutorial)
 
 
 

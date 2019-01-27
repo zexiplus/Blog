@@ -38,7 +38,8 @@ project.config.json
     "backgroundTextStyle": "light", // 下拉loading的样式
     "navigationBarBackgroundColor": "#fff", // 顶部导航背景色
     "navigationBarTitleText": "WeChat", // 小程序标题
-    "navigationBarTextStyle": "black" // 小程序导航文字颜色
+    "navigationBarTextStyle": "black", // 小程序导航文字颜色
+    "backgroundColor": '#fff' // 下拉窗口背景色
   },
   // 底部导航栏配置
   "tabBar": {
@@ -477,6 +478,78 @@ wx.request({
 ```
 
 
+
+#### 滚动视图
+
+**scroll-view**
+
+> 可滚动视图区域, 可用于下拉加载数据场景
+
+```html
+<scroll-view scroll-x="{{false}}" scroll-y="{{true}}" bindscrolltolower="handleScroll">
+	
+</scroll-view>
+```
+
+
+
+#### 标题栏loading加载效果
+
+**wx.showNavigationBarLoading()**, **wx.hideNavigationBarLoading()**
+
+```js
+// 显示loading加载圈
+wx.showNavigationBarLoading()
+// 隐藏loading加载圈
+wx.hideNavigationBarLoading()
+```
+
+
+
+#### 下拉刷新
+
+**onPullDownRefresh**
+
+> 使用场景: 下拉刷新数据
+
+`page.json` 现开启允许下拉的配置
+
+```json
+{
+	"enablePullDownRefresh": true,
+    "backgroundColor": "#fff" // 下拉窗口背景色
+}
+```
+
+```js
+// page.js
+Page({
+    onPullDownRefresh() {
+        // do something
+    }
+})
+```
+
+
+
+#### 调用内置地图
+
+**wx.openLocation()**
+
+```js
+wx.openLocation({
+    latitude: 23.2343,
+    longitude: 113.32434,
+})
+```
+
+
+
+#### 权限相关
+
+**wx.openSetting()**
+
+调起客户端小程序设置界面，返回用户设置的操作结果。**设置界面只会出现小程序已经向用户请求过的权限**
 
 
 
