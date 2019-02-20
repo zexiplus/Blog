@@ -38,7 +38,8 @@ project.config.json
     "backgroundTextStyle": "light", // 下拉loading的样式
     "navigationBarBackgroundColor": "#fff", // 顶部导航背景色
     "navigationBarTitleText": "WeChat", // 小程序标题
-    "navigationBarTextStyle": "black" // 小程序导航文字颜色
+    "navigationBarTextStyle": "black", // 小程序导航文字颜色
+    "backgroundColor": '#fff' // 下拉窗口背景色
   },
   // 底部导航栏配置
   "tabBar": {
@@ -60,15 +61,9 @@ project.config.json
 
 
 
-### 方法
+### API 功能
 
-
-
-#### setData
-
-设置数据
-
-##### 计算器demo
+#### 设置数据
 
 ```js
 // caculate.js
@@ -108,9 +103,7 @@ Page({
 
 
 
-#### wx:for
-
-列表渲染
+#### 列表渲染
 
 ```js
 // data/list.js
@@ -140,8 +133,8 @@ Page({
 ```
 
 ```html
-// content.wxml
-<block wx:for="{{contentList}}" wx:key="item">
+<!-- content.wxml -->
+<block wx:for="{{contentList}}" wx:item="item" wx:key="index" wx:index="index">
   <view>
     <text>{{item.id}}</text>
     <text>{{item.name}}</text>
@@ -150,6 +143,421 @@ Page({
 ```
 
 
+
+#### 事件绑定
+
+* **事件名:** tap 
+
+  * 绑定触控事件(冒泡): bindtap
+  * 绑定触碰事件(不冒泡): catchtap
+
+  ```html
+  <text bindtap="onTap"></text>
+  <text catchtap="onTap"></text>
+  <script>
+  	Page({
+          onTap: function() {}
+      })
+  </script>
+  ```
+
+
+
+#### 路由跳转
+
+* **跳转到子页面(有返回按钮)** `wx.navigateTo()`, 会触发Hide事件
+
+  ```js
+  wx.navigateTo({
+  	url: "../posts/posts",
+      success,
+      fail,
+      complete
+  });
+  ```
+
+* **跳转到平级页面(没有返回按钮)** `wx.redirectTo`, 会触发Unload事件
+
+  ```js
+  wx.redirectTo({
+      url: '',
+      success,
+      fail,
+      complete
+  })
+  ```
+
+* **跳转传参**
+
+  ```js
+  // 索引页面
+  wx.navigateTo({
+      url: '../posts/posts?id=123"
+  })
+  
+  // 跳转页面
+  Page({
+      onLoad(options) {
+          console.log(options.id) // 123
+      }
+  })
+  ```
+
+  
+
+
+#### 文件引用与导出
+
+```js
+// export.js
+module.exports = {
+    a: [1, 2, 3]
+}
+
+// import.js
+var a = reuqire('../url').a
+
+```
+
+
+
+#### template模版
+
+* **模版定义**
+
+  name定义模版名
+
+  ```html
+  <template name="postItem">
+      <view></view>
+  </template>
+  ```
+
+* **模版引入**
+
+  src指定模版路径
+
+  ```html
+  <import src="./post-item/post-item-template.wxml"></import>
+  ```
+
+* **模版使用**
+
+  `is`指定使用的模版名, `data` 指定传入的数据
+
+  ```html
+  <template is="postItem" data="{{item}}">
+  	
+  </template>
+  ```
+
+
+
+#### 样式引用
+
+```css
+@import "../abc.wxss";
+```
+
+
+
+#### 自定义属性
+
+```html
+<view catchtap="handleTap" data-post-id="{{item.postId}}"></view>
+```
+
+```js
+handleTap(event) {
+    let id = event.currentTarget.dataset.postId
+}
+```
+
+
+
+#### 数据缓存
+
+> 注意: 小程序缓存最多10mb
+
+```js
+// 设置缓存
+wx.setStorage({
+	key: 'game',
+	data: 'overwatch'
+})
+
+// 同步获取缓存
+var game = wx.getStorageSync('game')
+
+// 异步获取缓存
+wx.getStorage({
+    key: 'key',
+    success(res){
+        console.log(res.data)
+    }
+})
+
+// 清除缓存
+wx.removeStorageSync('game')
+```
+
+
+
+#### 页面提示
+
+**wx.showToast(自动隐藏)**
+
+```js
+wx.showToast({
+    title: 'hello world',
+    duration: 2000,
+    icon: 'success'
+})
+```
+
+**wx.showModal(不自动隐藏, 需要用户确认)**
+
+```js
+wx.showModal({
+	title: 'hello world',
+    content: 'hello world',
+    showCancel: true,
+    
+})
+```
+
+**wx.showActionSheet**
+
+```js
+wx.showActionSheet({
+	itemList: [
+        '分享到微信好友',
+        '分享到朋友圈',
+    ]
+})
+```
+
+
+
+#### 音乐播放
+
+**wx.getBackgroundAudioManager**
+
+> 获得音乐播放器全局实例, 注意: dataUrl, coverImgUrl只能用网络文件不能用本地文件
+
+```js
+var audio = wx.getBackgroundAudioManager()
+backgroundAudioManager.title = '此时此刻'
+backgroundAudioManager.coverImgUrl = ''
+// 设置了 src 之后会自动播放
+backgroundAudioManager.src = ''
+```
+
+
+
+**audio.play**
+
+> 播放音频
+
+```js
+audio.play()
+```
+
+**wx.pauseBackgroundAudio**
+
+> 暂停音频
+
+```js
+audio.pause()
+```
+
+**audio.onPlay**
+
+> 监听音乐播放
+
+```js
+var audio = wx.getBackgroundAudioManager()
+audio.onPlay(function(event) {
+
+})
+```
+
+
+
+#### 全局变量
+
+在小程序打开期间一直存在
+
+```js
+// app.js
+App({
+    globalData: {
+        isPlaying: false
+    }
+})
+
+// otherPage.js
+var app = getApp()
+Page({
+    onLoad() {
+        var isPlaying = app.globalData.isPlaying
+    }
+})
+
+```
+
+
+
+#### 动态设置导航条
+
+**wx.setNavigationBarTitle() **
+
+```js
+Page({
+    onReady() {
+        wx.setNavigationBarTitle({
+            title: 'title'
+        })
+    }
+}
+```
+
+
+
+
+
+
+
+#### 选项卡
+
+> 注意: list 中的pagePath 必须在 pages 中注册过
+
+app.json
+
+```json
+{
+    ...
+    "tabBar": {
+       	"list": [
+            {
+            	"pagePath": "/pages/movie/movie",
+                "text": "movie",
+                "iconPath": "/images/movie.png",
+                "selectedIconPath": "/images/movie-selected.png"
+            },
+            {
+            	"pagePath": "/pages/posts/post",
+                "text": "post",
+                "iconPath": "/images/post.png",
+                "selectedIconPath": "/images/post-selected.png"
+            }
+        ]
+```
+
+
+
+#### 请求
+
+**wx.request()**
+
+```js
+wx.request({
+	url: 'url',
+    method: 'GET',
+    data: {},
+    header: {
+    	'Content-Type': 'application/json'
+    },
+    success() {
+    },
+    fail() {
+    },
+    complete() {
+    }
+})
+```
+
+
+
+#### 滚动视图
+
+**scroll-view**
+
+> 可滚动视图区域, 可用于下拉加载数据场景
+
+```html
+<scroll-view scroll-x="{{false}}" scroll-y="{{true}}" bindscrolltolower="handleScroll">
+	
+</scroll-view>
+```
+
+
+
+#### 标题栏loading加载效果
+
+**wx.showNavigationBarLoading()**, **wx.hideNavigationBarLoading()**
+
+```js
+// 显示loading加载圈
+wx.showNavigationBarLoading()
+// 隐藏loading加载圈
+wx.hideNavigationBarLoading()
+```
+
+
+
+#### 下拉刷新
+
+**onPullDownRefresh**
+
+> 使用场景: 下拉刷新数据
+
+`page.json` 现开启允许下拉的配置
+
+```json
+{
+	"enablePullDownRefresh": true,
+    "backgroundColor": "#fff" // 下拉窗口背景色
+}
+```
+
+```js
+// page.js
+Page({
+    onPullDownRefresh() {
+        // do something
+    }
+})
+```
+
+
+
+#### 调用内置地图
+
+**wx.openLocation()**
+
+```js
+wx.openLocation({
+    latitude: 23.2343,
+    longitude: 113.32434,
+})
+```
+
+
+
+#### 权限相关
+
+**wx.openSetting()**
+
+调起客户端小程序设置界面，返回用户设置的操作结果。**设置界面只会出现小程序已经向用户请求过的权限**
+
+
+
+### 知识点
+
+* 只有被`<text>`包裹的文字才可以长按选中, 需要增加selectable属性
+* wxml内部最外层元素为`<page>`, 可以通过设置page的背景色(占满全屏)
+* 在水平方向用rpx相对单位, 在垂直方向用绝对单位px, 因为手机在水平方向上宽度有限, 在垂直方向上可以滚动
 
 
 
