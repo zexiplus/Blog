@@ -83,11 +83,12 @@
 
   - Web app
 
-     这个meta的作用是让普通移动网页被添加到主屏幕后，拥有一些类native的功能, 就是类似隐藏ios的上下状态栏，实现全屏，禁止弹性拖拽，全屏，修改顶部颜色等
+    这个meta的作用是让普通移动网页被添加到主屏幕后，拥有一些类native的功能, 就是类似隐藏ios的上下状态栏，实现全屏，禁止弹性拖拽，全屏，修改顶部颜色等
 
     ```html
     <meta name="apple-mobile-web-app-capable" content="yes">
-=======
+    =======
+    ```
   - dns预解析
 
     ```html
@@ -2259,6 +2260,46 @@ Vue在mount过程中， template会被编译为AST，经过generate（AST转化�
 * **什么是 workbox?**
 
   google提出的web app 静态资源本地存储方案, 该解决方案, 包含一些js库和构建工具.
+
+
+
+### 补充
+
+* 讲项目里面的鉴权和图片懒加载怎么实现的
+* 讲express框架的设计思想
+* 讲vue-lazyloader的原理，手写伪代码
+* 线上日志是如何处理的
+* 讲事件循环
+* 讲nodejs的eventEmitter的实现
+* 讲express的中间件系统是如何设计的
+* 使用es5实现es6的class
+* websocket握手过程
+* 浏览器的事件循环和nodejs事件循环的区别
+* JavaScript的sort方法内部使用的什么排序？
+* 函数式编程
+* 项目中怎么用的webpack，怎么优化
+* 手动实现parseInt
+* 手写vue的mixin方法
+* 手写promise的all方法
+* 如何存储二叉树、如何存储完全二叉树、如何存储满二叉树
+* 实现一个发布订阅系统，包括
+* on、emit、off等等，其实就是eventEmitter
+* 如何实现一个可设置过期时间的localStorage
+* 用JavaScript的异步实现sleep函数
+* 手写快排，时间复杂度，优化
+* websocket握手过程
+* 对vuex的理解，单向数据流
+* 设计一个单点登录的系统，类似阿里系那种
+* 实现一个联想搜索组件
+* tcp/ip网络层，http的特点
+* http强行使用udp能实现吗
+* webpack热更新原理，使用过的插件
+
+
+
+
+
+
 
 
 

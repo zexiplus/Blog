@@ -166,7 +166,7 @@ title: Git 操作大全
 
   ```shell
   git pull [origin master]
-  # or 强制拉取
+  # 强制拉取 (用于git pull 出错的情况)
   git pull --allow-unrelated-histories
   ```
 

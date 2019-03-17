@@ -533,7 +533,7 @@ title: 面试实战总结
 
   * 缺点：
 
-    * 内部错误必须用promise.prototype.catch才能捕获， 不能暴露给外部
+    * 内部错误必须用promise.prototype.catch才能捕获， 不能暴露给外部(无法使用try catch捕获错误)
     * promise一旦执行， 无法取消
     * pending状态无法知道具体的执行细节和状态
 
