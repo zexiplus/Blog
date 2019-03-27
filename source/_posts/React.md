@@ -16,6 +16,27 @@ title: React 学习总结
 
 
 
+### 配制
+
+**创建文件**
+
+```shell
+# 使用yarn创建工程
+react-create-app demo
+# 使用npm创建工程
+react-create-app demo --use-npm
+```
+
+**添加sass编译css**
+
+```shell
+yarn add sass-loader node-sass
+```
+
+
+
+
+
 ### 重点
 
 * **关注点分离**: 为每个关注点创建一个组件

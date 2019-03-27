@@ -45,6 +45,59 @@ title: Git 操作大全
 
 > git 常用命令, [中括号内]代表可省略
 
+* 工作记录(3月20日)
+
+  ```shell
+  git fetch origin release-20190319
+  git checkout -b release-20190319 origin/release-20190319
+  git add .
+  git commit -m 'any'
+  git push origin release-20190319:shizexi
+  ```
+
+* **合并最近3次提交为一次提交**
+
+  ```shell
+  git rebase -i HEAD~3 
+  ```
+
+* **合并提交为一条提交**
+
+  ```shell
+  git rebase -i 325d446873794d696ff7a5d172b39b82f4a4ff23
+  ```
+
+* **挑选提交**
+
+  ```
+  git cherry-pick 325d446873794d696ff7a5d172b39b82f4a4ff23
+  ```
+
+* **查看日志(tig插件)**
+
+  ```shell
+  tig
+  ```
+
+* **给分支重命名**
+
+  ```shell
+  git branch -m originBranchName newBranchName
+  ```
+
+* **撤销操作**
+
+  git revert 撤销 某次操作，此次操作之前和之后的commit和history都会保留，并且把这次撤销
+
+  git revert是提交一个新的版本，将需要revert的版本的内容再反向修改回去，
+  版本会递增，不影响之前提交的内容
+
+  ```shell
+  git revert commitID
+  ```
+
+  
+
 * **添加文件修改**
 
   ```shell
@@ -64,7 +117,7 @@ title: Git 操作大全
   git branch -a
   ```
 
-* **显示所有仓库列表**
+* **显示远程所有仓库列表**
 
   ```shell
   git branch -r

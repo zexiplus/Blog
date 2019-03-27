@@ -34,6 +34,19 @@ title: 系统/软件快捷键和配置定义
 
 
 
+#### Shell
+
+**autojump**
+
+| 命令                          | 含义                                     |
+| ----------------------------- | ---------------------------------------- |
+| j -a D '/Users/float/Desktop' | 添加快捷目录/Users/float/Desktop为别名 D |
+| j D                           | 跳转到/Users/float/Desktop 目录          |
+
+
+
+
+
 #### vsCode
 
 > 插件介绍 https://zhuanlan.zhihu.com/p/27905838
